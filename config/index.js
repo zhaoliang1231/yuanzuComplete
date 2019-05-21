@@ -10,7 +10,16 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    //设置代理 解决跨域
+    proxyTable: {
+      '/api':{
+        target:'http://huangchuan.natapp1.cc/yuanzu',  //目标请求域名
+        changeOrigin: true,  //是否允许跨域
+        pathRewrite:{
+          '^/api':''  //将请求发送的/api替换
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
