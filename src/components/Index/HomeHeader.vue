@@ -2,8 +2,10 @@
     <div class="home-header clearfix">
       <div class="home-banner fl">
         <el-carousel height="438px" indicator-position="outside">
-          <el-carousel-item v-for="item in banner" :key="item"> 
-            <img :src="item"/>
+          <el-carousel-item v-for="(item,i) in banner" :key="i">
+            <router-link :to="'detail/'+item.id">
+              <img :src="api+item.imgPath"/>
+            </router-link>
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -13,9 +15,19 @@
             <span class="fontSize-15">元祖公告</span>
           </div>
           <ul class="home-Notice-content-box">
-            <li class="home-Notice-content" v-for="i in lists">
-              <router-link :to="'/notice/'+ i.id">
-                <span :title="i.annTiale" class="mn-a fontSize-12">{{i.annTiale}}</span>
+            <li class="home-Notice-content">
+              <router-link to="/notice">
+                <span title="【公告】元祖2018年中秋月饼报废公告" class="mn-a fontSize-12">【公告】元祖2018年中秋月饼报废公告</span>
+              </router-link>
+            </li>
+            <li class="home-Notice-content">
+              <router-link to="/notice">
+                <span title="【公告】元祖2018年中秋月饼报废公告" class="mn-a fontSize-12">【公告】元祖2018年中秋月饼报废公告</span>
+              </router-link>
+            </li>
+            <li class="home-Notice-content">
+              <router-link to="/notice">
+                <span title="【公告】元祖2018年中秋月饼报废公告" class="mn-a fontSize-12">【公告】元祖2018年中秋月饼报废公告</span>
               </router-link>
             </li>
           </ul>
@@ -25,21 +37,20 @@
     </div>
 </template>
 <script>
-import banner1 from 'static/img/home-banner1.jpg'
-import banner2 from 'static/img/home-banner2.jpg'
-import banner3 from 'static/img/home-banner3.png'
-//引入公告接口
-import {getNotices} from 'Api/request'
+import {homeBanner} from 'Api/request_yf'
+import {api} from 'Api/api'
 export default {
   data () {
     return {
-      lists:[],
-      banner: [banner1, banner2, banner3]
+      api,
+      banner: []
     }
   },
-  mounted () {
-    getNotices({},(res)=>{
-      this.lists = res.data
+  beforeMount () {
+    homeBanner((res) => {
+      for (let i = 0; i < res.data.length; i++) {
+        this.banner.push(res.data[i])
+      }
     })
   }
 }
