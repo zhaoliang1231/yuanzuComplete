@@ -19,6 +19,9 @@
                   <el-option label="西永" value="西永"></el-option>
               </el-select>
           </el-form-item>
+          <el-form-item label="详细地址" prop="address">
+            <el-input v-model="sizeForm.address"></el-input>
+          </el-form-item>
           <el-form-item label="邮编" prop="zipcode">
               <el-input v-model.number="sizeForm.zipcode"></el-input>
           </el-form-item>
@@ -62,6 +65,7 @@ var validPhone = (rule, value, callback) => {
   }
 }
 export default {
+  name: 'add',
   data () {
     return {
       sizeForm: {
@@ -69,6 +73,7 @@ export default {
         country: '',
         province: '',
         city: '',
+        address: '',
         zipcode: '',
         telphone: '',
         sex: '',
@@ -79,6 +84,7 @@ export default {
         country: [{required: true, message: '请选择地区', trigger: 'change'}],
         province: [{required: true, message: '请选择地区', trigger: 'change'}],
         city: [{required: true, message: '请选择地区', trigger: 'change'}],
+        address: [{ required: true, message: '请输入详细地址', trigger: 'blur' }],
         zipcode: [{type: 'number', message: '邮编必须为数字'}],
         telphone: [{ required: true, trigger: 'blur', validator: validPhone }]
       }
@@ -86,7 +92,6 @@ export default {
   },
   methods: {
     onSubmit () {
-      console.log('submit!')
     }
   }
 }
