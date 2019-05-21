@@ -11,15 +11,15 @@ import axios from 'axios'
 *url 请求地址
 *data 发送的数据
  */
-function sendAxios(methods = 'get',url,data = {}) {
+function sendAxios(methods ,url,data = {}) {
   return new Promise((resolve,reject)=>{
     axios({
-      methods: methods,
+      method: methods,
       url: api + url,
       data: data
     }).then((res)=>{
-      if (res.data.status == 200){
-        resolve(res.data.data)
+      if (res.data.message == "success"){
+        resolve(res.data)
       }else{
         console.log('请求失败')
       }
@@ -29,4 +29,4 @@ function sendAxios(methods = 'get',url,data = {}) {
   })
 }
 
-export default sendAxios()
+export default sendAxios

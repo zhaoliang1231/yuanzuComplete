@@ -135,7 +135,7 @@ import img1 from 'static/img/100001416_L.jpg'
 // 小图路径
 import img2 from 'static/img/100001416_L1.jpg'
 import img3 from 'static/img/100001416_L2.jpg'
-
+import {getRegisterCode} from 'Api/request'
 
     export default {
     name: 'DetaiBanner',
@@ -170,6 +170,15 @@ import img3 from 'static/img/100001416_L2.jpg'
     ]
       }
     },
+      mounted () {
+      let data ={
+        id:1,
+        name: 'zhangsan'
+      }
+        getRegisterCode(data,(res)=>{
+           console.log(res)
+        })
+      },
       methods: {
         //鼠标移入选中图片边框
         changeBg: function (i,index) {

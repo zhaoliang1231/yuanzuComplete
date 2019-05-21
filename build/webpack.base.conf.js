@@ -37,6 +37,8 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       'static': resolve('src/static'),
+      //接口封装请求别名
+      'Api': resolve('src/Api')
     }
   },
   module: {
