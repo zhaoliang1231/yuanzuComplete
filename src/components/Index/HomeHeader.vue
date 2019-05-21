@@ -2,8 +2,10 @@
     <div class="home-header clearfix">
       <div class="home-banner fl">
         <el-carousel height="438px" indicator-position="outside">
-          <el-carousel-item v-for="item in banner" :key="item"> 
-            <img :src="item"/>
+          <el-carousel-item v-for="(item,i) in banner" :key="i">
+            <router-link :to="'detail/'+item.id">
+              <img :src="api+item.imgPath"/>
+            </router-link>
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -35,14 +37,22 @@
     </div>
 </template>
 <script>
-import banner1 from 'static/img/home-banner1.jpg'
-import banner2 from 'static/img/home-banner2.jpg'
-import banner3 from 'static/img/home-banner3.png'
+import {homeBanner} from 'Api/request_yf'
+import {api} from 'Api/api'
 export default {
   data () {
     return {
-      banner: [banner1, banner2, banner3]
+      api,
+      banner: []
     }
+  },
+  mounted () {
+    homeBanner((res) => {
+      for (let i = 0; i < res.data.length; i++) {
+        this.banner.push(res.data[i])
+      }
+    })
+    console.log(this.banner)
   }
 }
 </script>
