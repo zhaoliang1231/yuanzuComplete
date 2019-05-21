@@ -171,8 +171,12 @@ import {getRegisterCode} from 'Api/request'
       }
     },
       mounted () {
-        getRegisterCode((data)=>{
-
+      let data ={
+        id:1,
+        name: 'zhangsan'
+      }
+        getRegisterCode(data,(res)=>{
+           console.log(res)
         })
       },
       methods: {
