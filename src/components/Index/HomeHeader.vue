@@ -46,13 +46,12 @@ export default {
       banner: []
     }
   },
-  mounted () {
+  beforeMount () {
     homeBanner((res) => {
       for (let i = 0; i < res.data.length; i++) {
         this.banner.push(res.data[i])
       }
     })
-    console.log(this.banner)
   }
 }
 </script>
