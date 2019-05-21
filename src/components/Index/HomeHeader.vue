@@ -13,19 +13,9 @@
             <span class="fontSize-15">元祖公告</span>
           </div>
           <ul class="home-Notice-content-box">
-            <li class="home-Notice-content">
-              <router-link to="/notice">
-                <span title="【公告】元祖2018年中秋月饼报废公告" class="mn-a fontSize-12">【公告】元祖2018年中秋月饼报废公告</span>
-              </router-link>
-            </li>
-            <li class="home-Notice-content">
-              <router-link to="/notice">
-                <span title="【公告】元祖2018年中秋月饼报废公告" class="mn-a fontSize-12">【公告】元祖2018年中秋月饼报废公告</span>
-              </router-link>
-            </li>
-            <li class="home-Notice-content">
-              <router-link to="/notice">
-                <span title="【公告】元祖2018年中秋月饼报废公告" class="mn-a fontSize-12">【公告】元祖2018年中秋月饼报废公告</span>
+            <li class="home-Notice-content" v-for="i in lists">
+              <router-link :to="'/notice/'+ i.id">
+                <span :title="i.annTiale" class="mn-a fontSize-12">{{i.annTiale}}</span>
               </router-link>
             </li>
           </ul>
@@ -38,11 +28,19 @@
 import banner1 from 'static/img/home-banner1.jpg'
 import banner2 from 'static/img/home-banner2.jpg'
 import banner3 from 'static/img/home-banner3.png'
+//引入公告接口
+import {getNotices} from 'Api/request'
 export default {
   data () {
     return {
+      lists:[],
       banner: [banner1, banner2, banner3]
     }
+  },
+  mounted () {
+    getNotices({},(res)=>{
+      this.lists = res.data
+    })
   }
 }
 </script>
