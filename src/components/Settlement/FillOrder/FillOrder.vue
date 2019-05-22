@@ -6,7 +6,16 @@
           收件人信息
         </p>
         <div class="fo-right-box">
-          <button class="a-hover-pink">新增收货人地址</button>
+          <div class="fo-address-box">
+
+          </div>
+          <button class="a-hover-pink" >新增收货人地址</button>
+          <div class="fo-address-box" style="position: relative">
+            <div class="fo-address-n-box">
+              <p class="fontSize-14 margin-bottom-12">新增收货人地址</p>
+              <AddAddress></AddAddress></div>
+          </div>
+
         </div>
       </div>
 
@@ -105,7 +114,13 @@
         </p>
         <div class="fo-right-box">
 
-          <p>温馨提示：使用支付宝或银联支付更快捷</p>
+          <div>温馨提示：使用支付宝或银联支付更快捷
+
+          </div>
+          <p>
+            <label><input type="radio" name="invoice" checked>支付宝</label>
+            <label><input type="radio" name="invoice">微信</label>
+          </p>
         </div>
       </div>
       <div class="fo-center-box">
@@ -133,7 +148,7 @@
             <p><span>应付金额:</span>
               <em>¥396.00</em>
             </p>
-            <a v-on:click.stop="tosub" href="/settlement/submitsuccess" class="hover-bg-pink">下订单</a>
+            <a v-on:click="isToSub" href="/settlement/submitsuccess" class="hover-bg-pink">下订单</a>
           </div>
         </div>
       </div>
@@ -143,21 +158,26 @@
 </template>
 
 <script>
+  import AddAddress from '../../MemberCenter/PersonalCenter/AddAddress/index.vue'
+
   export default {
     name: 'FillOrder',
+    components: {
+      AddAddress
+    },
     data() {
       return {
         value1: '',
-        tosub:false
+        tosub: false,
+        isAddress:false
       }
     },
-    methods:{
-      isToSub:function (event) {
-        console.log(event);
-        if(this.tosub){
+    methods: {
+      isToSub: function () {
+        if (tosub) {
+          window.location.href = '/'
+        } else {
 
-        }else {
-          event.preventDefault()
         }
       }
     }
@@ -175,6 +195,36 @@
   //   color:#fff;
   // }
   //}
+  .fo-address-n-box{
+    position: absolute;
+    z-index: 99;
+    min-width: 694px;
+    box-shadow: 0 0 15px #ccc;
+    border: 1px solid #c7c7c7;
+    background-color: #ffffff;
+    padding: 10px;
+  }
+  .user-content{
+    /deep/
+    .el-form{
+      .el-form-item{
+        .el-form-item__content{
+          .el-input{
+            width: 353px;
+          }
+        }
+      }
+      .el-form-item:nth-child(2),.el-form-item:nth-child(5){
+        .el-form-item__content{
+          .el-input{
+            width: 125px;
+          }
+        }
+      }
+    }
+  }
+
+
   .fo-content-box {
     padding: 0px 0px 80px 0px;
     border: 1px solid #c7c7c7;
@@ -213,7 +263,7 @@
   }
 
   .fo-center-box:nth-child(1) {
-    height: 110px;
+    min-height: 110px;
   }
 
   .fo-center-box:nth-child(2) {
@@ -308,8 +358,18 @@
 
   .fo-center-box:nth-child(3) {
     .fo-right-box {
+      div{
+        padding-left: 13px;
+      }
       p {
         padding: 15px 13px 58px 0px;
+        padding-left: 13px;
+        label{
+          input[type='radio']{
+            margin-right: 3px;
+          }
+          padding-right: 10px;
+        }
       }
     }
 
@@ -326,27 +386,27 @@
         label {
           padding-left: 13px;
         }
-        input[type='radio']{
+        input[type='radio'] {
           margin-right: 5px;
         }
       }
-      div:last-child{
+      div:last-child {
         border-left: 1px solid #cdcdcd;
         float: left;
         padding: 0px 34px 0px 65px;
         width: 435px;
-        p{
+        p {
           line-height: 33px;
           display: inline-block;
           width: 100%;
-          span{
+          span {
             float: left;
           }
-          em{
+          em {
             float: right;
           }
         }
-        a{
+        a {
           width: 78px;
           height: 28px;
           line-height: 28px;
