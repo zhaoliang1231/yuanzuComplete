@@ -151,7 +151,7 @@ export default new Router({
     // 公告页面
     {
       name: 'Notice',
-      path: '/notice',
+      path: '/notice/:id',
       component: Notice
     },
     // 详情页

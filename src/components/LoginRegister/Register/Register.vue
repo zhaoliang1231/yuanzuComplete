@@ -12,6 +12,10 @@
                 <button type="button" class="yanzheng_btn"@click="changeVerification">刷新</button>
                 <el-input type="text" v-model="ruleForm.verification" autocomplete="off"></el-input>
             </el-form-item>
+            <el-form-item>
+            <div style="line-height: 25px; color: #999;font-size: 14px;height: 25px;width: 100px;margin-bottom: 10px">出生日期：</div>
+                <el-date-picker v-model="value1" type="date" placeholder="选择日期"></el-date-picker>
+            </el-form-item>
             <el-form-item label="邮箱:" prop="email">
                 <el-input type="email" v-model="ruleForm.email"></el-input>
             </el-form-item>
@@ -32,13 +36,14 @@
                 </div>
             </div>
             <el-form-item>
-                <el-button style="width:100%" type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                <el-button style="width:100%" type="primary" @click="submitForm('ruleForm')">注册</el-button>
             </el-form-item>
         </el-form>
     </div>
 </template>
 
 <script>
+    import {getRegister} from "Api/request";
     //引入验证码插件
   import verification from 'verification-code';
     export default {
@@ -109,7 +114,8 @@
                 }
             }
             return {
-            //勾选框
+              value1:'',
+              //勾选框
               checked:true,
                 //验证码图片路径
                 imgDataURL: '',
@@ -155,9 +161,18 @@
           this.imgDataURL = result.dataURL
         },
         submitForm (formName) {
+          // console.log(this.ruleForm)
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              alert('submit!')
+             //全部验证成功调取接口
+              getRegister(
+                {
+                  userPwd:this.ruleForm.pass,userPhone:this.ruleForm.user_phone,
+                  userEmail:this.ruleForm.email,userBirthday:this.value1
+                },
+                (res)=>{
+                console.log(res)
+              })
             } else {
               console.log('error submit!!')
               return false
@@ -179,6 +194,7 @@
 }
 /deep/.el-input__inner{
     height: 38px;
+    width: 370px;
     border-radius: 2px;
 }
 .el-button{
@@ -198,4 +214,5 @@
     .el-form-item{
         margin-bottom: 18px;
     }
+
 </style>
