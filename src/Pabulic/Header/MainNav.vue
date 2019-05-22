@@ -6,85 +6,9 @@
           <a class="font-color-white fontSize-16">全部商品菜单</a>
         </div>
         <ul v-if="toggle" class="mn-classify-lists">
-          <li :style="ico[0]"  class="mn-classify-list">
-            <router-link to="/classfiy">
-              <span class="mn-classify-list-title fontSize-14 mn-a">元祖端午季</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">纸质提货券</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">端午礼盒</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">电子提货券</span>
-            </router-link>
-          </li>
-          <li :style="ico[1]"  class="mn-classify-list mn-bg">
-            <router-link to="/classfiy">
-              <span class="mn-classify-list-title fontSize-14 mn-a">元祖梦蛋糕</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">母亲节转款</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">鲜奶蛋糕</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">巧克力蛋糕</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">慕思蛋糕</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">多层蛋糕</span>
-            </router-link>
-          </li>
-          <li :style="ico[2]" class="mn-classify-list">
-            <router-link to="/classfiy">
-              <span class="mn-classify-list-title fontSize-14 mn-a">冰品季</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">纸质提货券</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">端午礼盒</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">电子提货券</span>
-            </router-link>
-          </li>
-          <li :style="ico[3]" class="mn-classify-list mn-bg">
-            <router-link to="/classfiy">
-              <span class="mn-classify-list-title fontSize-14 mn-a">元祖礼盒</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">纸质提货券</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">端午礼盒</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">电子提货券</span>
-            </router-link>
-          </li>
-          <li :style="ico[4]"  class="mn-classify-list">
-            <router-link to="/classfiy">
-              <span class="mn-classify-list-title fontSize-14 mn-a">精致西点</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">纸质提货券</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">端午礼盒</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">电子提货券</span>
-            </router-link>
-          </li>
-          <li :style="ico[5]" class="mn-classify-list mn-bg">
-            <router-link to="/classfiy">
-              <span class="mn-classify-list-title fontSize-14 mn-a">元祖端午季</span>
+          <li v-for="(classify, i) in classify" :key="i" :style="icon[i]" :class="{'mn-bg': i > 0}" class="mn-classify-list">
+            <router-link :to="'/classfiy'+classify.id">
+              <span class="mn-classify-list-title fontSize-14 mn-a">{{icon[i]}}</span>
             </router-link>
             <router-link to="/classfiy">
               <span class="fontSize-12 mn-a">纸质提货券</span>
@@ -117,23 +41,17 @@
   </div>
 </template>
 <script>
-import ico1 from 'static/img/zongzi.png'
-import ico2 from 'static/img/Much.png'
-import ico3 from 'static/img/jingzhi.png'
-import ico4 from 'static/img/kajuan.png'
-import ico5 from 'static/img/lihe.png'
-import ico6 from 'static/img/tiantong.jpg'
+import {api} from 'Api/api'
+import {goodstype} from 'Api/request_yf'
+import {goodstypetwo} from 'Api/request_yf'
 export default {
   data () {
     return {
-      ico: [`background:url(${ico1}) no-repeat 0px 15px`,
-        `background:url(${ico2}) no-repeat 0px 15px`,
-        `background:url(${ico6}) no-repeat 0px 15px`,
-        `background:url(${ico5}) no-repeat 0px 15px`,
-        `background:url(${ico3}) no-repeat 0px 15px`,
-        `background:url(${ico4}) no-repeat 0px 15px`],
-      isHide: true,
-      toggle: false
+      api,
+      isHide: false,
+      toggle: false,
+      icon: [],
+      classify: []
     }
   },
   mounted () {
@@ -147,6 +65,17 @@ export default {
         this.toggle = bool
       }
     }
+  },
+  beforeMount () {
+    goodstype((res) => {
+      this.classify = res.data
+      for (let i = 0; i < this.classify.length; i++) {
+        this.icon.push(`background:url(${this.classify[i].icon}) no-repeat 0px 15px`)
+        goodstypetwo({id: this.classify[i].id}, (data) => {
+          this.classify[i].goodstypetwo = data.data
+        })
+      }
+    })
   }
 }
 </script>

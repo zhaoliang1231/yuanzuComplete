@@ -4,6 +4,8 @@ import {api} from './api'
 
 import axios from 'axios'
 
+import  qs from 'qs'
+
 /*
 *axios 再次封装ajax请求 使用promise再次封装
 *params
@@ -16,7 +18,7 @@ function sendAxios(methods ,url,data = {}) {
     axios({
       method: methods,
       url: api + url,
-      data: data
+      data: qs.stringify(data) 
     }).then((res)=>{
       if (res.data.message == "success"){
         resolve(res.data)

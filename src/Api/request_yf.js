@@ -8,14 +8,20 @@ let homeBanner = function (callback) {
     callback(res)
   })
 }
-//全部商品菜单
+//一级部商品菜单
 let goodstype = function (callback) {
   sendAxios('post', '/goodstype_querAllgoodstypeShow.action').then((res) => {
     callback(res)
   })
 }
-
+//二级部商品菜单
+let goodstypetwo = function (data, callback) {
+  sendAxios('post', '/goodstypetwo_queryAllgoodstypeTwoShow.action', data).then((res) => {
+    callback(res)
+  })
+}
 export {
   homeBanner,
-  goodstype
+  goodstype,
+  goodstypetwo
 }
