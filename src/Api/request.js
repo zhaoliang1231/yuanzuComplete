@@ -35,12 +35,29 @@ let getPhoneCode = function (data,callback) {
   })
 }
 
+//登录接口
+let getLogin = function (data , callback) {
+  sendAxios('post','/user_loginUser.action',data).then((res)=>{
+    callback(res)
+  })
+}
+
+//详情页收藏按钮接口
+let storeCollet = function (data , callback) {
+  sendAxios('post','/user_loginUser.action',data).then((res)=>{
+    callback(res)
+  })
+}
+
+
 export {
   getNotices,
   getNoticeDetail,
   getRegister,
   getRegisterCode,
-  getPhoneCode
+  getPhoneCode,
+  getLogin,
+  storeCollet
 }
 
 

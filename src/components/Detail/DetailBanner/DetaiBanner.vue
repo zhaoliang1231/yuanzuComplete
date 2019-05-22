@@ -116,12 +116,10 @@
                 </div>
                 <div class="share">
                     <div class="bianhao">商品编号：100001416</div>
-                    <template>
                     <span :plain="true" @click="open" style="cursor: pointer" >
                         <img src="../../../static/img/icon_sc.gif" alt="">
                        收藏
                     </span>
-                    </template>
 
                 </div>
             </div>
@@ -135,6 +133,7 @@ import img1 from 'static/img/100001416_L.jpg'
 // 小图路径
 import img2 from 'static/img/100001416_L1.jpg'
 import img3 from 'static/img/100001416_L2.jpg'
+import {storeCollet} from  'Api/request'
 
     export default {
     name: 'DetaiBanner',
@@ -193,11 +192,18 @@ import img3 from 'static/img/100001416_L2.jpg'
           }
         },
         open: function () {
-          this.$message({
-            message: '已添加到我的收藏',
-            type: 'success',
-            duration: 1000
+          storeCollet({goodsId:1},(res)=>{
+            if (res.data.userState == 1){
+              this.$message({
+                message: '已添加到我的收藏',
+                type: 'success',
+                duration: 1000
+              })
+            }else{
+              alert("应跳转登录页面")
+            }
           })
+
         }
       }
   }

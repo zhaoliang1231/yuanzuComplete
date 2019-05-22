@@ -47,6 +47,7 @@
 </template>
 
 <script>
+    import md5 from 'js-md5'
     import {api} from 'Api/api';
     import {getRegister} from "Api/request";
     import {getRegisterCode} from "Api/request";
@@ -122,7 +123,7 @@
             var PhoneCode = (rule,value,callback)=>{
               if (value === '') {
                 callback(new Error('请输入验证码'))
-              } else if (value !== this.ruleForm.phoneCode) {
+              } else if (value !== this.phoneCode1) {
                 callback(new Error('验证码不正确!'))
               } else {
                 callback()
@@ -136,6 +137,7 @@
                 imgDataURL: '',
               //验证码
                 code: '',
+              phoneCode1:'',
                 ruleForm: {
                   user_phone:'',
                   //推荐人手机
@@ -175,7 +177,6 @@
         },
       mounted () {
         this.changeVerification()
-
       },
       methods: {
           //验证码调用接口
@@ -183,15 +184,14 @@
           getRegisterCode({},(res)=>{
             this.code = res.data.code
             this.imgDataURL = api + res.data.imgPath
-            console.log(this.code)
           })
         },
         //手机验证码
         sendPhoneCode(){
           if(this.ruleForm.user_phone !=""){
             getPhoneCode({userPhone:this.ruleForm.user_phone},(res)=>{
-              console.log(res)
-                // this.ruleForm.phoneCode =
+              let result = res.data.toString()
+                this.phoneCode1 = result
             })
           }else{
             this.$refs.ruleForm.fields[3].error = "请输入手机号码"
@@ -202,13 +202,22 @@
           // console.log(this.ruleForm)
           this.$refs[formName].validate((valid) => {
             if (valid) {
-             //全部验证成功调取接口
+              //全部验证成功调取接口
               getRegister(
                 {
-                  userPwd:this.ruleForm.pass,userPhone:this.ruleForm.user_phone,
+                 userPwd: md5(this.ruleForm.pass),userPhone:this.ruleForm.user_phone,
                   userEmail:this.ruleForm.email,userBirthday:this.value1
                 },
                 (res)=>{
+                  //当注册成功 提示
+                  if(res.success ==true){
+                    this.$message({
+                      message:'注册成功!',
+                      type: 'success'
+                    })
+                  }else{
+                    this.$message.error('注册失败!')
+                  }
                 console.log(res)
               })
             } else {

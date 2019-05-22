@@ -25,6 +25,8 @@
 </template>
 
 <script>
+    import md5 from 'js-md5'
+    import {getLogin} from 'Api/request'
     export default {
         name: 'login',
      data () {
@@ -59,9 +61,12 @@
      },
         methods: {
             login(formName) {
-                this.$refs[formName].validate((valid) => {
+              this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                      getLogin({userPwd:md5(this.loginForm.user_password),userPhone:this.loginForm.user_phone},(res)=>{
+                        console.log(res)
+                      })
+
                     } else {
                         console.log('error submit!!');
                         return false;
