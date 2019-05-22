@@ -48,7 +48,7 @@ export default {
   data () {
     return {
       api,
-      isHide: false,
+      isHide: true,
       toggle: false,
       icon: [],
       classify: []
