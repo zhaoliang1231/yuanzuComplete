@@ -1,42 +1,29 @@
 <template>
   <!--t添加地址-->
   <div class="user-content">
+      <h3>添加地址</h3>
       <el-form ref="form" :model="sizeForm" :rules="rules" label-width="80px" size="mini">
           <el-form-item label="姓名" prop="name">
               <el-input v-model="sizeForm.name"></el-input>
           </el-form-item>
           <el-form-item label="所在区域" required>
-              <el-select v-model="sizeForm.country" placeholder="请选择">
-                  <el-option label="上海" value="上海"></el-option>
-                  <el-option label="北京" value="北京"></el-option>
-              </el-select>
-              <el-select v-model="sizeForm.province" placeholder="请选择">
-                  <el-option label="大渡口" value="大渡口"></el-option>
-                  <el-option label="" value="北京"></el-option>
-              </el-select>
-              <el-select v-model="sizeForm.city" placeholder="请选择">
-                  <el-option label="雨中" value="雨中"></el-option>
-                  <el-option label="西永" value="西永"></el-option>
-              </el-select>
-          </el-form-item>
-          <el-form-item label="详细地址" prop="address">
-            <el-input v-model="sizeForm.address"></el-input>
+              <v-distpicker></v-distpicker>
           </el-form-item>
           <el-form-item label="邮编" prop="zipcode">
-              <el-input v-model.number="sizeForm.zipcode"></el-input>
+             <el-input v-model.number="sizeForm.zipcode"></el-input>
           </el-form-item>
           <el-form-item label="电话号码" prop="telphone">
-              <el-input v-model="sizeForm.telphone"></el-input>
+            <el-input v-model="sizeForm.telphone"></el-input>
           </el-form-item>
           <el-form-item label="性别">
               <el-select v-model="sizeForm.sex" placeholder="请选择">
                   <el-option label="男" value="男"></el-option>
-                  <el-option label="女" value="女"></el-option>
+                <el-option label="女" value="女"></el-option>
               </el-select>
           </el-form-item>
           <el-form-item label="生日">
               <el-col :span="11">
-                  <el-date-picker type="date" placeholder="选择日期" v-model="sizeForm.date1" style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date" placeholder="选择日期" v-model="sizeForm.date1" style="width: 100%;"></el-date-picker>
               </el-col>
           </el-form-item>
           <el-form-item label="邮箱" prop="email">
@@ -54,7 +41,9 @@
   </div>
 </template>
 <script>
+import VDistpicker from 'v-distpicker'
 import {isvalidPhone} from '../../validate.js'
+import {getaddress1} from 'Api/request_cg.js'
 var validPhone = (rule, value, callback) => {
   if (!value) {
     callback(new Error('请输入电话号码'))
@@ -65,15 +54,11 @@ var validPhone = (rule, value, callback) => {
   }
 }
 export default {
-  name: 'add',
+  components: { VDistpicker },
   data () {
     return {
       sizeForm: {
         name: '',
-        country: '',
-        province: '',
-        city: '',
-        address: '',
         zipcode: '',
         telphone: '',
         sex: '',
@@ -81,10 +66,6 @@ export default {
       },
       rules: {
         name: [{ required: true, message: '请输入姓名', trigger: 'blur' }, { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
-        country: [{required: true, message: '请选择地区', trigger: 'change'}],
-        province: [{required: true, message: '请选择地区', trigger: 'change'}],
-        city: [{required: true, message: '请选择地区', trigger: 'change'}],
-        address: [{ required: true, message: '请输入详细地址', trigger: 'blur' }],
         zipcode: [{type: 'number', message: '邮编必须为数字'}],
         telphone: [{ required: true, trigger: 'blur', validator: validPhone }]
       }
@@ -92,7 +73,13 @@ export default {
   },
   methods: {
     onSubmit () {
+      console.log('submit!')
     }
+  },
+  mounted () {
+    getaddress1({}, (res) => {
+      console.log(res.data)
+    })
   }
 }
 </script>
@@ -104,6 +91,13 @@ export default {
         .el-form-item__content{
           .el-input{
             width: 353px;
+          }
+        }
+        .distpicker-address-wrapper{
+          select{
+            height: 28px;
+            line-height: 28px;
+            padding: 0 0.8em;
           }
         }
       }

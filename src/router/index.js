@@ -16,6 +16,7 @@ import PersonalData from '../components/MemberCenter/PersonalCenter/PersonalData
 import Invoice from '../components/MemberCenter/PersonalCenter/Invoice/index.vue'
 import ReceivingAddress from '../components/MemberCenter/PersonalCenter/ReceivingAddress/index.vue'
 import AddAddress from '../components/MemberCenter/PersonalCenter/AddAddress/index.vue'
+import Editaddress from '../components/MemberCenter/PersonalCenter/Editaddress/index.vue'
 import ChangePassword from '../components/MemberCenter/PersonalCenter/ChangePassword/index.vue'
 import EditProfile from '../components/MemberCenter/PersonalCenter/EditProfile/index.vue'
 import AlterEmail from '../components/MemberCenter/PersonalCenter/AlterEmail/index.vue'
@@ -129,6 +130,11 @@ export default new Router({
           path: 'personalCenter/addAddress',
           name: 'AddAddress',
           component: AddAddress
+        },
+        {
+          path: 'personalCenter/editaddress',
+          name: 'Editaddress',
+          component: Editaddress
         },
         {
           path: 'personalCenter/orderList',

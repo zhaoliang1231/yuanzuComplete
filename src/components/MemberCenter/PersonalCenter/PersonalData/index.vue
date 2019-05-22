@@ -28,18 +28,24 @@
   </div>
 </template>
 <script>
+import {personalData} from 'Api/request_cg.js'
 export default {
   data () {
     return {
       labelPosition: 'left',
       formLabelAlign: {
-        name: '吹风机',
-        birth: '2000-00-00',
-        email: '564156456@@qq.com',
-        telphone: '1215456465456465',
-        RecommenderTelephone: '1645645646556'
+        name: '',
+        birth: '',
+        email: '',
+        telphone: '',
+        RecommenderTelephone: ''
       }
     }
+  },
+  mounted () {
+    personalData({}, (res) => {
+      console.log(res.data)
+    })
   }
 }
 </script>
@@ -47,9 +53,12 @@ export default {
   .user-content{
     .el-form{
       .el-form-item{
+        margin-bottom: 0;
         .el-form-item__content{
           .el-input{
             /deep/.el-input__inner{
+              width: 200px;
+              height: 28px;
               &:hover{
                 cursor:not-allowed;
               }

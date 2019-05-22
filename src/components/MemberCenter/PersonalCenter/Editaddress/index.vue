@@ -1,7 +1,7 @@
 <template>
   <!--t添加地址-->
   <div class="user-content">
-    <h3>更改个人资料</h3>
+    <h3>编辑收货地址</h3>
     <el-form ref="form" :model="sizeForm" :rules="rules" label-width="80px" size="mini">
       <el-form-item label="姓名" prop="name">
         <el-input v-model="sizeForm.name"></el-input>
@@ -30,10 +30,10 @@
         <el-input v-model="sizeForm.email"></el-input>
       </el-form-item>
       <el-form-item size="large">
-        <router-link :to="{name:'PersonalData'}">
+        <router-link :to="{name:'ReceivingAddress'}">
           <el-button type="danger" @click="onSubmit">保存地址</el-button>
         </router-link>
-        <router-link :to="{name:'PersonalData'}">
+        <router-link :to="{name:'ReceivingAddress'}">
           <el-button type="info">取消</el-button>
         </router-link>
       </el-form-item>
@@ -97,7 +97,7 @@ export default {
           select{
             height: 28px;
             line-height: 28px;
-            padding: 0.4rem .75rem;
+            padding: 0 0.8em;
           }
         }
       }

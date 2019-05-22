@@ -15,7 +15,7 @@
           <span>13658475365</span>
         </li>
         <li style="float: right">
-          <router-link :to="{name:'AddAddress'}">编辑</router-link>
+          <router-link :to="{name:'Editaddress'}">编辑</router-link>
           <a>删除</a>
           <a>设为默认</a>
         </li>
@@ -23,7 +23,18 @@
   </div>
 </template>
 <script>
-export default {}
+import {receivingAddress} from 'Api/request_cg.js'
+export default {
+  data () {
+    return {
+    }
+  },
+  mounted () {
+    receivingAddress({}, (res) => {
+      console.log(res.data)
+    })
+  }
+}
 </script>
 <style lang="less" scoped>
   @import "~static/css/common.less";
@@ -35,8 +46,14 @@ export default {}
               color: @white;
           }
       }
-      ul li {
-        display: inline-block;
+      ul {
+          border-bottom: 1px solid;
+          margin-bottom: 20px;
+          li {
+              height: 20px;
+              line-height: 20px;
+              display: inline-block;
+          }
       }
   }
 </style>
