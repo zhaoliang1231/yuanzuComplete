@@ -9,9 +9,30 @@ let  getRegisterCode = function (data,callback) {
     callback(res)
   })
 }
+//首页公告接口
+let getNotices = function (data,callback) {
+    sendAxios('post','/ann_querytitle.action',data).then((res)=>{
+      callback(res)
+  });
+}
+//公告详情页接口
+let getNoticeDetail = function (data,callback) {
+  sendAxios('post','/ann_queryconent.action',data).then((res)=>{
+    callback(res)
+  })
+}
+//注册接口
+let getRegister = function (data,callback) {
+  sendAxios('post','/user_registUser.action',data).then((res)=>{
+    callback(res)
+  })
+}
 
 export {
-  getRegisterCode
+  getRegisterCode,
+  getNotices,
+  getNoticeDetail,
+  getRegister
 }
 
 
