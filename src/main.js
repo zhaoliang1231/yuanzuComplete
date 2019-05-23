@@ -16,6 +16,21 @@ Vue.use(Public)
 Vue.use(Index)
 Vue.use(vueMagnify)
 
+router.beforeEach((to,from,next)=>{
+  if(to.meta.requireAuth){
+    let token = window.localStorage.getItem('token')
+    if(token){
+      next()
+    }else{
+      // next('/login')
+      next()
+    }
+  }else{
+    next()
+  }
+})
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

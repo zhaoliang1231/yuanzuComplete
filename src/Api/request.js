@@ -27,12 +27,18 @@ let getRegister = function (data,callback) {
     callback(res)
   })
 }
-
+//购物车查询接口
+let getShopcart = function (data,callback) {
+  sendAxios('post','/cart_queryCar.tFindByUser.action',data).then((res)=>{
+    callback(res)
+  })
+}
 export {
   getRegisterCode,
   getNotices,
   getNoticeDetail,
-  getRegister
+  getRegister,
+  getShopcart
 }
 
 

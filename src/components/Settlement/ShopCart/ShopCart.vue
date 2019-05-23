@@ -53,6 +53,7 @@
 <script>
   var reg = /^\d{1,}$/
   import settlements from '../settlement/settlements.vue'
+  import {getShopcart} from "Api/request";
 
   export default {
     name: 'shopcart',
@@ -65,7 +66,17 @@
         cartIsNull: true
       }
     },
+    mounted() {
+      this.getShopcartdata()
+    },
     methods: {
+      getShopcartdata: function () {
+        getShopcart(
+          {currentPage: '1'},(res)=> {
+            console.log(res);
+          });
+      }
+      ,
       isnumber: function () {
         if (reg.test(this.number) && this.number != 0) {
           console.log('数字')
@@ -73,17 +84,20 @@
           alert('您输入的数量不正确！')
           this.number = 1
         }
-      },
+      }
+      ,
       NumberSubtract: function () {
         if (this.number > 1) {
           this.number--
         }
-      },
+      }
+      ,
       NumberAdd: function () {
         if (this.number > 0) {
           this.number++
         }
-      },
+      }
+      ,
       ShopTotal: function () {
 
       }
@@ -100,17 +114,17 @@
       width: 460px;
       margin: 0 auto;
       padding: 98px 0px;
-      .sn-n-box{
+      .sn-n-box {
         float: left;
         width: auto;
-        padding:0px;
+        padding: 0px;
         margin-left: 25px;
         margin-top: 30px;
-        p{
+        p {
           font-size: 17px;
           margin-bottom: 5px;
         }
-        a{
+        a {
           width: 80px;
           height: 30px;
           background-color: #dc5551;
