@@ -201,7 +201,7 @@
             <p><span>应付金额:</span>
               <em>¥396.00</em>
             </p>
-            <a v-on:click="isToSub" href="/settlement/submitsuccess" class="hover-bg-pink">下订单</a>
+            <button v-on:click="isToSub" class="hover-bg-pink">下订单</button>
           </div>
         </div>
       </div>
@@ -238,7 +238,7 @@
     data() {
       return {
         value1: '',
-        tosub: false,
+        tosub: true,
         isAddress:false,
         addressIshide:false,
        sizeForm: {
@@ -264,8 +264,9 @@
     },
     methods: {
       isToSub: function () {
-        if (tosub) {
-          window.location.href = '/'
+        if (this.tosub) {
+          console.log('66666')
+          window.location.href = '/settlement/submitsuccess'
         } else {
 
         }
@@ -515,7 +516,7 @@
             float: right;
           }
         }
-        a {
+        button {
           width: 78px;
           height: 28px;
           line-height: 28px;

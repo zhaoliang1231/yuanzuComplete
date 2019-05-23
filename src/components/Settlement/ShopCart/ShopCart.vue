@@ -54,7 +54,7 @@
   var reg = /^\d{1,}$/
   import settlements from '../settlement/settlements.vue'
   import {getShopcart} from "Api/request";
-
+  import axios from 'axios'
   export default {
     name: 'shopcart',
     components: {
@@ -68,13 +68,33 @@
     },
     mounted() {
       this.getShopcartdata()
+      this.islogin()
     },
     methods: {
       getShopcartdata: function () {
-        getShopcart(
-          {currentPage: '1'},(res)=> {
-            console.log(res);
-          });
+        // getShopcart(
+        //   {currentPage: '1'},(res)=> {
+        //     console.log(res);
+        //   });
+      },
+      islogin:function () {
+        axios({
+          method: 'post',
+          url: '/user_loginUser.action?userPhone=111111&password=666666',
+          data: {
+            // userPhone:'111111',
+            // userPwd:'666666',
+            // userEmail:''
+          }
+        }).then((res)=>{
+          if (res.data.message == "success"){
+            console.log(res.data)
+          }else{
+            console.log('请求失败')
+          }
+        }).catch((err)=>{
+          console.log('网络错误')
+        })
       }
       ,
       isnumber: function () {
