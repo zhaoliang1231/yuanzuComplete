@@ -27,7 +27,8 @@
     </div>
 </template>
 <script>
-import {homeBanner, getNotices} from 'Api/request_yf'
+import {homeBanner} from 'Api/request_yf'
+import {getNotices} from  'Api/request'
 import {api} from 'Api/api'
 export default {
   data () {
