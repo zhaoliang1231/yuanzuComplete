@@ -10,27 +10,25 @@ import Public from './static/css/public.less'
 import Index from './static/css/index.less'
 // 引入放大镜
 import vueMagnify from 'vue-magnify'
-import store from "./store";
+import store from './store'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(Public)
 Vue.use(Index)
 Vue.use(vueMagnify)
 
-router.beforeEach((to,from,next)=>{
-  if(to.meta.requireAuth){
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
     let token = window.localStorage.getItem('token')
-    if(token){
+    if (token) {
       next()
-    }else{
-      // next('/login')
-      next()
+    } else {
+      next('/login')
     }
-  }else{
+  } else {
     next()
   }
 })
-
 
 /* eslint-disable no-new */
 new Vue({

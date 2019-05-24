@@ -25,58 +25,59 @@
 </template>
 
 <script>
-    import md5 from 'js-md5'
-    import {getLogin} from 'Api/request'
-    export default {
-        name: 'login',
-     data () {
-      var validatePhone = (rule, value, callback) => {
-       if (value === '') {
-        callback(new Error('请输入联系电话'))
-       } else {
-        var reg = /^1[34578]\d{9}$/
-        if (reg.test(value) === false) {
-         callback(new Error('请输入正确的电话号码'))
-        } else {
-         callback()
-        }
-       }
-      }
-      return {
-       checked:true,
-       userPhone:'',
-       loginForm: {
-        user_phone: '',
-        user_password: ''
-       },
-       rules: {
-        user_phone: [
-         //电话验证
-         { required: true, validator: validatePhone, trigger: 'blur' }
-        ],
-        user_password: [
-         { required: true, message: '请输入密码', trigger: 'blur' }
-        ]
-       }
-      }
-     },
-        methods: {
-            login(formName) {
-              this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                      getLogin({userPwd:md5(this.loginForm.user_password),userPhone:this.loginForm.user_phone},(res)=>{
-                        this.userPhone = res.data.user.userPhone
-                      })
-
-                    } else {
-                        console.log('error submit!!');
-                        this.userPhone = '登录/注册'
-                        return false;
-                    }
-                });
-            }
-        }
+import md5 from 'js-md5'
+import {getLogin} from 'Api/request'
+export default {
+    name: 'login',
+ data () {
+  var validatePhone = (rule, value, callback) => {
+   if (value === '') {
+    callback(new Error('请输入联系电话'))
+   } else {
+    var reg = /^1[34578]\d{9}$/
+    if (reg.test(value) === false) {
+     callback(new Error('请输入正确的电话号码'))
+    } else {
+     callback()
     }
+   }
+  }
+  return {
+   checked:true,
+   userPhone:'',
+   loginForm: {
+    user_phone: '',
+    user_password: ''
+   },
+   rules: {
+    user_phone: [
+     //电话验证
+     { required: true, validator: validatePhone, trigger: 'blur' }
+    ],
+    user_password: [
+     { required: true, message: '请输入密码', trigger: 'blur' }
+    ]
+   }
+  }
+ },
+methods: {
+    login (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          getLogin({userPwd: md5 (this.loginForm.user_password), userPhone: this.loginForm.user_phone}, (res) =>{
+            this.userPhone = res.data.user.userPhone
+            window.localStorage.setItem('token', res.user[0].userPhone)
+            window.location.href = '/'
+          })
+        } else {
+          console.log('error submit!!')
+          this.userPhone = '登录/注册'
+          return false
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="less">
