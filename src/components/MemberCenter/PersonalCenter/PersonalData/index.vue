@@ -4,16 +4,16 @@
     <h3>我的资料</h3>
     <el-form :label-position="labelPosition" label-width="80px"">
       <el-form-item label="姓名">
-        <div>陈庚</div>
+        <div>{{userinfo.userPhone}}</div>
       </el-form-item>
       <el-form-item label="生日">
-        <div>陈庚</div>
+        <div>{{new Date(userinfo.userBirthday).getFullYear()}}-{{new Date(userinfo.userBirthday).getMonth()+1}}-{{new Date(userinfo.userBirthday).getDate()}}</div>
       </el-form-item>
       <el-form-item label="电子邮箱">
-        <div>陈庚</div>
+        <div>{{userinfo.userEmail}}</div>
       </el-form-item>
       <el-form-item label="电话">
-        <div>陈庚</div>
+        <div>{{userinfo.userPhone}}</div>
       </el-form-item>
       <el-form-item label="推荐电话">
         <div>陈庚</div>
@@ -35,8 +35,12 @@ export default {
       labelPosition: 'left'
     }
   },
+  computed: {
+    userinfo: function () {
+      return this.$store.state.user.usercenter
+    }
+  },
   mounted () {
-    console.log(this.$store)
     personalData({
       userId: window.localStorage.getItem('token') || ''
     }, (res) => {

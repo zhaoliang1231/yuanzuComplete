@@ -2,31 +2,32 @@
   <!--改变密码-->
   <div class="user-content">
       <h3>更改密码</h3>
-      <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="原始密码" prop="pass">
-              <el-input type="password" v-model="ruleForm2.pass" auto-complete="off" clearable></el-input>
+              <el-input type="password" v-model="ruleForm.pass" auto-complete="off" clearable></el-input>
           </el-form-item>
           <el-form-item label="修改密码" prop="alterpass">
-              <el-input type="password" v-model="ruleForm2.alterpass" auto-complete="off" clearable></el-input>
+              <el-input type="password" v-model="ruleForm.alterpass" auto-complete="off" clearable></el-input>
           </el-form-item>
           <el-form-item label="确认密码" prop="checkPass">
-              <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" clearable></el-input>
+              <el-input type="password" v-model="ruleForm.checkPass" auto-complete="off" clearable></el-input>
           </el-form-item>
     </el-form>
-    <el-button type="danger">确认 </el-button>
+    <el-button type="danger" @click="changePassword('ruleForm')">确认 </el-button>
     <router-link :to="{name:'PersonalData'}"><el-button type="info">返回</el-button></router-link>
 </div>
 </template>
 <script>
 import {changepwd} from 'Api/request_cg.js'
+import md5 from 'js-md5'
 export default {
   data () {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入原始密码'))
       } else {
-        if (this.ruleForm2.alterpass !== '') {
-          this.$refs.ruleForm2.validateField('alterpass')
+        if (this.ruleForm.alterpass !== '') {
+          this.$refs.ruleForm.validateField('alterpass')
         }
         callback()
       }
@@ -34,11 +35,11 @@ export default {
     var validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
-      } else if (value === this.ruleForm2.pass) {
+      } else if (value === this.ruleForm.pass) {
         callback(new Error('两次输入密码一致!'))
       } else {
-        if (this.ruleForm2.checkPass !== '') {
-          this.$refs.ruleForm2.validateField('checkPass')
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass')
         }
         callback()
       }
@@ -46,19 +47,19 @@ export default {
     var validatePass3 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
-      } else if (value !== this.ruleForm2.alterpass) {
+      } else if (value !== this.ruleForm.alterpass) {
         callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
       }
     }
     return {
-      ruleForm2: {
+      ruleForm: {
         pass: '',
         alterpass: '',
         checkPass: ''
       },
-      rules2: {
+      rules: {
         pass: [
           { validator: validatePass, trigger: 'blur' }
         ],
@@ -71,10 +72,30 @@ export default {
       }
     }
   },
-  mounted () {
-    changepwd({}, (res) => {
-      console.log(res.data)
-    })
+  methods: {
+    changePassword: function (refForm) {
+      this.$refs[refForm].validate((valid) => {
+        if (valid) {
+          changepwd({
+            userid: window.localStorage.getItem('token'),
+            originalPwd: md5(this.ruleForm.pass),
+            newPwd: md5(this.ruleForm.alterpass)
+          }, (res) => {
+            if (res.success) {
+              this.$message({
+                message: '修改密码成功',
+                type: 'success'
+              })
+              setTimeout(function () {
+                this.$router.push('/memberCenter/personalCenter/personalData')
+              }, 2000)
+            } else {
+              this.$message.error('修改密码失败')
+            }
+          })
+        }
+      })
+    }
   }
 }
 </script>
