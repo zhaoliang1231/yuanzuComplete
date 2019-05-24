@@ -2,9 +2,9 @@
     <div class="home-index">
       <HomeHeader/>
       <Recommend/>
-      <HomeConten/>
-      <HomeConten/> 
-      <HomeConten/>
+      <HomeConten :typeName="'MUCH蛋糕'"/>
+      <HomeConten :typeName="'元祖礼盒'"/>
+      <HomeConten :typeName="'精致西点'"/>
       <HomeActivity/>
     </div>
 </template>

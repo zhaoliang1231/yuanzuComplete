@@ -6,19 +6,13 @@
           <a class="font-color-white fontSize-16">全部商品菜单</a>
         </div>
         <ul v-if="toggle" class="mn-classify-lists">
-          <li v-for="(classify, i) in classify" :key="i" :style="icon[i]" :class="{'mn-bg': i > 0}" class="mn-classify-list">
-            <router-link :to="'/classfiy'+classify.id">
-              <span class="mn-classify-list-title fontSize-14 mn-a">{{icon[i]}}</span>
+          <li v-for="(classify, i) in classify" :key="i" :style="{background:icon[i], backgroundSize: 30+'px'}" class="mn-classify-list">
+            <router-link :to="'/classfiy?id='+classify.id+'&typeNo=1'">
+              <span class="mn-classify-list-title fontSize-14 mn-a">{{classify.goodsTypeName}}</span>
             </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">纸质提货券</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">端午礼盒</span>
-            </router-link>
-            <router-link to="/classfiy">
-              <span class="fontSize-12 mn-a">电子提货券</span>
-            </router-link>
+              <router-link :key="k" v-for="(goodstypetwo,k) in classify.erjtypeInfo" :to="'/classfiy?id='+goodstypetwo.id+'&typeNo=2'">
+                <span class="fontSize-12 mn-a">{{goodstypetwo.goodsTypeNameTwo}} </span>
+              </router-link>
           </li>
         </ul>
       </div>
@@ -42,8 +36,7 @@
 </template>
 <script>
 import {api} from 'Api/api'
-import {goodstype} from 'Api/request_yf'
-import {goodstypetwo} from 'Api/request_yf'
+import {AllgoodstypeAndTwo} from 'Api/request_yf'
 export default {
   data () {
     return {
@@ -67,13 +60,11 @@ export default {
     }
   },
   beforeMount () {
-    goodstype((res) => {
+    AllgoodstypeAndTwo((res) => {
       this.classify = res.data
       for (let i = 0; i < this.classify.length; i++) {
-        this.icon.push(`background:url(${this.classify[i].icon}) no-repeat 0px 15px`)
-        goodstypetwo({id: this.classify[i].id}, (data) => {
-          this.classify[i].goodstypetwo = data.data
-        })
+        this.classify[i].icon = this.classify[i].icon.replace(/\\/g, '/')
+        this.icon.push(`url(${this.api}${this.classify[i].icon}) no-repeat 0px 15px`)
       }
     })
   }
