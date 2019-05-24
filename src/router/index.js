@@ -32,7 +32,7 @@ import Settlement from '../components/Settlement/index'
 import ShopCart from '../components/Settlement/ShopCart/ShopCart'
 import FillOrder from '../components/Settlement/FillOrder/FillOrder'
 import SubmitSuccess from '../components/Settlement/SubmitSuccess/SubmitSuccess'
-
+// meta: { requiresAuth: true }判断是否登录的路由，添加这个meta标记
 //分类And搜索页
 import Classfiy from '../components/Classfiy/index.vue'
 
@@ -51,7 +51,7 @@ export default new Router({
       name: 'Login',
       component: Login
     },
-	  // 购物车流程
+    // 购物车流程
     {
       path: '/settlement',
       name: 'Settlement',
@@ -61,17 +61,20 @@ export default new Router({
         {
           path: 'shopcart',
           name: 'shopcart',
-          component: ShopCart
+          component: ShopCart,
+          meta:{requireAuth:true}
         },
         {
           path: 'fillorder',
           name: 'fillorder',
-          component: FillOrder
+          component: FillOrder,
+          meta:{requireAuth:true}
         },
-		{
+        {
           path: 'submitsuccess',
           name: 'submitsuccess',
-          component: SubmitSuccess
+          component: SubmitSuccess,
+          meta:{requireAuth:true}
         }
       ]
     },
@@ -157,14 +160,20 @@ export default new Router({
     // 公告页面
     {
       name: 'Notice',
-      path: '/notice/:id',
-      component: Notice
+      path: '/notice',
+      component: Notice,
+      props:(route)=>({
+        id:route.query.id
+      })
     },
     // 详情页
     {
       name: 'detail',
       path: '/detail',
       component: Detail,
+      props:(route)=>({
+        id:route.query.id
+      }),
       children: [
         // 商品介绍
         {

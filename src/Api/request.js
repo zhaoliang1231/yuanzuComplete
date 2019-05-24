@@ -22,29 +22,52 @@ let getRegister = function (data,callback) {
     callback(res)
   })
 }
-//注册验证码接口
-let getRegisterCode = function (data,callback) {
-  sendAxios('post','/user_sendVerifyCode.action',data).then((res)=>{
+//购物车查询接口
+let getShopcart = function (data,callback) {
+  sendAxios('post','/cart_queryCar.tFindByUser.action',data).then((res)=>{
     callback(res)
   })
 }
+//购物车商品数量修改
+let changeNunbers = function (data,callback) {
+  sendAxios('post','/cart_updateGoodsToCart.aciton',data).then((res)=>{
+    callback(res)
+  })
+}
+
 //手机证码接口
 let getPhoneCode = function (data,callback) {
   sendAxios('post','/user_sendNoteCode.action',data).then((res)=>{
     callback(res)
   })
 }
-
+//验证码接口
+let getRegisterCode = function (data,callback) {
+  sendAxios('post','/user_sendVerifyCode.action',data).then((res)=>{
+    callback(res)
+  })
+}
 //登录接口
 let getLogin = function (data , callback) {
   sendAxios('post','/user_loginUser.action',data).then((res)=>{
     callback(res)
   })
 }
-
+// let isLogin = function (data , callback) {
+//   sendAxios('post','/user_loginUser.action',data).then((res)=>{
+//     callback(res)
+//   })
+// }
 //详情页收藏按钮接口
 let storeCollet = function (data , callback) {
   sendAxios('post','/user_loginUser.action',data).then((res)=>{
+    callback(res)
+  })
+}
+//详情页接口
+let getDetail = function (data,callback) {
+  sendAxios('post','/goodsinfo_queryGoodsFindById.action',data).then((res)=>{
+    console.log(res)
     callback(res)
   })
 }
@@ -55,9 +78,12 @@ export {
   getNoticeDetail,
   getRegister,
   getRegisterCode,
+  getShopcart,
   getPhoneCode,
   getLogin,
-  storeCollet
+  storeCollet,
+  changeNunbers,
+  getDetail
 }
 
 

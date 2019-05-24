@@ -134,9 +134,10 @@ import img1 from 'static/img/100001416_L.jpg'
 import img2 from 'static/img/100001416_L1.jpg'
 import img3 from 'static/img/100001416_L2.jpg'
 import {storeCollet} from  'Api/request'
-
-    export default {
+import {getDetail} from 'Api/request'
+export default {
     name: 'DetaiBanner',
+    props:['id'],
     data () {
       return {
         num: 1,
@@ -169,7 +170,9 @@ import {storeCollet} from  'Api/request'
       }
     },
       mounted () {
-
+        getDetail({goodsId:3},(res)=>{
+            console.log(res.data)
+        })
       },
       methods: {
         //鼠标移入选中图片边框

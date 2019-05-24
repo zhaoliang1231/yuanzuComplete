@@ -2,21 +2,21 @@
   <!--个人资料-->
   <div class="user-content">
     <h3>我的资料</h3>
-    <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
+    <el-form :label-position="labelPosition" label-width="80px"">
       <el-form-item label="姓名">
-        <el-input v-model="formLabelAlign.name" readonly="readonly"></el-input>
+        <div>陈庚</div>
       </el-form-item>
       <el-form-item label="生日">
-        <el-input v-model="formLabelAlign.birth" readonly="readonly"></el-input>
+        <div>陈庚</div>
       </el-form-item>
       <el-form-item label="电子邮箱">
-        <el-input v-model="formLabelAlign.email" readonly="readonly"></el-input>
+        <div>陈庚</div>
       </el-form-item>
       <el-form-item label="电话">
-        <el-input v-model="formLabelAlign.telphone" readonly="readonly"></el-input>
+        <div>陈庚</div>
       </el-form-item>
       <el-form-item label="推荐电话">
-        <el-input v-model="formLabelAlign.RecommenderTelephone" readonly="readonly"></el-input>
+        <div>陈庚</div>
       </el-form-item>
     </el-form>
     <el-button-group>
@@ -32,19 +32,15 @@ import {personalData} from 'Api/request_cg.js'
 export default {
   data () {
     return {
-      labelPosition: 'left',
-      formLabelAlign: {
-        name: '',
-        birth: '',
-        email: '',
-        telphone: '',
-        RecommenderTelephone: ''
-      }
+      labelPosition: 'left'
     }
   },
   mounted () {
-    personalData({}, (res) => {
-      console.log(res.data)
+    console.log(this.$store)
+    personalData({
+      userId: window.localStorage.getItem('token') || ''
+    }, (res) => {
+      this.$store.commit('getuser', res.data[0])
     })
   }
 }

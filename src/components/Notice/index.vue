@@ -38,6 +38,7 @@
     import {getNoticeDetail} from 'Api/request'
     export default {
       name: 'index',
+       props:['id'],
       data () {
         return{
           lists:[],
@@ -45,10 +46,11 @@
         }
       },
       mounted () {
-        getNoticeDetail({id:this.$route.params.id},(res)=>{
-          this.lists = res.data[this.$route.params.id-1]
+        getNoticeDetail({id:this.id},(res)=>{
+          console.log(this.$route.params)
+          this.lists = res.data[this.id-1]
           //时间格式转换
-          const d = new Date(res.data[this.$route.params.id-1].annDate)
+          const d = new Date(res.data[this.id-1].annDate)
           const resDate = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate()
           this.annDate = resDate
         })
