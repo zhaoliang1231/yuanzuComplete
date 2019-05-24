@@ -174,6 +174,7 @@ export default {
   },
   mounted () {
     getDetail({goodsId: 3}, (res) => {
+      console.log(this.$route.params)
       this.goodLists = res.data
       this.imgLists = res.data.imgs
       console.log(res.data)
