@@ -34,6 +34,12 @@ let getPhoneCode = function (data,callback) {
     callback(res)
   })
 }
+//验证码接口
+let getRegisterCode = function (data,callback) {
+  sendAxios('post','/user_sendVerifyCode.action',data).then((res)=>{
+    callback(res)
+  })
+}
 //登录接口
 let getLogin = function (data , callback) {
   sendAxios('post','/user_loginUser.action',data).then((res)=>{
@@ -47,6 +53,12 @@ let storeCollet = function (data , callback) {
     callback(res)
   })
 }
+//详情页接口
+let getDetail = function (data,callback) {
+  sendAxios('post','/goodsinfo_queryGoodsFindById.action',data).then((res)=>{
+    callback(res)
+  })
+}
 
 
 export {
@@ -57,7 +69,8 @@ export {
   getShopcart,
   getPhoneCode,
   getLogin,
-  storeCollet
+  storeCollet,
+  getDetail
 }
 
 
