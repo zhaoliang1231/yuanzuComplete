@@ -23,8 +23,8 @@ router.beforeEach((to,from,next)=>{
     if(token){
       next()
     }else{
-      // next('/login')
-      next()
+      next('/login')
+      // next()
     }
   }else{
     next()

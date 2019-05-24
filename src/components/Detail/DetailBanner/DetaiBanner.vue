@@ -153,6 +153,8 @@ export default {
           {img: img2},
           {img: img3}
         ],
+        //商品信息
+        goodLists:[],
         //规格数据
         specifications: [
           {name: "6号"},
@@ -170,8 +172,9 @@ export default {
       }
     },
       mounted () {
-        getDetail({goodsId:3},(res)=>{
-            console.log(res.data)
+        getDetail({goodsId:15},(res)=>{
+          console.log(res)
+            this.goodLists = res.data
         })
       },
       methods: {
@@ -196,6 +199,7 @@ export default {
         },
         open: function () {
           storeCollet({goodsId:1},(res)=>{
+            console.log(res)
             if (res.data.userState == 1){
               this.$message({
                 message: '已添加到我的收藏',
