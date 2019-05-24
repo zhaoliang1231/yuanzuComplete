@@ -1,7 +1,7 @@
 <template>
   <!--修改电话-->
   <div class="user-content">
-    <h3>更改电话号码</h3>
+    <h3>更改电子邮箱</h3>
     <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
       <el-form-item label="输入邮箱" prop="email">
         <el-input v-model="ruleForm2.email" auto-complete="off"></el-input>

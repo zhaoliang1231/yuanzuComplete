@@ -16,6 +16,7 @@ import PersonalData from '../components/MemberCenter/PersonalCenter/PersonalData
 import Invoice from '../components/MemberCenter/PersonalCenter/Invoice/index.vue'
 import ReceivingAddress from '../components/MemberCenter/PersonalCenter/ReceivingAddress/index.vue'
 import AddAddress from '../components/MemberCenter/PersonalCenter/AddAddress/index.vue'
+import Editaddress from '../components/MemberCenter/PersonalCenter/Editaddress/index.vue'
 import ChangePassword from '../components/MemberCenter/PersonalCenter/ChangePassword/index.vue'
 import EditProfile from '../components/MemberCenter/PersonalCenter/EditProfile/index.vue'
 import AlterEmail from '../components/MemberCenter/PersonalCenter/AlterEmail/index.vue'
@@ -134,6 +135,11 @@ export default new Router({
           component: AddAddress
         },
         {
+          path: 'personalCenter/editaddress',
+          name: 'Editaddress',
+          component: Editaddress
+        },
+        {
           path: 'personalCenter/orderList',
           name: 'OrderList',
           component: OrderList
@@ -183,11 +189,16 @@ export default new Router({
         }
       ]
     },
-    //分类And搜索页
+    // 分类And搜索页
     {
       path: '/classfiy',
       name: 'classfiy',
-      component: Classfiy
+      component: Classfiy,
+      props: (route) => ({
+        id: route.query.id,
+        typeNo: route.query.typeNo,
+        name: route.query.name
+      })
     }
   ]
 })

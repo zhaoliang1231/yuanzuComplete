@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import cart from './cart'
+import user from './user'
 Vue.use(Vuex);
 const state = {
   showFooter:true,
@@ -10,7 +11,8 @@ const state = {
 const store = new Vuex.Store({
   state,
   modules: {
-    cart: cart
+    cart: cart,
+    user: user
   }
 });
 export default store

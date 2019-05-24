@@ -4,8 +4,8 @@
           {{pangd[op].name}} <span class="el-icon-caret-bottom"></span>
         </div>
         <ul v-if="toggle" class="drop-down-box">
-          <li class="drop-down-content mn-a fontSize-12">{{pangd[op].describe1}}</li>
-          <li class="drop-down-content mn-a fontSize-12">{{pangd[op].describe2}}</li>
+          <li class="drop-down-content mn-a fontSize-12" @click="dianji1">{{pangd[op].describe1}}</li>
+          <li class="drop-down-content mn-a fontSize-12" @click="dianji2">{{pangd[op].describe2}}</li>
         </ul>
       </div>
 </template>
@@ -30,6 +30,13 @@ export default {
       if (this.isHide) {
         this.toggle = bool
       }
+    },
+    dianji1 () {
+      console.log(5555)
+      this.$emit('Sort', 'desc')
+    },
+    dianji2 () {
+      this.$emit('Sort', 'asc')
     }
   }
 }

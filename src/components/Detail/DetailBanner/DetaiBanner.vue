@@ -18,7 +18,7 @@
             </span>
             <span>></span>
             <span>
-                <a class="a-hover-pink" href="">6号溪云初起巧克力蛋糕</a>
+                <a class="a-hover-pink" href="">{{goodLists.goodsTitle}}</a>
             </span>
         </div>
         <div class="product">
@@ -45,13 +45,13 @@
                 </div>
             </div>
             <div class="product_value">
-                <h1>溪云初起巧克力蛋糕</h1>
+                <h1>{{goodLists.goodsName}}</h1>
                 <p class="summary">寓意祥云瑞起，吉祥安康</p>
                 <!--产品价格-->
                 <dl>
                     <dt>优惠价:</dt>
                     <dd>
-                        <strong>¥198.00</strong>
+                        <strong>¥{{goodLists.goodsPrice}}</strong>
                     </dd>
                 </dl>
                 <!--规格选择-->
@@ -136,80 +136,86 @@ import img3 from 'static/img/100001416_L2.jpg'
 import {storeCollet} from  'Api/request'
 import {getDetail} from 'Api/request'
 export default {
-    name: 'DetaiBanner',
-    props:['id'],
-    data () {
-      return {
-        num: 1,
-        // 动态绑定class 标识
-        current: 0,
-        //规格选项标识
-        current1: 0,
-        //蛋糕夹层标识
-        current2: 0,
-        min_img: img1,
-        imgList: [
-          {img: img1},
-          {img: img2},
-          {img: img3}
-        ],
-        //规格数据
-        specifications: [
-          {name: "6号"},
-          {name: "8号"}
-        ],
-        //蛋糕夹层数据
-        selectorList:[
-          {name: "香芋+香芋（网红款）"},
-          {name: "布丁+香芋"},
-          {name: "布丁+燕麦"},
-          {name: "水果+香芋"},
-          {name: "水果+燕麦"},
-          {name: "香芋+燕麦"}
-    ]
+  name: 'DetaiBanner',
+  props: ['id'],
+  data () {
+    return {
+      num: 1,
+      // 动态绑定class 标识
+      current: 0,
+      // 规格选项标识
+      current1: 0,
+      // 蛋糕夹层标识
+      current2: 0,
+      min_img: img1,
+      imgList: [
+        {img: img1},
+        {img: img2},
+        {img: img3}
+      ],
+      // 商品信息
+      goodLists: [],
+      //商品图片
+      imgLists:[],
+      // 规格数据
+      specifications: [
+        {name: '6号'},
+        {name: '8号'}
+      ],
+      // 蛋糕夹层数据
+      selectorList: [
+        {name: '香芋+香芋（网红款）'},
+        {name: "布丁+香芋"},
+        {name: "布丁+燕麦"},
+        {name: "水果+香芋"},
+        {name: "水果+燕麦"},
+        {name: "香芋+燕麦"}
+      ]}
+  },
+  mounted () {
+    getDetail({goodsId: 3}, (res) => {
+      this.goodLists = res.data
+      this.imgLists = res.data.imgs
+      console.log(res.data)
+    })
+  },
+  methods: {
+    // 鼠标移入选中图片边框
+    changeBg: function (i,index) {
+      this.current = index
+      this.min_img = i.img
+    },
+    changBorder: function (index) {
+      this.current1 = index
+    },
+    changBorder1: function (index) {
+      this.current2 = index
+    },
+    addNum: function () {
+      this.num++
+    },
+    reduceNum: function () {
+      if (this.num > 1) {
+        this.num--
       }
     },
-      mounted () {
-        getDetail({goodsId:1},(res)=>{
-
-        })
-      },
-      methods: {
-        //鼠标移入选中图片边框
-        changeBg: function (i,index) {
-            this.current = index
-            this.min_img = i.img
-        },
-        changBorder: function (index) {
-          this.current1 = index
-        },
-        changBorder1: function (index) {
-          this.current2 = index
-        },
-        addNum: function () {
-          this.num++
-        },
-        reduceNum: function () {
-          if (this.num > 1) {
-            this.num--
-          }
-        },
-        open: function () {
-          storeCollet({goodsId:1},(res)=>{
-            if (res.data.userState == 1){
-              this.$message({
-                message: '已添加到我的收藏',
-                type: 'success',
-                duration: 1000
-              })
-            }else{
-              alert("应跳转登录页面")
-            }
+    open: function () {
+      storeCollet({goodsId: 1}, (res) => {
+        console.log(res)
+        if (res.data.userState === 1) {
+          this.$message({
+            message: '已添加到我的收藏',
+            type: 'success',
+            duration: 1000
           })
-
+        } else {
+          alert("应跳转登录页面")
         }
-      }
+      })
+
+    }
   }
+}
 </script>
 
 <style scoped lang="less">

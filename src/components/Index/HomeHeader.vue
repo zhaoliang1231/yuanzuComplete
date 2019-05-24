@@ -35,7 +35,7 @@ export default {
     return {
       api,
       banner: [],
-      lists:[]
+      lists: []
     }
   },
   beforeMount () {
@@ -46,9 +46,9 @@ export default {
     })
   },
   mounted () {
-    getNotices({},(res)=>{
-    this.lists = res.data
-})
+    getNotices({}, (res) => {
+      this.lists = res.data
+    })
   }
 }
 </script>
