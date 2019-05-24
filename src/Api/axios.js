@@ -18,6 +18,7 @@ function sendAxios(methods ,url,data = {}) {
     axios({
       method: methods,
       url: api + url,
+ 
 
       data: qs.stringify(data),
       headers: {

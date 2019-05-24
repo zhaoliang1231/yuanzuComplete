@@ -18,7 +18,7 @@
             </span>
             <span>></span>
             <span>
-                <a class="a-hover-pink" href="">6号溪云初起巧克力蛋糕</a>
+                <a class="a-hover-pink" href="">{{goodLists.goodsTitle}}</a>
             </span>
         </div>
         <div class="product">
@@ -45,13 +45,13 @@
                 </div>
             </div>
             <div class="product_value">
-                <h1>溪云初起巧克力蛋糕</h1>
+                <h1>{{goodLists.goodsName}}</h1>
                 <p class="summary">寓意祥云瑞起，吉祥安康</p>
                 <!--产品价格-->
                 <dl>
                     <dt>优惠价:</dt>
                     <dd>
-                        <strong>¥198.00</strong>
+                        <strong>¥{{goodLists.goodsPrice}}</strong>
                     </dd>
                 </dl>
                 <!--规格选择-->
@@ -155,6 +155,8 @@ export default {
       ],
       // 商品信息
       goodLists: [],
+      //商品图片
+      imgLists:[],
       // 规格数据
       specifications: [
         {name: '6号'},
@@ -172,6 +174,9 @@ export default {
   },
   mounted () {
     getDetail({goodsId: 3}, (res) => {
+      console.log(this.$route.params)
+      this.goodLists = res.data
+      this.imgLists = res.data.imgs
       console.log(res.data)
     })
   },
