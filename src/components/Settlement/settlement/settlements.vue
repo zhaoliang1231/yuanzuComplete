@@ -1,9 +1,9 @@
 <template>
       <div class="settlement_box">
         <p class="fontSize-14">订单合计</p>
-        <p class="" style="border: none" ><em class="fl">商品数量总计：</em><em class="fr">2</em></p>
-        <p><em class="fl">商品金额总计（不含运费）：</em><em class="fr font-pink">¥456.00</em></p>
-        <span>总计：¥<em>456.00</em></span>
+        <p class="" style="border: none" ><em class="fl">商品数量总计：</em><em class="fr">{{total.number}}</em></p>
+        <p><em class="fl">商品金额总计（不含运费）：</em><em class="fr font-pink">¥{{total.price}}</em></p>
+        <span>总计：¥<em>{{total.price}}}</em></span>
         <div>
           <router-link to="/settlement/fillorder" class="hover-bg-pink">结算</router-link>
           <router-link to="/" class="hover-bg-pink">继续购物</router-link>
@@ -13,7 +13,8 @@
 
 <script>
 export default {
-  name: 'settlements'
+  name: 'settlements',
+  props: ['total']
 }
 </script>
 

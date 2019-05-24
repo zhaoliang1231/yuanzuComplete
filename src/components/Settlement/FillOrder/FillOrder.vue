@@ -262,6 +262,9 @@
       }
       }
     },
+    computed: {
+      lists: () => this.$store.state.cart.cartLists
+    },
     methods: {
       isToSub: function () {
         if (this.tosub) {
