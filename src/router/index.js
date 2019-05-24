@@ -16,6 +16,7 @@ import PersonalData from '../components/MemberCenter/PersonalCenter/PersonalData
 import Invoice from '../components/MemberCenter/PersonalCenter/Invoice/index.vue'
 import ReceivingAddress from '../components/MemberCenter/PersonalCenter/ReceivingAddress/index.vue'
 import AddAddress from '../components/MemberCenter/PersonalCenter/AddAddress/index.vue'
+import Editaddress from '../components/MemberCenter/PersonalCenter/Editaddress/index.vue'
 import ChangePassword from '../components/MemberCenter/PersonalCenter/ChangePassword/index.vue'
 import EditProfile from '../components/MemberCenter/PersonalCenter/EditProfile/index.vue'
 import AlterEmail from '../components/MemberCenter/PersonalCenter/AlterEmail/index.vue'
@@ -31,7 +32,7 @@ import Settlement from '../components/Settlement/index'
 import ShopCart from '../components/Settlement/ShopCart/ShopCart'
 import FillOrder from '../components/Settlement/FillOrder/FillOrder'
 import SubmitSuccess from '../components/Settlement/SubmitSuccess/SubmitSuccess'
-// meta: { requiresAuth: true }判断是否登录的路由，添加这个meta标记
+
 //分类And搜索页
 import Classfiy from '../components/Classfiy/index.vue'
 
@@ -50,7 +51,7 @@ export default new Router({
       name: 'Login',
       component: Login
     },
-    // 购物车流程
+	  // 购物车流程
     {
       path: '/settlement',
       name: 'Settlement',
@@ -60,20 +61,17 @@ export default new Router({
         {
           path: 'shopcart',
           name: 'shopcart',
-          component: ShopCart,
-          meta:{requireAuth:true}
+          component: ShopCart
         },
         {
           path: 'fillorder',
           name: 'fillorder',
-          component: FillOrder,
-          meta:{requireAuth:true}
+          component: FillOrder
         },
-        {
+		{
           path: 'submitsuccess',
           name: 'submitsuccess',
-          component: SubmitSuccess,
-          meta:{requireAuth:true}
+          component: SubmitSuccess
         }
       ]
     },
@@ -134,6 +132,11 @@ export default new Router({
           component: AddAddress
         },
         {
+          path: 'personalCenter/editaddress',
+          name: 'Editaddress',
+          component: Editaddress
+        },
+        {
           path: 'personalCenter/orderList',
           name: 'OrderList',
           component: OrderList
@@ -154,20 +157,14 @@ export default new Router({
     // 公告页面
     {
       name: 'Notice',
-      path: '/notice',
-      component: Notice,
-      props:(route)=>({
-        id:route.query.id
-      })
+      path: '/notice/:id',
+      component: Notice
     },
     // 详情页
     {
       name: 'detail',
       path: '/detail',
       component: Detail,
-      props:(route)=>({
-        id:route.query.id
-      }),
       children: [
         // 商品介绍
         {

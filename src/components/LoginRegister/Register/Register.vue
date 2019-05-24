@@ -132,7 +132,7 @@
             return {
               value1:'',
               //勾选框
-              checked:false,
+              checked:true,
                 //验证码图片路径
                 imgDataURL: '',
               //验证码
@@ -202,30 +202,24 @@
           // console.log(this.ruleForm)
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              // 判断同意协议是否勾选
-              if(this.checked == true){
-                //全部验证成功调取接口
-                getRegister(
-                  {
-                    userPwd: md5(this.ruleForm.pass),userPhone:this.ruleForm.user_phone,
-                    userEmail:this.ruleForm.email,userBirthday:this.value1
-                  },
-                  (res)=>{
-                    //当注册成功 提示
-                    if(res.success ==true){
-                      this.$message({
-                        message:'注册成功!',
-                        type: 'success'
-                      })
-                    }else{
-                      this.$message.error('注册失败!')
-                    }
-                    console.log(res)
-                  })
-              }else{
-                this.$message.error('请勾选同意协议!');
-              }
-
+              //全部验证成功调取接口
+              getRegister(
+                {
+                 userPwd: md5(this.ruleForm.pass),userPhone:this.ruleForm.user_phone,
+                  userEmail:this.ruleForm.email,userBirthday:this.value1
+                },
+                (res)=>{
+                  //当注册成功 提示
+                  if(res.success ==true){
+                    this.$message({
+                      message:'注册成功!',
+                      type: 'success'
+                    })
+                  }else{
+                    this.$message.error('注册失败!')
+                  }
+                console.log(res)
+              })
             } else {
               console.log('error submit!!')
               return false

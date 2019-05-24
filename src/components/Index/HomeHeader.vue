@@ -15,9 +15,19 @@
             <span class="fontSize-15">元祖公告</span>
           </div>
           <ul class="home-Notice-content-box">
-            <li class="home-Notice-content" v-for="item in lists">
-              <router-link :to="'/notice?id='+item.id">
-                <span :title="item.annTiale" class="mn-a fontSize-12">{{item.annTiale}}</span>
+            <li class="home-Notice-content">
+              <router-link to="/notice">
+                <span title="【公告】元祖2018年中秋月饼报废公告" class="mn-a fontSize-12">【公告】元祖2018年中秋月饼报废公告</span>
+              </router-link>
+            </li>
+            <li class="home-Notice-content">
+              <router-link to="/notice">
+                <span title="【公告】元祖2018年中秋月饼报废公告" class="mn-a fontSize-12">【公告】元祖2018年中秋月饼报废公告</span>
+              </router-link>
+            </li>
+            <li class="home-Notice-content">
+              <router-link to="/notice">
+                <span title="【公告】元祖2018年中秋月饼报废公告" class="mn-a fontSize-12">【公告】元祖2018年中秋月饼报废公告</span>
               </router-link>
             </li>
           </ul>
@@ -28,14 +38,12 @@
 </template>
 <script>
 import {homeBanner} from 'Api/request_yf'
-import {getNotices} from  'Api/request'
 import {api} from 'Api/api'
 export default {
   data () {
     return {
       api,
-      banner: [],
-      lists:[]
+      banner: []
     }
   },
   beforeMount () {
@@ -44,11 +52,6 @@ export default {
         this.banner.push(res.data[i])
       }
     })
-  },
-  mounted () {
-    getNotices({},(res)=>{
-    this.lists = res.data
-})
   }
 }
 </script>

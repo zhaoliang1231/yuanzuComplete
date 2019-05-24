@@ -5,7 +5,7 @@
       <h4 class="redTitle">猜你喜欢</h4>
       <ul class="likeProductList">
         <li v-for=" i in list">
-          <a href="#">
+          <a href="/p/100000027">
             <img :src="i.img" :alt="i.name">
           </a>
           <em>¥{{i.monery}}</em>

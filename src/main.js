@@ -10,7 +10,6 @@ import Public from './static/css/public.less'
 import Index from './static/css/index.less'
 // 引入放大镜
 import vueMagnify from 'vue-magnify'
-import store from "./store";
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(Public)
@@ -37,7 +36,6 @@ new Vue({
   el: '#app',
   router,
   axios,
-  store,
   components: { App },
   template: '<App/>'
 })
