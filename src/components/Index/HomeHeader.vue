@@ -27,15 +27,14 @@
     </div>
 </template>
 <script>
-import {homeBanner} from 'Api/request_yf'
-import {getNotices} from  'Api/request'
+import {homeBanner, getNotices} from 'Api/request_yf'
 import {api} from 'Api/api'
 export default {
   data () {
     return {
       api,
       banner: [],
-      lists:[]
+      lists: []
     }
   },
   beforeMount () {
@@ -46,9 +45,9 @@ export default {
     })
   },
   mounted () {
-    getNotices({},(res)=>{
-    this.lists = res.data
-})
+    getNotices({}, (res) => {
+      this.lists = res.data
+    })
   }
 }
 </script>
