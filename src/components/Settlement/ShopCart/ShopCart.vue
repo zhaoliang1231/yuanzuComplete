@@ -21,7 +21,7 @@
 
       </div>
       <ul>
-        <li>
+        <li v-for="(item, index) in lists" :key="index">
           <div class="spct-commodity-information-box">
             <a href="#" class="spct-ci-img-a">
               <img src="../../../static/img/100001433_M.jpg" alt="">
@@ -42,17 +42,22 @@
             </div>
           </div>
           <div class="spct-remove-box">
-            <a href="javascript:void(0);" class="a-hover-pink">移除</a>
+            <a href="javascript:void(0);" @click="deleteList(index)" class="a-hover-pink">移除</a>
           </div>
         </li>
       </ul>
     </div>
-    <settlements v-if="cartIsNull==false"></settlements>
+    <settlements :total="total" v-if="cartIsNull==false"></settlements>
   </div>
 </template>
 <script>
   var reg = /^\d{1,}$/
   import settlements from '../settlement/settlements.vue'
+  import {getShopcart} from "Api/request";
+  import {changeNunbers} from "Api/request";
+
+  import axios from 'axios'
+  import qs from 'qs'
 
   export default {
     name: 'shopcart',
@@ -62,8 +67,22 @@
     data() {
       return {
         number: 1,
-        cartIsNull: true
+        cartIsNull: false,
       }
+    },
+    computed: {
+      //获取购物车列表
+      lists: function () {
+        return this.$store.state.cart.cartLists
+      },
+      total:function() {
+        console.log(this.$store)
+        return this.$store.getters.total
+      }
+    },
+    mounted() {
+      this.getShopcartdata()
+      console.log(this.lists);
     },
     methods: {
       isnumber: function () {
@@ -74,19 +93,42 @@
           this.number = 1
         }
       },
+      deleteList (index) {
+        this.lists.splice(index, 1)
+        this.$store.commit('changeCartLists', this.lists)
+      },
       NumberSubtract: function () {
         if (this.number > 1) {
           this.number--
+          this.changeNumber(0)
         }
-      },
+      }
+      ,
       NumberAdd: function () {
         if (this.number > 0) {
           this.number++
+          this.changeNumber(1)
         }
-      },
+      }
+      ,
       ShopTotal: function () {
 
+      },
+      getShopcartdata: function () {
+        getShopcart(
+          {currentPage: 1}, (res) => {
+            console.log(res);
+          });
+      },
+      changeNumber: function (num) {
+        changeNunbers(
+          {
+            goodsId: 8, math: num
+          }, (res) => {
+            console.log(res);
+          });
       }
+      ,
     }
   }
 </script>
@@ -100,17 +142,17 @@
       width: 460px;
       margin: 0 auto;
       padding: 98px 0px;
-      .sn-n-box{
+      .sn-n-box {
         float: left;
         width: auto;
-        padding:0px;
+        padding: 0px;
         margin-left: 25px;
         margin-top: 30px;
-        p{
+        p {
           font-size: 17px;
           margin-bottom: 5px;
         }
-        a{
+        a {
           width: 80px;
           height: 30px;
           background-color: #dc5551;

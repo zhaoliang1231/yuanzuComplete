@@ -6,7 +6,69 @@
           收件人信息
         </p>
         <div class="fo-right-box">
-          <button class="a-hover-pink">新增收货人地址</button>
+          <div class="fo-address-box">
+              <ul class="fo-address-ul">
+                <li>
+                  <label ><input type="radio">
+                    <em>赵亮</em>
+                    <em>云南省 保山市 腾冲 酆都</em>
+                    <em>120000</em>
+                    <em>13800000000</em>
+                  </label>
+                  <span @click="addressIshide=true">
+
+                  </span>
+                </li>
+              </ul>
+          </div>
+          <button class="a-hover-pink" @click="addressIshide=true" >新增收货人地址</button>
+          <div class="fo-address-box" v-if="addressIshide" style="position: relative">
+            <div class="fo-address-n-box">
+              <p class="fontSize-14 margin-bottom-12">新增收货人地址</p>
+
+              <!--新增地址-->
+              <el-form ref="form" :model="sizeForm" :rules="rules" label-width="80px" size="mini">
+                <el-form-item label="姓名" prop="name">
+                  <el-input v-model="sizeForm.name"></el-input>
+                </el-form-item>
+                <span style="float: left;line-height: 28px;padding-left: 10px"><em class="font-pink">*</em> 所在区域</span>
+                <VDistpicker v-model="addressDetail" @selected="onSelected">
+                </VDistpicker>
+                <el-form-item label="详细地址" prop="Address">
+                  <el-input v-model="sizeForm.Address"></el-input>
+                </el-form-item>
+                <el-form-item label="邮编" prop="zipcode">
+                  <el-input v-model.number="sizeForm.zipcode"></el-input>
+                </el-form-item>
+                <el-form-item label="电话号码" prop="telphone">
+                  <el-input v-model="sizeForm.telphone"></el-input>
+                </el-form-item>
+                <el-form-item label="性别">
+                  <el-select v-model="sizeForm.sex" placeholder="请选择">
+                    <el-option label="男" value="男"></el-option>
+                    <el-option label="女" value="女"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="生日">
+                  <el-col :span="11">
+                    <el-date-picker type="date" placeholder="选择日期" v-model="sizeForm.date1" style="width: 100%;"></el-date-picker>
+                  </el-col>
+                </el-form-item>
+                <el-form-item label="邮箱" prop="email">
+                  <el-input v-model="sizeForm.email"></el-input>
+                </el-form-item>
+                <el-form-item size="large" class="address-button-box">
+                    <el-button type="danger" @click="onSubmitAddres">保存地址</el-button>
+                    <el-button @click="addressIshide=false" type="info">取消</el-button>
+                </el-form-item>
+              </el-form>
+
+
+
+
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -82,8 +144,8 @@
 
             <div class="fo-AOG-time">
               预计到货时间：
-              <el-date-picker v-model="value1" type="datetime"></el-date-picker>
-              <span> ( 提示：<em class="font-pink">* 必填</em>  北京地区最早送达时间为上午12点，实际到货时间可能有0.5~1小时的偏差哦~  )</span>
+              <el-date-picker v-model="value1" style="position: absolute" type="datetime"></el-date-picker>
+              <span style="padding-left: 180px"> ( 提示：<em class="font-pink">* 必填</em>  北京地区最早送达时间为上午12点，实际到货时间可能有0.5~1小时的偏差哦~  )</span>
             </div>
           </div>
 
@@ -105,7 +167,13 @@
         </p>
         <div class="fo-right-box">
 
-          <p>温馨提示：使用支付宝或银联支付更快捷</p>
+          <div>温馨提示：使用支付宝或银联支付更快捷
+
+          </div>
+          <p>
+            <label><input type="radio" name="invoice" value="支付宝" checked>支付宝</label>
+            <label><input type="radio" name="invoice" value="微信" >微信</label>
+          </p>
         </div>
       </div>
       <div class="fo-center-box">
@@ -133,7 +201,7 @@
             <p><span>应付金额:</span>
               <em>¥396.00</em>
             </p>
-            <a v-on:click.stop="tosub" href="/settlement/submitsuccess" class="hover-bg-pink">下订单</a>
+            <button v-on:click="isToSub" class="hover-bg-pink">下订单</button>
           </div>
         </div>
       </div>
@@ -143,23 +211,72 @@
 </template>
 
 <script>
+  import AddAddress from '../../MemberCenter/PersonalCenter/AddAddress/index.vue'
+  import VDistpicker from 'v-distpicker'
+  var validPhone = (rule, value, callback) => {
+    if (!value) {
+      callback(new Error('请输入电话号码'))
+    } else if (!isvalidPhone(value)) {
+      callback(new Error('请输入正确的11位手机号码'))
+    } else {
+      callback()
+    }
+  }
+  var validatePass = (rule, value, callback) => {
+    if (value === '') {
+      callback(new Error('详细地址不能为空'));
+    } else {
+      callback();
+    }
+  };
   export default {
     name: 'FillOrder',
+    components: {
+      AddAddress,
+      VDistpicker
+    },
     data() {
       return {
         value1: '',
-        tosub:false
+        tosub: true,
+        isAddress:false,
+        addressIshide:false,
+       sizeForm: {
+         name: '',
+           country: '',
+           province: '',
+           city: '',
+           addressDetail:'',
+           zipcode: '',
+           telphone: '',
+           sex: '',
+           Address:'',
+           DetailedAddress:'',
+           email: ''
+       },
+      rules: {
+        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }, { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
+          zipcode: [{type: 'number', message: '邮编必须为数字'}],
+          telphone: [{ required: true, trigger: 'blur', validator: validPhone }],
+          Address: [{ required: true, trigger: 'blur', validator: validatePass }]
+      }
       }
     },
-    methods:{
-      isToSub:function (event) {
-        console.log(event);
-        if(this.tosub){
+    computed: {
+      lists: () => this.$store.state.cart.cartLists
+    },
+    methods: {
+      isToSub: function () {
+        if (this.tosub) {
+          console.log('66666')
+          window.location.href = '/settlement/submitsuccess'
+        } else {
 
-        }else {
-          event.preventDefault()
         }
-      }
+      },
+      onSelected(data) {
+        console.log(JSON.stringify(data))
+      },
     }
   }
 </script>
@@ -175,6 +292,46 @@
   //   color:#fff;
   // }
   //}
+  .distpicker-address-wrapper{
+    max-height: 28px;
+    margin-bottom: 15px;
+    margin-left: 80px;
+    select{
+      height: 28px;
+      line-height: 28px;
+      padding: 0;
+    }
+  }
+  .fo-address-n-box{
+    position: absolute;
+    z-index: 99;
+    min-width: 694px;
+    box-shadow: 0 0 15px #ccc;
+    border: 1px solid #c7c7c7;
+    background-color: #ffffff;
+    padding: 10px;
+  }
+  .user-content{
+    /deep/
+    .el-form{
+      .el-form-item{
+        .el-form-item__content{
+          .el-input{
+            width: 353px;
+          }
+        }
+      }
+      .el-form-item:nth-child(2),.el-form-item:nth-child(5){
+        .el-form-item__content{
+          .el-input{
+            width: 125px;
+          }
+        }
+      }
+    }
+  }
+
+
   .fo-content-box {
     padding: 0px 0px 80px 0px;
     border: 1px solid #c7c7c7;
@@ -213,7 +370,7 @@
   }
 
   .fo-center-box:nth-child(1) {
-    height: 110px;
+    min-height: 110px;
   }
 
   .fo-center-box:nth-child(2) {
@@ -277,8 +434,14 @@
       }
       .fo-AOG-time {
         padding: 15px 20px;
+        position: relative;
         span {
           line-height: 20px;
+          height: 20px;
+        }
+        input[type='text']{
+          line-height: 20px;
+          padding-left: 25px;
         }
       }
 
@@ -308,8 +471,18 @@
 
   .fo-center-box:nth-child(3) {
     .fo-right-box {
+      div{
+        padding-left: 13px;
+      }
       p {
         padding: 15px 13px 58px 0px;
+        padding-left: 13px;
+        label{
+          input[type='radio']{
+            margin-right: 3px;
+          }
+          padding-right: 10px;
+        }
       }
     }
 
@@ -326,27 +499,27 @@
         label {
           padding-left: 13px;
         }
-        input[type='radio']{
+        input[type='radio'] {
           margin-right: 5px;
         }
       }
-      div:last-child{
+      div:last-child {
         border-left: 1px solid #cdcdcd;
         float: left;
         padding: 0px 34px 0px 65px;
         width: 435px;
-        p{
+        p {
           line-height: 33px;
           display: inline-block;
           width: 100%;
-          span{
+          span {
             float: left;
           }
-          em{
+          em {
             float: right;
           }
         }
-        a{
+        button {
           width: 78px;
           height: 28px;
           line-height: 28px;
@@ -388,5 +561,19 @@
 
   .el-input__icon {
     line-height: 20px;
+  }
+  .address-button-box {
+   button{
+      display: inline-block !important;
+     margin:0 !important;
+     padding: 0 !important;
+     border-radius: 0 !important;
+     background: #24739E !important;
+     width: 70px !important;
+     margin-right: 20px !important;
+     span{
+       color: white !important;
+     }
+    }
   }
 </style>

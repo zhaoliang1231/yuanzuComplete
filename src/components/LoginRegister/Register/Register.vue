@@ -12,6 +12,10 @@
                 <button type="button" class="yanzheng_btn"@click="changeVerification">刷新</button>
                 <el-input type="text" v-model="ruleForm.verification" autocomplete="off"></el-input>
             </el-form-item>
+            <el-form-item label="短信验证码:" prop="phoneCode">
+                <button type="button" class="yanzheng_btn"@click="sendPhoneCode">发送验证码</button>
+                <el-input type="text" v-model="ruleForm.phoneCode" autocomplete="off"></el-input>
+            </el-form-item>
             <el-form-item>
             <div style="line-height: 25px; color: #999;font-size: 14px;height: 25px;width: 100px;margin-bottom: 10px">出生日期：</div>
                 <el-date-picker v-model="value1" type="date" placeholder="选择日期"></el-date-picker>
@@ -43,9 +47,12 @@
 </template>
 
 <script>
+    import md5 from 'js-md5'
+    import {api} from 'Api/api';
     import {getRegister} from "Api/request";
-    //引入验证码插件
-  import verification from 'verification-code';
+    import {getRegisterCode} from "Api/request";
+    import {getPhoneCode} from "Api/request";
+
     export default {
         name: 'register',
         data () {
@@ -113,14 +120,24 @@
                     callback()
                 }
             }
+            var PhoneCode = (rule,value,callback)=>{
+              if (value === '') {
+                callback(new Error('请输入验证码'))
+              } else if (value !== this.phoneCode1) {
+                callback(new Error('验证码不正确!'))
+              } else {
+                callback()
+              }
+            }
             return {
               value1:'',
               //勾选框
-              checked:true,
+              checked:false,
                 //验证码图片路径
                 imgDataURL: '',
               //验证码
                 code: '',
+              phoneCode1:'',
                 ruleForm: {
                   user_phone:'',
                   //推荐人手机
@@ -128,7 +145,10 @@
                     email: '',
                     pass: '',
                     checkpass: '',
-                    verification: ''
+                    // 验证码
+                    verification: '',
+                  //手机验证码
+                    phoneCode:''
                 },
                 rules: {
                   user_phone:[
@@ -138,7 +158,7 @@
                     {required: false,validator:validateRecommendPhone,trigger: 'blur'}
                   ],
                     email: [
-                        { required: false, validator: ValidateEmail, trigger: 'blur' }
+                        { required: true, validator: ValidateEmail, trigger: 'blur' }
                     ],
                     pass: [
                         { required: true, validator: Pass, trigger: 'blur' }
@@ -148,40 +168,70 @@
                     ],
                     verification: [
                         { required: true, validator: Verification, trigger: 'blur' }
-                    ]
+                    ],
+                    phoneCode:[
+                        { required: true, validator: PhoneCode, trigger: 'blur' }
+                  ]
                 }
             }
         },
+      mounted () {
+        this.changeVerification()
+      },
       methods: {
+          //验证码调用接口
         changeVerification () {
-          var result = verification.create()
-          // 随机生成的验证码
-          this.code = result.code
-          // 验证码图片的 base64
-          this.imgDataURL = result.dataURL
+          getRegisterCode({},(res)=>{
+            this.code = res.data.code
+            this.imgDataURL = api + res.data.imgPath
+          })
+        },
+        //手机验证码
+        sendPhoneCode(){
+          if(this.ruleForm.user_phone !=""){
+            getPhoneCode({userPhone:this.ruleForm.user_phone},(res)=>{
+              let result = res.data.toString()
+                this.phoneCode1 = result
+            })
+          }else{
+            this.$refs.ruleForm.fields[3].error = "请输入手机号码"
+          }
+
         },
         submitForm (formName) {
           // console.log(this.ruleForm)
           this.$refs[formName].validate((valid) => {
             if (valid) {
-             //全部验证成功调取接口
-              getRegister(
-                {
-                  userPwd:this.ruleForm.pass,userPhone:this.ruleForm.user_phone,
-                  userEmail:this.ruleForm.email,userBirthday:this.value1
-                },
-                (res)=>{
-                console.log(res)
-              })
+              // 判断同意协议是否勾选
+              if(this.checked == true){
+                //全部验证成功调取接口
+                getRegister(
+                  {
+                    userPwd: md5(this.ruleForm.pass),userPhone:this.ruleForm.user_phone,
+                    userEmail:this.ruleForm.email,userBirthday:this.value1
+                  },
+                  (res)=>{
+                    //当注册成功 提示
+                    if(res.success ==true){
+                      this.$message({
+                        message:'注册成功!',
+                        type: 'success'
+                      })
+                    }else{
+                      this.$message.error('注册失败!')
+                    }
+                    console.log(res)
+                  })
+              }else{
+                this.$message.error('请勾选同意协议!');
+              }
+
             } else {
               console.log('error submit!!')
               return false
             }
           })
         }
-      },
-      mounted () {
-        this.changeVerification()
       }
     }
 </script>

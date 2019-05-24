@@ -4,13 +4,13 @@
       <h3>更改密码</h3>
       <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
           <el-form-item label="原始密码" prop="pass">
-              <el-input type="password" v-model="ruleForm2.pass" auto-complete="off"></el-input>
+              <el-input type="password" v-model="ruleForm2.pass" auto-complete="off" clearable></el-input>
           </el-form-item>
           <el-form-item label="修改密码" prop="alterpass">
-              <el-input type="password" v-model="ruleForm2.alterpass" auto-complete="off"></el-input>
+              <el-input type="password" v-model="ruleForm2.alterpass" auto-complete="off" clearable></el-input>
           </el-form-item>
           <el-form-item label="确认密码" prop="checkPass">
-              <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off"></el-input>
+              <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" clearable></el-input>
           </el-form-item>
     </el-form>
     <el-button type="danger">确认 </el-button>
@@ -18,6 +18,7 @@
 </div>
 </template>
 <script>
+import {changepwd} from 'Api/request_cg.js'
 export default {
   data () {
     var validatePass = (rule, value, callback) => {
@@ -69,6 +70,11 @@ export default {
         ]
       }
     }
+  },
+  mounted () {
+    changepwd({}, (res) => {
+      console.log(res.data)
+    })
   }
 }
 </script>

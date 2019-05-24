@@ -116,12 +116,10 @@
                 </div>
                 <div class="share">
                     <div class="bianhao">商品编号：100001416</div>
-                    <template>
                     <span :plain="true" @click="open" style="cursor: pointer" >
                         <img src="../../../static/img/icon_sc.gif" alt="">
                        收藏
                     </span>
-                    </template>
 
                 </div>
             </div>
@@ -135,72 +133,85 @@ import img1 from 'static/img/100001416_L.jpg'
 // 小图路径
 import img2 from 'static/img/100001416_L1.jpg'
 import img3 from 'static/img/100001416_L2.jpg'
-
-    export default {
-    name: 'DetaiBanner',
-    data () {
-      return {
-        num: 1,
-        // 动态绑定class 标识
-        current: 0,
-        //规格选项标识
-        current1: 0,
-        //蛋糕夹层标识
-        current2: 0,
-        min_img: img1,
-        imgList: [
-          {img: img1},
-          {img: img2},
-          {img: img3}
-        ],
-        //规格数据
-        specifications: [
-          {name: "6号"},
-          {name: "8号"}
-        ],
-        //蛋糕夹层数据
-        selectorList:[
-          {name: "香芋+香芋（网红款）"},
-          {name: "布丁+香芋"},
-          {name: "布丁+燕麦"},
-          {name: "水果+香芋"},
-          {name: "水果+燕麦"},
-          {name: "香芋+燕麦"}
-    ]
+import {storeCollet} from  'Api/request'
+import {getDetail} from 'Api/request'
+export default {
+  name: 'DetaiBanner',
+  props: ['id'],
+  data () {
+    return {
+      num: 1,
+      // 动态绑定class 标识
+      current: 0,
+      // 规格选项标识
+      current1: 0,
+      // 蛋糕夹层标识
+      current2: 0,
+      min_img: img1,
+      imgList: [
+        {img: img1},
+        {img: img2},
+        {img: img3}
+      ],
+      // 商品信息
+      goodLists: [],
+      // 规格数据
+      specifications: [
+        {name: '6号'},
+        {name: '8号'}
+      ],
+      // 蛋糕夹层数据
+      selectorList: [
+        {name: '香芋+香芋（网红款）'},
+        {name: "布丁+香芋"},
+        {name: "布丁+燕麦"},
+        {name: "水果+香芋"},
+        {name: "水果+燕麦"},
+        {name: "香芋+燕麦"}
+      ]}
+  },
+  mounted () {
+    getDetail({goodsId: 3}, (res) => {
+      console.log(res.data)
+    })
+  },
+  methods: {
+    // 鼠标移入选中图片边框
+    changeBg: function (i,index) {
+      this.current = index
+      this.min_img = i.img
+    },
+    changBorder: function (index) {
+      this.current1 = index
+    },
+    changBorder1: function (index) {
+      this.current2 = index
+    },
+    addNum: function () {
+      this.num++
+    },
+    reduceNum: function () {
+      if (this.num > 1) {
+        this.num--
       }
     },
-      mounted () {
-
-      },
-      methods: {
-        //鼠标移入选中图片边框
-        changeBg: function (i,index) {
-            this.current = index
-            this.min_img = i.img
-        },
-        changBorder: function (index) {
-          this.current1 = index
-        },
-        changBorder1: function (index) {
-          this.current2 = index
-        },
-        addNum: function () {
-          this.num++
-        },
-        reduceNum: function () {
-          if (this.num > 1) {
-            this.num--
-          }
-        },
-        open: function () {
+    open: function () {
+      storeCollet({goodsId: 1}, (res) => {
+        console.log(res)
+        if (res.data.userState === 1) {
           this.$message({
             message: '已添加到我的收藏',
             type: 'success',
             duration: 1000
           })
+        } else {
+          alert("应跳转登录页面")
         }
-      }
+      })
+
+    }
   }
+}
 </script>
 
 <style scoped lang="less">

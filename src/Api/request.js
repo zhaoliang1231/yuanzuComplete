@@ -1,14 +1,9 @@
 // 所有请求放到这个文件中导出
 //存放请求方法
 import sendAxios from './axios'
-//获取注册验证码
+
 //callback回调函数传值到调用方法
 //data是传入后台的参数
-let  getRegisterCode = function (data,callback) {
-  sendAxios('post',"/user_sendVerifyCode.action",data).then((res)=>{
-    callback(res)
-  })
-}
 //首页公告接口
 let getNotices = function (data,callback) {
     sendAxios('post','/ann_querytitle.action',data).then((res)=>{
@@ -27,12 +22,68 @@ let getRegister = function (data,callback) {
     callback(res)
   })
 }
+//购物车查询接口
+let getShopcart = function (data,callback) {
+  sendAxios('post','/cart_queryCar.tFindByUser.action',data).then((res)=>{
+    callback(res)
+  })
+}
+//购物车商品数量修改
+let changeNunbers = function (data,callback) {
+  sendAxios('post','/cart_updateGoodsToCart.aciton',data).then((res)=>{
+    callback(res)
+  })
+}
+
+//手机证码接口
+let getPhoneCode = function (data,callback) {
+  sendAxios('post','/user_sendNoteCode.action',data).then((res)=>{
+    callback(res)
+  })
+}
+//验证码接口
+let getRegisterCode = function (data,callback) {
+  sendAxios('post','/user_sendVerifyCode.action',data).then((res)=>{
+    callback(res)
+  })
+}
+//登录接口
+let getLogin = function (data , callback) {
+  sendAxios('post','/user_loginUser.action',data).then((res)=>{
+    callback(res)
+  })
+}
+// let isLogin = function (data , callback) {
+//   sendAxios('post','/user_loginUser.action',data).then((res)=>{
+//     callback(res)
+//   })
+// }
+//详情页收藏按钮接口
+let storeCollet = function (data , callback) {
+  sendAxios('post','/user_loginUser.action',data).then((res)=>{
+    callback(res)
+  })
+}
+//详情页接口
+let getDetail = function (data,callback) {
+  sendAxios('post','/goodsinfo_queryGoodsFindById.action',data).then((res)=>{
+    console.log(res)
+    callback(res)
+  })
+}
+
 
 export {
-  getRegisterCode,
   getNotices,
   getNoticeDetail,
-  getRegister
+  getRegister,
+  getRegisterCode,
+  getShopcart,
+  getPhoneCode,
+  getLogin,
+  storeCollet,
+  changeNunbers,
+  getDetail
 }
 
 
