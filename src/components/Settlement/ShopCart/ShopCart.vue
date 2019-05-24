@@ -21,7 +21,7 @@
 
       </div>
       <ul>
-        <li>
+        <li v-for="(item, index) in lists" :key="index">
           <div class="spct-commodity-information-box">
             <a href="#" class="spct-ci-img-a">
               <img src="../../../static/img/100001433_M.jpg" alt="">
@@ -42,19 +42,22 @@
             </div>
           </div>
           <div class="spct-remove-box">
-            <a href="javascript:void(0);" class="a-hover-pink">移除</a>
+            <a href="javascript:void(0);" @click="deleteList(index)" class="a-hover-pink">移除</a>
           </div>
         </li>
       </ul>
     </div>
-    <settlements v-if="cartIsNull==false"></settlements>
+    <settlements :total="total" v-if="cartIsNull==false"></settlements>
   </div>
 </template>
 <script>
   var reg = /^\d{1,}$/
   import settlements from '../settlement/settlements.vue'
   import {getShopcart} from "Api/request";
+  import {changeNunbers} from "Api/request";
   import axios from 'axios'
+  import qs from 'qs'
+
   export default {
     name: 'shopcart',
     components: {
@@ -63,40 +66,24 @@
     data() {
       return {
         number: 1,
-        cartIsNull: true
+        cartIsNull: false,
+      }
+    },
+    computed: {
+      //获取购物车列表
+      lists: function () {
+        return this.$store.state.cart.cartLists
+      },
+      total:function() {
+        console.log(this.$store)
+        return this.$store.getters.total
       }
     },
     mounted() {
       this.getShopcartdata()
-      this.islogin()
+      console.log(this.lists);
     },
     methods: {
-      getShopcartdata: function () {
-        // getShopcart(
-        //   {currentPage: '1'},(res)=> {
-        //     console.log(res);
-        //   });
-      },
-      islogin:function () {
-        axios({
-          method: 'post',
-          url: '/user_loginUser.action?userPhone=111111&password=666666',
-          data: {
-            // userPhone:'111111',
-            // userPwd:'666666',
-            // userEmail:''
-          }
-        }).then((res)=>{
-          if (res.data.message == "success"){
-            console.log(res.data)
-          }else{
-            console.log('请求失败')
-          }
-        }).catch((err)=>{
-          console.log('网络错误')
-        })
-      }
-      ,
       isnumber: function () {
         if (reg.test(this.number) && this.number != 0) {
           console.log('数字')
@@ -104,23 +91,43 @@
           alert('您输入的数量不正确！')
           this.number = 1
         }
-      }
-      ,
+      },
+      deleteList (index) {
+        this.lists.splice(index, 1)
+        this.$store.commit('changeCartLists', this.lists)
+      },
       NumberSubtract: function () {
         if (this.number > 1) {
           this.number--
+          this.changeNumber(0)
         }
       }
       ,
       NumberAdd: function () {
         if (this.number > 0) {
           this.number++
+          this.changeNumber(1)
         }
       }
       ,
       ShopTotal: function () {
 
+      },
+      getShopcartdata: function () {
+        getShopcart(
+          {currentPage: 1}, (res) => {
+            console.log(res);
+          });
+      },
+      changeNumber: function (num) {
+        changeNunbers(
+          {
+            goodsId: 8, math: num
+          }, (res) => {
+            console.log(res);
+          });
       }
+      ,
     }
   }
 </script>

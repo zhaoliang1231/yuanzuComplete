@@ -28,6 +28,13 @@ let getShopcart = function (data,callback) {
     callback(res)
   })
 }
+//购物车商品数量修改
+let changeNunbers = function (data,callback) {
+  sendAxios('post','/cart_updateGoodsToCart.aciton',data).then((res)=>{
+    callback(res)
+  })
+}
+
 //手机证码接口
 let getPhoneCode = function (data,callback) {
   sendAxios('post','/user_sendNoteCode.action',data).then((res)=>{
@@ -46,7 +53,11 @@ let getLogin = function (data , callback) {
     callback(res)
   })
 }
-
+// let isLogin = function (data , callback) {
+//   sendAxios('post','/user_loginUser.action',data).then((res)=>{
+//     callback(res)
+//   })
+// }
 //详情页收藏按钮接口
 let storeCollet = function (data , callback) {
   sendAxios('post','/user_loginUser.action',data).then((res)=>{
@@ -71,6 +82,7 @@ export {
   getPhoneCode,
   getLogin,
   storeCollet,
+  changeNunbers,
   getDetail
 }
 
