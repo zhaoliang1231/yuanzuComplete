@@ -56,6 +56,7 @@ let storeCollet = function (data , callback) {
 //详情页接口
 let getDetail = function (data,callback) {
   sendAxios('post','/goodsinfo_queryGoodsFindById.action',data).then((res)=>{
+    console.log(res)
     callback(res)
   })
 }

@@ -170,8 +170,8 @@ export default {
       }
     },
       mounted () {
-        getDetail({goodsId:1},(res)=>{
-
+        getDetail({goodsId:3},(res)=>{
+            console.log(res.data)
         })
       },
       methods: {
