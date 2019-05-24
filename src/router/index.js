@@ -154,14 +154,20 @@ export default new Router({
     // 公告页面
     {
       name: 'Notice',
-      path: '/notice/:id',
-      component: Notice
+      path: '/notice',
+      component: Notice,
+      props:(route)=>({
+        id:route.query.id
+      })
     },
     // 详情页
     {
       name: 'detail',
       path: '/detail',
       component: Detail,
+      props:(route)=>({
+        id:route.query.id
+      }),
       children: [
         // 商品介绍
         {
