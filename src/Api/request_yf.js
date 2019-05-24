@@ -2,26 +2,40 @@
 // 存放请求方法
 import sendAxios from './axios'
 
-//首页轮播图
+// 首页轮播图
 let homeBanner = function (callback) {
   sendAxios('post', '/banner_querBannerShow.action').then((res) => {
     callback(res)
   })
 }
-//一级部商品菜单
-let goodstype = function (callback) {
-  sendAxios('post', '/goodstype_querAllgoodstypeShow.action').then((res) => {
+// 首页顶部全部商品菜单
+let AllgoodstypeAndTwo = function (callback) {
+  sendAxios('post', '/goodstype_querAllgoodstypeAndTwo.action').then((res) => {
     callback(res)
   })
 }
-//二级部商品菜单
-let goodstypetwo = function (data, callback) {
-  sendAxios('post', '/goodstypetwo_queryAllgoodstypeTwoShow.action', data).then((res) => {
+// 元祖新品、热销商品、节庆民俗、元祖卡券
+let TitleAll = function (callback) {
+  sendAxios('post', '/goodsinfo_queryTitleAll.action').then((res) => {
+    callback(res)
+  })
+}
+// 三个大分类
+let GoodsinfoFindByType = function (data, callback) {
+  sendAxios('post', '/yuanzu/goodsinfo_queryGoodsinfoFindByType.action', data).then((res) => {
+    callback(res)
+  })
+}
+// 分类详情
+let GoodsInfoMmp = function (data, callback) {
+  sendAxios('post', '/goodsinfo_queryGoodsInfoMmp.action', data).then((res) => {
     callback(res)
   })
 }
 export {
   homeBanner,
-  goodstype,
-  goodstypetwo
+  GoodsinfoFindByType,
+  AllgoodstypeAndTwo,
+  TitleAll,
+  GoodsInfoMmp
 }

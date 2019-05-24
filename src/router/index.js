@@ -174,11 +174,16 @@ export default new Router({
         }
       ]
     },
-    //分类And搜索页
+    // 分类And搜索页
     {
       path: '/classfiy',
       name: 'classfiy',
-      component: Classfiy
+      component: Classfiy,
+      props: (route) => ({
+        id: route.query.id,
+        typeNo: route.query.typeNo,
+        name: route.query.name
+      })
     }
   ]
 })
