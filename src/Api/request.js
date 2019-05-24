@@ -80,8 +80,9 @@ export {
   getShopcart,
   getPhoneCode,
   getLogin,
-  storeCollet
-  changeNunbers
+  storeCollet,
+  changeNunbers,
+  getDetail
 }
 
 
