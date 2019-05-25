@@ -47,7 +47,7 @@
       },
       mounted () {
         getNoticeDetail({id:this.id},(res)=>{
-          console.log(this.id)
+          console.log(this.$route.params)
           this.lists = res.data[this.id-1]
           //时间格式转换
           const d = new Date(res.data[this.id-1].annDate)

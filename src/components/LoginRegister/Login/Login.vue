@@ -65,9 +65,7 @@ methods: {
         if (valid) {
           getLogin({userPwd: md5 (this.loginForm.user_password), userPhone: this.loginForm.user_phone}, (res) =>{
             window.localStorage.setItem('token', res.user[0].userPhone)
-            window.localStorage.setItem('userId', res.user[0].id)
             window.location.href = '/'
-            console.log(res);
           })
         } else {
           console.log('error submit!!')

@@ -133,16 +133,16 @@
 
       },
       getShopcartdata: function () {
-        getShopcart(
-          {currentPage: 3}, (res) => {
-            console.log(res);
-          });
         if(this.lists.length === 0){
           this.cartIsNull=true
         }else{
           this.cartIsNull=false
         }
 
+        getShopcart(
+          {currentPage: 1}, (res) => {
+            console.log(res);
+          });
       },
       changeNumber: function (num) {
         changeNunbers(

@@ -10,13 +10,13 @@
       <li>
         <span >生日：</span>
         <span>
-          <input readonly="readonly"/>
+          <input type="text" v-model="userinfo.userBirthday" readonly="readonly"/>
           (<i>*</i>更改生日请联系管理员)
         </span>
       </li>
       <li>
         <span>邮箱：</span>
-        <span><input/></span>
+        <span><input type="text" v-model="userinfo.userEmail"/></span>
       </li>
     </ul>
     <el-button type="danger" @click="editProfile">确认 </el-button>
@@ -36,12 +36,31 @@ export default {
     }
   },
   mounted () {
-    console.log(this.userinfo.name)
     changeData({
       userId: window.localStorage.getItem('token') || ''
     }, (res) => {
       this.$store.commit('getuser', res.data[0])
     })
+  },
+  methods: {
+    editProfile: function () {
+      changeData({
+        userid: window.localStorage.getItem('token'),
+        userPhone: this.userinfo.userPhone,
+        userEmail: this.userinfo.userEmail,
+        userbirthday: this.userinfo.userBirthday
+      }, (res) => {
+        if (res.success) {
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+          setTimeout(function () {
+            this.$router.push('/memberCenter/personalCenter/personalData')
+          }, 2000)
+        }
+      })
+    }
   }
 }
 </script>

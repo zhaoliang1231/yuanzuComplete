@@ -49,7 +49,6 @@ export default {
   methods : {
     signOut(){
       window.localStorage.removeItem("token")
-      window.localStorage.removeItem("userId")
       window.location.href = '/'
     }
   }

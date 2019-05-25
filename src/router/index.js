@@ -88,85 +88,85 @@ export default new Router({
           path: 'personalCenter/personalData',
           name: 'PersonalData',
           component: PersonalData,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/editProfile',
           name: 'EditProfile',
           component: EditProfile,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/alterEmail',
           name: 'AlterEmail',
           component: AlterEmail,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/alterPhone',
           name: 'AlterPhone',
           component: AlterPhone,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/changePassword',
           name: 'ChangePassword',
           component: ChangePassword,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/electronicTicket',
           name: 'ElectronicTicket',
           component: ElectronicTicket,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/integral',
           name: 'Integral',
           component: Integral,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/invoice',
           name: 'Invoice',
           component: Invoice,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/receivingAddress',
           name: 'ReceivingAddress',
           component: ReceivingAddress,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/addAddress',
           name: 'AddAddress',
           component: AddAddress,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/editaddress',
           name: 'Editaddress',
           component: Editaddress,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/orderList',
           name: 'OrderList',
           component: OrderList,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         },
         {
           path: 'shopCenter/collectionList',
           name: 'CollectionList',
           component: CollectionList,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         },
         {
           path: 'shopCenter/order',
           name: 'Order',
           component: Order,
-          meta: {requireAuth: true}
+          // meta: {requireAuth: true}
         }
       ]
     },
@@ -185,12 +185,15 @@ export default new Router({
       name: 'detail',
       path: '/detail',
       component: Detail,
+      props:(route)=>({
+        id:route.query.id
+      }),
       children: [
         // 商品介绍
         {
           path: '',
           name: 'introduction',
-          component: introduction,
+          component: introduction
         },
         // 商品评价
         {

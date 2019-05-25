@@ -2,7 +2,7 @@
   <!--个人资料-->
   <div class="user-content">
     <h3>我的资料</h3>
-    <el-form :label-position="labelPosition" label-width="80px"">
+    <el-form :label-position="labelPosition" label-width="80px">
       <el-form-item label="姓名">
         <div>{{userinfo.userPhone}}</div>
       </el-form-item>
@@ -16,7 +16,7 @@
         <div>{{userinfo.userPhone}}</div>
       </el-form-item>
       <el-form-item label="推荐电话">
-        <div>陈庚</div>
+        <div>{{userinfo.refPhone}}</div>
       </el-form-item>
     </el-form>
     <el-button-group>
