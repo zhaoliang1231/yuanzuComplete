@@ -24,28 +24,9 @@ let receivingAddress = function (data, callback) {
     callback(res)
   })
 }
-let getaddress1 = function (data, callback) {
-  sendAxios('post', '/address_queryAllProvinceAddress.action', data).then((res) => {
-    callback(res)
-  })
-}
-let getaddress2 = function (data, callback) {
-  sendAxios('post', '/address_queryAllCityAddress.action', data).then((res) => {
-    callback(res)
-  })
-}
-let getaddress3 = function (data, callback) {
-  sendAxios('post', '/address_queryAllAreaAddress.action', data).then((res) => {
-    callback(res)
-  })
-}
-
 export {
   personalData,
   changepwd,
   changeData,
-  receivingAddress,
-  getaddress1,
-  getaddress2,
-  getaddress3
+  receivingAddress
 }

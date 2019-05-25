@@ -1,11 +1,14 @@
 
 const state = {
   usercenter: {
-    name: 'fsdfsd',
-    birth: '2018-08-08',
-    email: '1021143788@@.com',
-    telphone: 15213277512,
-    RecommenderTelephone: 152232404311
+    "registTime": 1557331200000,
+    "userPhone": "13559273915",
+    "userPwd": "123456",
+    "refPhone": "1008611",
+    "userEmail": "31283656@qq.com",
+    "id": 13,
+    "state": 0,
+    "userBirthday": 1556899200000
   }
 }
 
