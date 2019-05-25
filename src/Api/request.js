@@ -24,7 +24,7 @@ let getRegister = function (data,callback) {
 }
 //购物车查询接口
 let getShopcart = function (data,callback) {
-  sendAxios('post','/cart_queryCartFindByUser.action',data).then((res)=>{
+  sendAxios('post','/cart_queryCar.tFindByUser.action',data).then((res)=>{
     callback(res)
   })
 }
@@ -60,7 +60,7 @@ let getLogin = function (data , callback) {
 // }
 //详情页收藏按钮接口
 let storeCollet = function (data , callback) {
-  sendAxios('post','/collect_addCollect.action',data).then((res)=>{
+  sendAxios('post','/user_loginUser.action',data).then((res)=>{
     callback(res)
   })
 }
@@ -70,13 +70,18 @@ let getDetail = function (data,callback) {
     callback(res)
   })
 }
-//添加购物车
-let getAddCar = function (data,callback) {
-  sendAxios('post','/cart_addGoodsToCart.action',data).then((res)=>{
+//评论接口
+let getEvaluate = function (data,callback) {
+  sendAxios('post','/comments_queryCommentsToFont.action',data).then((res)=>{
     callback(res)
   })
 }
-
+//评论添加接口
+let addEvaluate = function (data,callback) {
+  sendAxios('post','/comments_addComments.action',data).then((res)=>{
+    callback(res)
+  })
+}
 
 export {
   getNotices,
@@ -89,7 +94,8 @@ export {
   storeCollet,
   changeNunbers,
   getDetail,
-  getAddCar
+  getEvaluate,
+  addEvaluate
 }
 
 

@@ -7,10 +7,19 @@
           <div id="read_reviews">
             <div class="actionBar top clearfix">
               <div class="left">
-                <a @click="evaluateShow" href="javascript:void(0);" id="write_review_action" class="write">欢迎您第一个发表评论。</a>
+                <a @click="evaluateShow" href="javascript:void(0);" id="write_review_action" class="write">欢迎您发表评论。</a>
               </div>
               <div class="right">0&nbsp;/&nbsp;0&nbsp;评论</div>
             </div>
+              <div class="evaluateMsg" v-if="flag1" v-for="i in lists">
+                  <div class="content_left">{{i.commentContent}}</div>
+                  <div class="content_right">
+                      <div class="content_UserName">
+                          <span>用户名:</span>
+                          <span>{{i.userName}}</span>
+                      </div>
+                  </div>
+              </div>
           </div>
           <div id="write_reviews" class="reviews"  v-if="flag">
             <div class="write_review clearfix">
@@ -35,7 +44,7 @@
                       <span class="skip"></span>
                     </label>
                     <div class="controls">
-                      <textarea id="review.comment" name="comment" class="textarea"></textarea>
+                      <textarea v-model="commentContent" id="review.comment" name="comment" class="textarea"></textarea>
                     </div>
                   </div>
                   <div class="control-group">
@@ -46,7 +55,7 @@
                   </div>
                 </div>
 
-                <button class="positive" type="submit" value="提交评论">提交评论</button>
+                <button @click="submitComments" class="positive" type="submit" value="提交评论">提交评论</button>
               </form>
             </div>
             <div class="actionBar bottom clearfix">
@@ -60,21 +69,45 @@
 </template>
 
 <script>
+    import {getEvaluate} from 'Api/request'
+    import {addEvaluate} from 'Api/request'
 export default {
   name: "evaluate",
   data() {
     return {
       value1: null,
-      flag:false
+      flag:false,
+      flag1:true,
+      commentContent:'',
+      lists:[]
     };
   },
   methods: {
     evaluateShow: function () {
         this.flag = true
+        this.flag1 = false
     },
     evalateHidden:function(){
         this.flag = false
+        this.flag1 = true
+    },
+    submitComments:function (e) {
+      e.preventDefault();
+      addEvaluate(
+        {
+          goodsinfoId:this.$route.query.id,
+          userId:window.localStorage.getItem('userId'),
+          commentContent:this.commentContent
+        },(res)=>{
+
+      })
     }
+  },
+  mounted () {
+    //评论接口
+    getEvaluate({goodsinfoId:this.$route.query.id},(res)=>{
+      this.lists = res.data
+    })
   }
 };
 </script>
@@ -160,4 +193,27 @@ export default {
     display: block;
     margin: 20px 0;
 }
+    .evaluateMsg {
+        width:100%;
+        height: 80px;
+        border-bottom:1px solid #e3e3e3;
+        .content_left{
+            float: left;
+            width: 70%;
+            height: 80px;
+        }
+        .content_right{
+            width: 30%;
+            height: 80px;
+            float: right;
+            .content_UserName{
+                text-align: right;
+                line-height: 120px;
+                span{
+                    color: #999999;
+                }
+            }
+        }
+    }
+
 </style>
