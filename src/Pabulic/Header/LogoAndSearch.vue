@@ -5,9 +5,9 @@
     </router-link>
     <div class="search-box">
       <div class="search">
-        <input class="search-input" v-model="message"  type="text"/>
-        <router-link :to="'classfiy?name='+message">
-          <a class="search-btn">搜索</a>
+        <input class="search-input" v-model="message"   type="text"/>
+        <router-link :to="'classfiy?name='+message+'&typeNo=2'">
+          <a v-on:Clean="qk" class="search-btn">搜索</a>
         </router-link>
       </div>
       <div class="search-text ">
@@ -32,6 +32,12 @@ export default {
     return {
       message: '',
       Logo
+    }
+  },
+  methods: {
+    qk (val) {
+      alert(11111)
+      this.message = val
     }
   }
 }

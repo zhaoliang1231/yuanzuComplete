@@ -206,7 +206,8 @@ export default new Router({
       name: 'classfiy',
       component: Classfiy,
       props: (route) => ({
-        id: route.query.id,
+        yid: route.query.yid,
+        eid: route.query.eid,
         typeNo: route.query.typeNo,
         name: route.query.name
       })
