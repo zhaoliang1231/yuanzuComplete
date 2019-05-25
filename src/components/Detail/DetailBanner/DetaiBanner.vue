@@ -96,7 +96,9 @@
                                     </div>
                                 </li>
                                 </ul>
-                                <button class="btn_buy" id="btn_buy" type="button" style="margin: 0 14px 0 0;width: 110px;">立即购买</button>
+                                <router-link class="btn_buy" id="btn_buy" type="button" style="margin: 0 14px 0 0;width: 110px;text-align: center;line-height: 38px" to="/settlement/shopcart">
+                                    立即购买
+                                </router-link>
                                 <button id="addToCartButton" class="btn_addcart" type="submit" @click="addCar">加入购物车</button>
                             </dd>
                         </dl>
@@ -201,19 +203,32 @@ export default {
       }
     },
     open: function () {
-      storeCollet({goodsId: parseInt(this.$route.query.id),userId:1}, (res) => {
-        this.$message({
-            message: '已添加到我的收藏',
+      storeCollet({goodsId: parseInt(this.$route.query.id),userId:window.localStorage.getItem('userId')}, (res) => {
+        if (res.message == "success") {
+          this.$message({
+            message: '已加入购物车',
             type: 'success',
             duration: 1000
           })
+        }else{
+          this.$message.error('添加购物车失败!')
+        }
 
       })
     },
     addCar: function (e) {
       e.preventDefault();
-      getAddCar({goodsId:this.$route.query.id,userId:parseInt(window.localStorage.getItem('token'))},(res)=>{
+      getAddCar({goodsId:this.$route.query.id,userId:window.localStorage.getItem('userId')},(res)=>{
         console.log(res)
+        if (res.message == "success") {
+          this.$message({
+            message: '已加入购物车',
+            type: 'success',
+            duration: 1000
+          })
+        }else{
+          this.$message.error('添加购物车失败!')
+        }
       })
     }
   }

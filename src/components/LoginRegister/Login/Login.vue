@@ -65,7 +65,7 @@ methods: {
         if (valid) {
           getLogin({userPwd: md5 (this.loginForm.user_password), userPhone: this.loginForm.user_phone}, (res) =>{
             window.localStorage.setItem('token', res.user[0].userPhone)
-            console.log(res.res.user[0].id)
+            window.localStorage.setItem('userId', res.user[0].id)
             window.location.href = '/'
           })
         } else {
