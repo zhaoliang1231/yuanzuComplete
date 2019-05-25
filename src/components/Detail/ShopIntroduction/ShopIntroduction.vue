@@ -3,14 +3,13 @@
         <div class=" productTabs">
             <ul class="clearfix tabs_list">
                 <li @click="addClasss" :class="{active:flag}">
-                    <router-link to="/detail" >商品介绍</router-link>
+                    <router-link :to="{path:'/detail',query:{id:id}}" >商品介绍</router-link>
                 </li>
                 <li :class="{active:flag1}" @click="addClassfiy">
-                    <router-link to="/detail/evaluate" >商品评价</router-link>
+                    <router-link :to="{path: '/detail/evaluate', query: {id: id}}" >商品评价</router-link>
                 </li>
             </ul>
             <router-view></router-view>
-
         </div>
     </div>
 </template>
@@ -21,20 +20,22 @@
     data () {
       return {
         flag: true,
-        flag1 : false
+        flag1 : false,
+        id:0,
       }
     },
     methods: {
       addClasss : function () {
-        console.log("111")
         this.flag = true
         this.flag1 = false
       },
       addClassfiy : function () {
-        console.log("12")
         this.flag = false
         this.flag1 = true
       }
+    },
+    mounted () {
+      this.id = this.$route.query.id
     }
   }
 </script>

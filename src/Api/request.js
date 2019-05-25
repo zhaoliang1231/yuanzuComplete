@@ -60,13 +60,19 @@ let getLogin = function (data , callback) {
 // }
 //详情页收藏按钮接口
 let storeCollet = function (data , callback) {
-  sendAxios('post','/user_loginUser.action',data).then((res)=>{
+  sendAxios('post','/collect_addCollect.action',data).then((res)=>{
     callback(res)
   })
 }
 //详情页接口
 let getDetail = function (data,callback) {
   sendAxios('post','/goodsinfo_queryGoodsFindById.action',data).then((res)=>{
+    callback(res)
+  })
+}
+//添加购物车
+let getAddCar = function (data,callback) {
+  sendAxios('post','/cart_addGoodsToCart.action',data).then((res)=>{
     callback(res)
   })
 }
@@ -82,7 +88,8 @@ export {
   getLogin,
   storeCollet,
   changeNunbers,
-  getDetail
+  getDetail,
+  getAddCar
 }
 
 
