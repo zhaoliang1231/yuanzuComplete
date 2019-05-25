@@ -7,23 +7,23 @@
           <el-table-column label="订单号" width="200">
               <template slot-scope="scope">
                   <router-link :to="{name:'Order'}">
-                    <span>{{orderLists.orderbNo}}</span>
+                    <span>{{orderL.orderbNo}}</span>
                   </router-link>
               </template>
           </el-table-column>
           <el-table-column label="订单状态" width="80">
               <template slot-scope="scope">
-                  <span>{{orderLists}}</span>
+                  <span>￥666</span>
               </template>
           </el-table-column>
           <el-table-column label="订单提交日期" width="200">
               <template slot-scope="scope">
-                  <span>{{new Date(orderLists.benginTime).getFullYear()}}-{{new Date(orderLists.benginTime).getMonth()+1}}-{{new Date(orderLists.benginTime).getDate()}}</span>
+                  <span>{{new Date(orderL.benginTime).getFullYear()}}-{{new Date(orderL.benginTime).getMonth()+1}}-{{new Date(orderL.benginTime).getDate()}}</span>
               </template>
           </el-table-column>
           <el-table-column label="总计" width="80">
               <template slot-scope="scope">
-                  <span class="font-color-red">￥666</span>
+                  <span class="font-color-red">￥666{{}}</span>
               </template>
           </el-table-column>
           <el-table-column label="操作">
@@ -43,19 +43,22 @@ import {orderLists} from 'Api/request_cg.js'
 export default {
   data () {
     return {
+      orderbNo: ''
     }
   },
   computed: {
-    orderLists: function () {
-      return this.$store.state.orderlist.orderlists
+    orderL: function () {
+      let lists = this.$store.state.orderlist.orderlists
+      return lists
     }
   },
   mounted () {
+    console.log(JSON.stringify(this.orderList) + 'gsfdgs')
     orderLists({
       currentPage: 1,
       userId: window.localStorage.getItem('token') || ''
     }, (res) => {
-      this.$store.commit('getorder', res.data[0])
+      this.$store.commit('getorder', res.data)
     })
   }
 }

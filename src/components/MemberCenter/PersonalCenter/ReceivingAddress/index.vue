@@ -6,7 +6,7 @@
       <ul v-for="(item, index) in userAddress" :key="index">
         <li>
           <span>{{item.addrName}}</span>,
-          <span>重庆</span>,
+          <span></span>,
           <span>沙坪坝</span>,
           <span>西永天坑德克特</span>,
           <span>具体详细地址</span>,
