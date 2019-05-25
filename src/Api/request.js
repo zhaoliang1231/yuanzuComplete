@@ -76,7 +76,18 @@ let getAddCar = function (data,callback) {
     callback(res)
   })
 }
-
+//评论接口
+let getEvaluate = function (data,callback) {
+  sendAxios('post','/comments_queryCommentsToFont.action',data).then((res)=>{
+    callback(res)
+  })
+}
+//评论添加接口
+let addEvaluate = function (data,callback) {
+  sendAxios('post','/comments_addComments.action',data).then((res)=>{
+    callback(res)
+  })
+}
 
 export {
   getNotices,
@@ -89,7 +100,9 @@ export {
   storeCollet,
   changeNunbers,
   getDetail,
-  getAddCar
+  getAddCar,
+  getEvaluate,
+  addEvaluate
 }
 
 
