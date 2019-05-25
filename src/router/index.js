@@ -62,7 +62,7 @@ export default new Router({
           path: 'shopcart',
           name: 'shopcart',
           component: ShopCart,
-          meta:{requireAuth:true}
+          meta: {requireAuth: true}
         },
         {
           path: 'fillorder',
@@ -87,72 +87,86 @@ export default new Router({
         {
           path: 'personalCenter/personalData',
           name: 'PersonalData',
-          component: PersonalData
+          component: PersonalData,
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/editProfile',
           name: 'EditProfile',
-          component: EditProfile
+          component: EditProfile,
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/alterEmail',
           name: 'AlterEmail',
-          component: AlterEmail
+          component: AlterEmail,
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/alterPhone',
           name: 'AlterPhone',
-          component: AlterPhone
+          component: AlterPhone,
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/changePassword',
           name: 'ChangePassword',
-          component: ChangePassword
+          component: ChangePassword,
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/electronicTicket',
           name: 'ElectronicTicket',
-          component: ElectronicTicket
+          component: ElectronicTicket,
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/integral',
           name: 'Integral',
-          component: Integral
+          component: Integral,
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/invoice',
           name: 'Invoice',
-          component: Invoice
+          component: Invoice,
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/receivingAddress',
           name: 'ReceivingAddress',
-          component: ReceivingAddress
+          component: ReceivingAddress,
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/addAddress',
           name: 'AddAddress',
-          component: AddAddress
+          component: AddAddress,
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/editaddress',
           name: 'Editaddress',
-          component: Editaddress
+          component: Editaddress,
+          // meta: {requireAuth: true}
         },
         {
           path: 'personalCenter/orderList',
           name: 'OrderList',
-          component: OrderList
+          component: OrderList,
+          // meta: {requireAuth: true}
         },
         {
           path: 'shopCenter/collectionList',
           name: 'CollectionList',
-          component: CollectionList
+          component: CollectionList,
+          // meta: {requireAuth: true}
         },
         {
           path: 'shopCenter/order',
           name: 'Order',
-          component: Order
+          component: Order,
+          // meta: {requireAuth: true}
         }
       ]
     },
@@ -171,15 +185,12 @@ export default new Router({
       name: 'detail',
       path: '/detail',
       component: Detail,
-      props:(route)=>({
-        id:route.query.id
-      }),
       children: [
         // 商品介绍
         {
           path: '',
           name: 'introduction',
-          component: introduction
+          component: introduction,
         },
         // 商品评价
         {

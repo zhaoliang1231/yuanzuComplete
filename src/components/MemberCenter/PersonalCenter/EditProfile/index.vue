@@ -2,109 +2,78 @@
   <!--t添加地址-->
   <div class="user-content">
     <h3>更改个人资料</h3>
-    <el-form ref="form" :model="sizeForm" :rules="rules" label-width="80px" size="mini">
-      <el-form-item label="姓名" prop="name">
-        <el-input v-model="sizeForm.name"></el-input>
-      </el-form-item>
-      <el-form-item label="所在区域" required>
-        <v-distpicker></v-distpicker>
-      </el-form-item>
-      <el-form-item label="邮编" prop="zipcode">
-        <el-input v-model.number="sizeForm.zipcode"></el-input>
-      </el-form-item>
-      <el-form-item label="电话号码" prop="telphone">
-        <el-input v-model="sizeForm.telphone"></el-input>
-      </el-form-item>
-      <el-form-item label="性别">
-        <el-select v-model="sizeForm.sex" placeholder="请选择">
-          <el-option label="男" value="男"></el-option>
-          <el-option label="女" value="女"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="生日">
-        <el-col :span="11">
-          <el-date-picker type="date" placeholder="选择日期" v-model="sizeForm.date1" style="width: 100%;"></el-date-picker>
-        </el-col>
-      </el-form-item>
-      <el-form-item label="邮箱" prop="email">
-        <el-input v-model="sizeForm.email"></el-input>
-      </el-form-item>
-      <el-form-item size="large">
-        <router-link :to="{name:'PersonalData'}">
-          <el-button type="danger" @click="onSubmit">保存地址</el-button>
-        </router-link>
-        <router-link :to="{name:'PersonalData'}">
-          <el-button type="info">取消</el-button>
-        </router-link>
-      </el-form-item>
-    </el-form>
+    <ul>
+      <li>
+        <span>姓名：</span>
+        <span><input type="text" v-model="userinfo.userPhone"/></span>
+      </li>
+      <li>
+        <span >生日：</span>
+        <span>
+          <input type="text" v-model="userinfo.userBirthday" readonly="readonly"/>
+          (<i>*</i>更改生日请联系管理员)
+        </span>
+      </li>
+      <li>
+        <span>邮箱：</span>
+        <span><input type="text" v-model="userinfo.userEmail"/></span>
+      </li>
+    </ul>
+    <el-button type="danger" @click="editProfile">确认 </el-button>
+    <router-link :to="{name:'PersonalData'}"><el-button type="info">返回</el-button></router-link>
   </div>
 </template>
 <script>
-import VDistpicker from 'v-distpicker'
-import {isvalidPhone} from '../../validate.js'
-import {getaddress1} from 'Api/request_cg.js'
-var validPhone = (rule, value, callback) => {
-  if (!value) {
-    callback(new Error('请输入电话号码'))
-  } else if (!isvalidPhone(value)) {
-    callback(new Error('请输入正确的11位手机号码'))
-  } else {
-    callback()
-  }
-}
+import {changeData} from 'Api/request_cg.js'
 export default {
-  components: { VDistpicker },
   data () {
     return {
-      sizeForm: {
-        name: '',
-        zipcode: '',
-        telphone: '',
-        sex: '',
-        email: ''
-      },
-      rules: {
-        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }, { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
-        zipcode: [{type: 'number', message: '邮编必须为数字'}],
-        telphone: [{ required: true, trigger: 'blur', validator: validPhone }]
-      }
     }
   },
-  methods: {
-    onSubmit () {
-      console.log('submit!')
+  computed: {
+    userinfo: function () {
+      return this.$store.state.user.usercenter
     }
   },
   mounted () {
-    getaddress1({}, (res) => {
-      console.log(res.data)
+    changeData({
+      userId: window.localStorage.getItem('token') || ''
+    }, (res) => {
+      this.$store.commit('getuser', res.data[0])
     })
+  },
+  methods: {
+    editProfile: function () {
+      changeData({
+        userid: window.localStorage.getItem('token'),
+        userPhone: this.userinfo.userPhone,
+        userEmail: this.userinfo.userEmail,
+        userbirthday: this.userinfo.userBirthday
+      }, (res) => {
+        if (res.success) {
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+          setTimeout(function () {
+            this.$router.push('/memberCenter/personalCenter/personalData')
+          }, 2000)
+        }
+      })
+    }
   }
 }
 </script>
 <style lang="less" scoped>
+  @import "~static/css/common.less";
   .user-content{
-    /deep/
-    .el-form{
-      .el-form-item{
-        .el-form-item__content{
-          .el-input{
-            width: 353px;
-          }
-        }
-        .distpicker-address-wrapper{
-          select{
-            height: 28px;
-            line-height: 28px;
-            padding: 0.4rem .75rem;
-          }
-        }
-      }
-      .el-form-item:nth-child(2),.el-form-item:nth-child(5){
-        .el-form-item__content{
-          .el-input{
-            width: 125px;
+    ul{
+      li {
+        line-height: 50px;
+        span{
+          i{
+            margin-right: 5px;
+            color: @pink;
           }
         }
       }

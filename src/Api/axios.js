@@ -26,7 +26,6 @@ function sendAxios(methods ,url,data = {}) {
       if (res.data.message == "success"){
         resolve(res.data)
       }else{
-        console.log(res.data)
         console.log('请求失败')
       }
     }).catch((err)=>{

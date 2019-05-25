@@ -9,7 +9,7 @@
           <div class="fo-address-box">
               <ul class="fo-address-ul">
                 <li>
-                  <label ><input type="radio">
+                  <label ><input type="radio" checked>
                     <em>赵亮</em>
                     <em>云南省 保山市 腾冲 酆都</em>
                     <em>120000</em>
@@ -78,7 +78,7 @@
         </p>
         <div class="fo-right-box">
           <a href="/settlement/shopcart" class="a-hover-pink fr"> <
-            <返回购物车修改商品
+            < 返回购物车修改商品
           </a>
           <div class="fo-Commodity-information">
             <div class="fo-cominfo-title-box">
@@ -90,46 +90,24 @@
               </ul>
             </div>
 
-            <div class="fo-coin-cont">
+            <div class="fo-coin-cont" v-for="(item,index) in listShop" :key="index" >
               <div>
                 <ul>
                   <li>
-                    <router-link to="#" class="a-hover-pink font-weight-bold">朝羽鲜奶蛋糕</router-link>
-                    <p>规格：<em>6号</em> 夹馅：<em>香芋+香芋（网红款）</em></p>
+                    <router-link to="#" class="a-hover-pink font-weight-bold">{{item.goodsName}}</router-link>
                   </li>
                   <li class="text-align-center" style="line-height: 40px">
-                    <em class="font-pink">¥198.00</em>
+                    <em class="font-pink">¥{{item.goodsPrice}}.00</em>
                   </li>
                   <li class="text-align-center" style="line-height: 40px">
-                    <em class="">1</em>
+                    <em class="">{{item.goodsNum}}</em>
                   </li>
                   <li class="text-align-center" style="line-height: 40px">
-                    <em class="font-pink">¥198.00</em>
+                    <em class="font-pink">¥{{item.goodsPrice}}.00</em>
                   </li>
                 </ul>
               </div>
             </div>
-
-            <div class="fo-coin-cont">
-              <div>
-                <ul>
-                  <li>
-                    <router-link to="#" class="a-hover-pink font-weight-bold">朝羽鲜奶蛋糕</router-link>
-                    <p>规格：<em>6号</em> 夹馅：<em>香芋+香芋（网红款）</em></p>
-                  </li>
-                  <li class="text-align-center" style="line-height: 40px">
-                    <em class="font-pink">¥198.00</em>
-                  </li>
-                  <li class="text-align-center" style="line-height: 40px">
-                    <em class="">1</em>
-                  </li>
-                  <li class="text-align-center" style="line-height: 40px">
-                    <em class="font-pink">¥198.00</em>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
 
             <div class="fo-in-distribution">
               <span class="fontSize-14">配送方式 ：</span>
@@ -190,7 +168,7 @@
           <div>
             <p class="fontSize-14">最终订单金额：</p>
             <p><span>商品金额:</span>
-              <em>¥396.00</em>
+              <em>¥{{total.price}}.00</em>
             </p>
             <p><span>运费:</span>
               <em>免费</em>
@@ -199,7 +177,7 @@
               <em>¥0.00</em>
             </p>
             <p><span>应付金额:</span>
-              <em>¥396.00</em>
+              <em>¥{{total.price}}.00</em>
             </p>
             <button v-on:click="isToSub" class="hover-bg-pink">下订单</button>
           </div>
@@ -241,6 +219,7 @@
         tosub: true,
         isAddress:false,
         addressIshide:false,
+        listShop:this.$store.state.cart.cartLists,
        sizeForm: {
          name: '',
            country: '',
@@ -263,7 +242,12 @@
       }
     },
     computed: {
-      lists: () => this.$store.state.cart.cartLists
+      total:function() {
+        return this.$store.getters.total
+      }
+    },
+    mounted(){
+      this.test()
     },
     methods: {
       isToSub: function () {
@@ -275,8 +259,11 @@
         }
       },
       onSelected(data) {
-        console.log(JSON.stringify(data))
+
       },
+      test:function () {
+        console.log(this.total)
+      }
     }
   }
 </script>

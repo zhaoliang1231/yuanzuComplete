@@ -20,22 +20,17 @@ let changeData = function (data, callback) {
   })
 }
 let receivingAddress = function (data, callback) {
-  sendAxios('post', '/address_queryAllAddressByUserId.action', data).then((res) => {
+  sendAxios('post', '/yuanzu/address_queryAllAddressByUserId.action', data).then((res) => {
     callback(res)
   })
 }
-let getaddress1 = function (data, callback) {
-  sendAxios('post', '/address_queryAllProvinceAddress.action', data).then((res) => {
+let addAddress = function (data, callback) {
+  sendAxios('post', '/address_addAddress.action', data).then((res) => {
     callback(res)
   })
 }
-let getaddress2 = function (data, callback) {
-  sendAxios('post', '/address_queryAllCityAddress.action', data).then((res) => {
-    callback(res)
-  })
-}
-let getaddress3 = function (data, callback) {
-  sendAxios('post', '/address_queryAllAreaAddress.action', data).then((res) => {
+let orderLists = function (data, callback) {
+  sendAxios('post', '/orderb_queryOrderbFindByUser.action', data).then((res) => {
     callback(res)
   })
 }
@@ -45,7 +40,6 @@ export {
   changepwd,
   changeData,
   receivingAddress,
-  getaddress1,
-  getaddress2,
-  getaddress3
+  addAddress,
+  orderLists
 }

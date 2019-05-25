@@ -67,11 +67,21 @@ let storeCollet = function (data , callback) {
 //详情页接口
 let getDetail = function (data,callback) {
   sendAxios('post','/goodsinfo_queryGoodsFindById.action',data).then((res)=>{
-    console.log(res)
     callback(res)
   })
 }
-
+//评论接口
+let getEvaluate = function (data,callback) {
+  sendAxios('post','/comments_queryCommentsToFont.action',data).then((res)=>{
+    callback(res)
+  })
+}
+//评论添加接口
+let addEvaluate = function (data,callback) {
+  sendAxios('post','/comments_addComments.action',data).then((res)=>{
+    callback(res)
+  })
+}
 
 export {
   getNotices,
@@ -83,7 +93,9 @@ export {
   getLogin,
   storeCollet,
   changeNunbers,
-  getDetail
+  getDetail,
+  getEvaluate,
+  addEvaluate
 }
 
 

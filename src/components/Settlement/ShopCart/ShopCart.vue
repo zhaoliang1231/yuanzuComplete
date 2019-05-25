@@ -21,24 +21,24 @@
 
       </div>
       <ul>
-        <li v-for="(item, index) in lists" :key="index">
+        <li v-for="(item, index) in lists" :key="index"  >
           <div class="spct-commodity-information-box">
             <a href="#" class="spct-ci-img-a">
-              <img src="../../../static/img/100001433_M.jpg" alt="">
+              <img :src="item.imgs" alt="">
             </a>
             <div class="spct-ci-title-box padding-y-30">
-              <a href="#" class="font-weight-bold a-hover-pink">吟紫鸢鲜奶蛋糕</a>
+              <router-link :to="'/detail?id='+item.goodsId" class="font-weight-bold a-hover-pink">{{item.goodsName}}</router-link>
               <p>规格：<span>8号</span> 夹馅：<span>香芋+香芋（网红款）</span></p>
             </div>
           </div>
           <div class="spct-pirce-box">
-            <span class="font-weight-bold">¥258.00</span>
+            <span class="font-weight-bold">¥{{item.goodsPrice}}.00</span>
           </div>
           <div class="spct-number-box">
             <div>
-              <a href="javascript:void(0);" @click="NumberSubtract">-</a>
-              <input type="text" @blur="isnumber" v-model="number">
-              <a href="javascript:void(0);" @click="NumberAdd">+</a>
+              <a href="javascript:void(0);" @click="NumberSubtract(index)">-</a>
+              <input type="text" @blur="isnumber(index)" v-model="item.goodsNum">
+              <a href="javascript:void(0);" @click="NumberAdd(index)">+</a>
             </div>
           </div>
           <div class="spct-remove-box">
@@ -66,7 +66,6 @@
     },
     data() {
       return {
-        number: 1,
         cartIsNull: false,
       }
     },
@@ -76,38 +75,57 @@
         return this.$store.state.cart.cartLists
       },
       total:function() {
-        console.log(this.$store)
         return this.$store.getters.total
       }
     },
     mounted() {
       this.getShopcartdata()
-      console.log(this.lists);
     },
     methods: {
-      isnumber: function () {
-        if (reg.test(this.number) && this.number != 0) {
-          console.log('数字')
+      isnumber: function (index) {
+        let num = parseInt(this.lists[index].goodsNum)
+
+        let listShopNum = {
+          index,
+          num
+        }
+        if (reg.test(this.lists[index].goodsNum) && this.lists[index].goodsNum != 0) {
+          this.$store.commit('changeListNumber',listShopNum)
         } else {
           alert('您输入的数量不正确！')
-          this.number = 1
+          this.lists[index].goodsNum = 1
+          this.$store.commit('changeListNumber',listShopNum)
         }
       },
       deleteList (index) {
         this.lists.splice(index, 1)
         this.$store.commit('changeCartLists', this.lists)
       },
-      NumberSubtract: function () {
-        if (this.number > 1) {
-          this.number--
-          this.changeNumber(0)
+      NumberSubtract: function (index) {
+        let num = parseInt(this.lists[index].goodsNum)
+
+        let listShopNum = {
+          index,
+          num
+        }
+        if (this.lists[index].goodsNum > 1) {
+          this.lists[index].goodsNum --
+          console.log(this.lists[index].goodsNum);
+          this.$store.commit('changeListNumber',index,listShopNum)
+          // this.changeNumber(0)
         }
       }
       ,
-      NumberAdd: function () {
-        if (this.number > 0) {
-          this.number++
-          this.changeNumber(1)
+      NumberAdd: function (index) {
+        let num = parseInt(this.lists[index].goodsNum)
+        let listShopNum = {
+          index,
+          num
+        }
+        if (this.lists[index].goodsNum > 0) {
+          this.lists[index].goodsNum ++
+          this.$store.commit('changeListNumber',index,listShopNum)
+          // this.changeNumber(1)
         }
       }
       ,
@@ -116,9 +134,15 @@
       },
       getShopcartdata: function () {
         getShopcart(
-          {currentPage: 1}, (res) => {
+          {currentPage: 3}, (res) => {
             console.log(res);
           });
+        if(this.lists.length === 0){
+          this.cartIsNull=true
+        }else{
+          this.cartIsNull=false
+        }
+
       },
       changeNumber: function (num) {
         changeNunbers(

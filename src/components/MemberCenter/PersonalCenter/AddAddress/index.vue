@@ -2,37 +2,21 @@
   <!--t添加地址-->
   <div class="user-content">
       <h3>添加地址</h3>
-      <el-form ref="form" :model="sizeForm" :rules="rules" label-width="80px" size="mini">
-          <el-form-item label="姓名" prop="name">
-              <el-input v-model="sizeForm.name"></el-input>
+      <el-form ref="sizeForm" :model="sizeForm" :rules="rules" label-width="80px" size="mini">
+          <el-form-item label="姓名" prop="addrName">
+              <el-input v-model="sizeForm.addrName"></el-input>
           </el-form-item>
           <el-form-item label="所在区域" required>
-              <v-distpicker></v-distpicker>
+              <v-distpicker @selected="onSelected"></v-distpicker>
           </el-form-item>
-          <el-form-item label="邮编" prop="zipcode">
-             <el-input v-model.number="sizeForm.zipcode"></el-input>
+          <el-form-item label="邮编" prop="addrPostcode">
+             <el-input v-model.number="sizeForm.addrPostcode"></el-input>
           </el-form-item>
-          <el-form-item label="电话号码" prop="telphone">
-            <el-input v-model="sizeForm.telphone"></el-input>
-          </el-form-item>
-          <el-form-item label="性别">
-              <el-select v-model="sizeForm.sex" placeholder="请选择">
-                  <el-option label="男" value="男"></el-option>
-                <el-option label="女" value="女"></el-option>
-              </el-select>
-          </el-form-item>
-          <el-form-item label="生日">
-              <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="sizeForm.date1" style="width: 100%;"></el-date-picker>
-              </el-col>
-          </el-form-item>
-          <el-form-item label="邮箱" prop="email">
-              <el-input v-model="sizeForm.email"></el-input>
+          <el-form-item label="电话号码" prop="addrPhone">
+            <el-input v-model="sizeForm.addrPhone"></el-input>
           </el-form-item>
           <el-form-item size="large">
-              <router-link :to="{name:'ReceivingAddress'}">
-                  <el-button type="danger" @click="onSubmit">保存地址</el-button>
-              </router-link>
+              <el-button type="danger" @click="onSubmit('sizeForm')">保存地址</el-button>
               <router-link :to="{name:'ReceivingAddress'}">
                   <el-button type="info">取消</el-button>
               </router-link>
@@ -43,7 +27,7 @@
 <script>
 import VDistpicker from 'v-distpicker'
 import {isvalidPhone} from '../../validate.js'
-import {getaddress1} from 'Api/request_cg.js'
+import {addAddress} from 'Api/request_cg.js'
 var validPhone = (rule, value, callback) => {
   if (!value) {
     callback(new Error('请输入电话号码'))
@@ -58,28 +42,45 @@ export default {
   data () {
     return {
       sizeForm: {
-        name: '',
-        zipcode: '',
-        telphone: '',
-        sex: '',
+        addrName: '',
+        addrAddress: '',
+        addrPhone: '',
+        addrPostcode: '',
         email: ''
       },
       rules: {
-        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }, { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
-        zipcode: [{type: 'number', message: '邮编必须为数字'}],
-        telphone: [{ required: true, trigger: 'blur', validator: validPhone }]
+        addrName: [{ required: true, message: '请输入姓名', trigger: 'blur' }, { min: 2, max: 4, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
+        addrPostcode: [{type: 'number', message: '邮编必须为数字'}],
+        addrPhone: [{ required: true, trigger: 'blur', validator: validPhone }]
       }
     }
   },
   methods: {
-    onSubmit () {
-      console.log('submit!')
+    onSelected: function (data) {
+      this.sizeForm.addrAddress = data.province.value + data.city.value + data.area.value
+    },
+    onSubmit: function (sizeForm) {
+      this.$refs[sizeForm].validate((valid) => {
+        console.log(this.sizeForm)
+        if (valid) {
+          addAddress({
+            userId: window.localStorage.getItem('token'),
+            addrName: this.sizeForm.addrName,
+            addrPhone: this.sizeForm.addrPhone,
+            addrAddress: this.sizeForm.addrAddress,
+            addrPostcode: this.sizeForm.addrPostcode
+          }, (res) => {
+            console.log(res)
+            this.$router.push('/memberCenter/personalCenter/receivingAddress')
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     }
   },
   mounted () {
-    getaddress1({}, (res) => {
-      console.log(res.data)
-    })
   }
 }
 </script>

@@ -44,7 +44,6 @@ export default {
   }
   return {
    checked:true,
-   userPhone:'',
    loginForm: {
     user_phone: '',
     user_password: ''
@@ -65,9 +64,10 @@ methods: {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           getLogin({userPwd: md5 (this.loginForm.user_password), userPhone: this.loginForm.user_phone}, (res) =>{
-            this.userPhone = res.data.user.userPhone
             window.localStorage.setItem('token', res.user[0].userPhone)
+            window.localStorage.setItem('userId', res.user[0].id)
             window.location.href = '/'
+            console.log(res);
           })
         } else {
           console.log('error submit!!')

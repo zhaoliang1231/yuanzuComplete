@@ -18,7 +18,7 @@
             </span>
             <span>></span>
             <span>
-                <a class="a-hover-pink" href="">6号溪云初起巧克力蛋糕</a>
+                <a class="a-hover-pink" href="">{{goodLists.goodsTitle}}</a>
             </span>
         </div>
         <div class="product">
@@ -45,13 +45,13 @@
                 </div>
             </div>
             <div class="product_value">
-                <h1>溪云初起巧克力蛋糕</h1>
+                <h1>{{goodLists.goodsName}}</h1>
                 <p class="summary">寓意祥云瑞起，吉祥安康</p>
                 <!--产品价格-->
                 <dl>
                     <dt>优惠价:</dt>
                     <dd>
-                        <strong>¥198.00</strong>
+                        <strong>¥{{goodLists.goodsPrice}}</strong>
                     </dd>
                 </dl>
                 <!--规格选择-->
@@ -96,8 +96,10 @@
                                     </div>
                                 </li>
                                 </ul>
-                                <button class="btn_buy" id="btn_buy" type="button" style="margin: 0 14px 0 0;width: 110px;">立即购买</button>
-                                <button id="addToCartButton" class="btn_addcart" type="submit">加入购物车</button>
+                                <router-link class="btn_buy" id="btn_buy" type="button" style="margin: 0 14px 0 0;width: 110px;text-align: center;line-height: 38px" to="/settlement/shopcart">
+                                    立即购买
+                                </router-link>
+                                <button id="addToCartButton" class="btn_addcart" type="submit" @click="addCar">加入购物车</button>
                             </dd>
                         </dl>
                     </form>
@@ -135,9 +137,10 @@ import img2 from 'static/img/100001416_L1.jpg'
 import img3 from 'static/img/100001416_L2.jpg'
 import {storeCollet} from  'Api/request'
 import {getDetail} from 'Api/request'
+import {getAddCar} from 'Api/request'
 export default {
   name: 'DetaiBanner',
-  props: ['id'],
+  props: ['id', 'detailId'],
   data () {
     return {
       num: 1,
@@ -155,6 +158,8 @@ export default {
       ],
       // 商品信息
       goodLists: [],
+      //商品图片
+      imgLists:[],
       // 规格数据
       specifications: [
         {name: '6号'},
@@ -171,8 +176,10 @@ export default {
       ]}
   },
   mounted () {
-    getDetail({goodsId: 3}, (res) => {
-      console.log(res.data)
+    getDetail({goodsId: this.$route.query.id}, (res) => {
+      this.goodLists = res.data
+      this.imgLists = res.data.imgs
+      // console.log(res)
     })
   },
   methods: {
@@ -196,19 +203,33 @@ export default {
       }
     },
     open: function () {
-      storeCollet({goodsId: 1}, (res) => {
-        console.log(res)
-        if (res.data.userState === 1) {
+      storeCollet({goodsId: parseInt(this.$route.query.id),userId:window.localStorage.getItem('userId')}, (res) => {
+        if (res.message == "success") {
           this.$message({
-            message: '已添加到我的收藏',
+            message: '已加入购物车',
             type: 'success',
             duration: 1000
           })
-        } else {
-          alert("应跳转登录页面")
+        }else{
+          this.$message.error('添加购物车失败!')
+        }
+
+      })
+    },
+    addCar: function (e) {
+      e.preventDefault();
+      getAddCar({goodsId:this.$route.query.id,userId:window.localStorage.getItem('userId')},(res)=>{
+        console.log(res)
+        if (res.message == "success") {
+          this.$message({
+            message: '已加入购物车',
+            type: 'success',
+            duration: 1000
+          })
+        }else{
+          this.$message.error('添加购物车失败!')
         }
       })
-
     }
   }
 }
@@ -417,6 +438,7 @@ export default {
                     padding-left: 20px;
                     background: #e4004f url(../../../static/img/icon_cart.gif) no-repeat 15px 12px;
                     border: 0;
+                    cursor: pointer;
                 }
             }
             .chengnuo{

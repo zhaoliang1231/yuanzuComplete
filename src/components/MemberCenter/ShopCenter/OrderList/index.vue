@@ -3,27 +3,27 @@
   <div class="user-content">
       <h3>订单列表</h3>
       查看你的订单
-      <el-table :data="tableData" style="width: 100%">
+      <el-table style="width: 100%">
           <el-table-column label="订单号" width="200">
               <template slot-scope="scope">
                   <router-link :to="{name:'Order'}">
-                    <span>{{ scope.row.orderNum }}</span>
+                    <span>{{orderLists.orderbNo}}</span>
                   </router-link>
               </template>
           </el-table-column>
           <el-table-column label="订单状态" width="80">
               <template slot-scope="scope">
-                  <span>{{ scope.row.state }}</span>
+                  <span>{{orderLists}}</span>
               </template>
           </el-table-column>
           <el-table-column label="订单提交日期" width="200">
               <template slot-scope="scope">
-                  <span>{{ scope.row.submdate}}</span>
+                  <span>{{new Date(orderLists.benginTime).getFullYear()}}-{{new Date(orderLists.benginTime).getMonth()+1}}-{{new Date(orderLists.benginTime).getDate()}}</span>
               </template>
           </el-table-column>
           <el-table-column label="总计" width="80">
               <template slot-scope="scope">
-                  <span class="font-color-red">￥{{ scope.row.count }}</span>
+                  <span class="font-color-red">￥666</span>
               </template>
           </el-table-column>
           <el-table-column label="操作">
@@ -39,22 +39,24 @@
   </div>
 </template>
 <script>
+import {orderLists} from 'Api/request_cg.js'
 export default {
-  methods: {
-    handleClick (row) {
-      console.log(row)
-    }
-  },
-
   data () {
     return {
-      tableData: [{
-        orderNum: '161465456456',
-        state: '订单提交',
-        submdate: '2019年5月25日 上午9：25',
-        count: '666'
-      }]
     }
+  },
+  computed: {
+    orderLists: function () {
+      return this.$store.state.orderlist.orderlists
+    }
+  },
+  mounted () {
+    orderLists({
+      currentPage: 1,
+      userId: window.localStorage.getItem('token') || ''
+    }, (res) => {
+      this.$store.commit('getorder', res.data[0])
+    })
   }
 }
 
