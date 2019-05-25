@@ -14,5 +14,5 @@ const store = new Vuex.Store({
     cart: cart,
     user: user
   }
-});
+})
 export default store
