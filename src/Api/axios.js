@@ -17,10 +17,8 @@ function sendAxios(methods ,url,data = {}) {
   return new Promise((resolve,reject)=>{
     axios({
       method: methods,
-      url: api + url,
- 
-
-      data: qs.stringify(data),
+      url: api + url + '?' + qs.stringify(data),
+      // data: qs.stringify(data),
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
@@ -28,6 +26,7 @@ function sendAxios(methods ,url,data = {}) {
       if (res.data.message == "success"){
         resolve(res.data)
       }else{
+        console.log(res.data)
         console.log('请求失败')
       }
     }).catch((err)=>{

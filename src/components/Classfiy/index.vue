@@ -1,6 +1,6 @@
 <template>
   <div class="classfiy">
-    <div v-if="name" class="classfiy-top">
+    <div v-if="typeNo==2" class="classfiy-top">
       <router-link to="/">
         <span class="mn-a">首页</span>
       </router-link> >
@@ -11,7 +11,7 @@
     <div class="classfiy-banner">
       <img src="~static/img/classfiy-banner.jpg"/>
     </div>
-    <div v-if="name" class="results">
+    <div v-if="typeNo==2" class="results">
       <p class="fontSize-24">您搜索的是 "{{name}}"</p>
     </div>
     <div class="clearfix">
@@ -104,23 +104,21 @@
 <script>
 import DropDown from './DropDown.vue'
 import GuessLike from '../Detail/GuessLike/guessLike.vue'
-import {GoodsInfoMmp} from 'Api/request_yf'
+import {GoodsInfoMmp, LikeContext} from 'Api/request_yf'
 import {api} from 'Api/api'
 export default {
   components: {DropDown, GuessLike},
   name: 'index',
-  props: ['id', 'typeNo', 'name'],
+  props: ['yid', 'eid', 'typeNo', 'name'],
   data () {
     return {
-      api,
+      api, // 域名
       parameter: {
-        typeId: this.id,
-        currentPage: 1,
-        typeNo: this.typeNo
+        currentPage: 1 // 当前页
       },
-      Total: 10,
-      sortPrice: '',
-      sortSales: '',
+      Total: 0, // 总页数
+      sortPrice: '', // 价格排序
+      sortSales: '', // 销售排序
       goodsinfommp: [],
       dynamicTags: [],
       classfiyArr:
@@ -187,31 +185,93 @@ export default {
         }
       }
     },
+    // 调接口
     classfiyAxiso () {
       if (this.sortPrice) {
         this.parameter.price = this.sortPrice
       }
       if (this.sortSales) {
-        this.parameter.sales = this.sortPrice
+        this.parameter.sales = this.sortSales
       }
-      GoodsInfoMmp(this.parameter, (res) => {
-        this.goodsinfommp = res.data
-      })
+      console.log('调接口')
+      // 搜索框
+      if (this.typeNo === '2') {
+        console.log('搜索框加载调用接口')
+        this.parameter.goodsName = this.name
+        LikeContext(this.parameter, (res) => {
+          console.log('搜索框接口调用成功')
+          this.Total = res.totalPage
+          this.goodsinfommp = res.data
+        })
+      } else {
+        // 分类
+        this.parameter.typeNo = this.typeNo // 一级商品类型：0二级商品类型：1
+        if (this.typeNo === '0') {
+          this.parameter.typeId = this.yid// 一级类型id
+        } else if (this.typeNo === '1') {
+          this.parameter.typeId = this.eid// 二级类型id
+        }
+        console.log('分类加载调用接口')
+        GoodsInfoMmp(this.parameter, (res) => {
+          console.log('分类接口调用成功')
+          this.Total = res.totalPage
+          this.goodsinfommp = res.data
+        })
+      }
     },
+    // 分页调接口
     handleCurrentChange (val) {
+      console.log('分页加载')
       this.parameter.currentPage = val
       this.classfiyAxiso()
     },
+    // 价格排序调接口
     sortprice (val) {
+      console.log('价格排序')
       this.sortPrice = val
       this.classfiyAxiso()
     },
+    // 销售排序调接口
     sortsales (val) {
+      console.log('销售排序')
       this.sortSales = val
       this.classfiyAxiso()
     }
   },
+  watch: {
+    // 搜索框调接口
+    name (val) {
+      if (val !== undefined) {
+        console.log('搜索框加载')
+        this.parameter = {
+          currentPage: 1 // 当前页
+        }
+        this.classfiyAxiso()
+      }
+    },
+    // 分类调接口
+    yid (val) {
+      if (val !== undefined) {
+        console.log('一级分类加载')
+        this.parameter = {
+          currentPage: 1 // 当前页
+        }
+        this.classfiyAxiso()
+      }
+    },
+    // 二级分类调接口
+    eid (val) {
+      if (val !== undefined) {
+        console.log('二级分类加载')
+        this.parameter = {
+          currentPage: 1 // 当前页
+        }
+        this.classfiyAxiso()
+      }
+    }
+  },
   beforeMount () {
+    console.log('首次加载')
     this.classfiyAxiso()
   }
 }
