@@ -82,6 +82,12 @@ let addEvaluate = function (data,callback) {
     callback(res)
   })
 }
+//添加购物车
+let getAddCar = function (data,callback) {
+  sendAxios('post','/cart_addGoodsToCart',data).then((res)=>{
+    callback(res)
+  })
+}
 
 export {
   getNotices,
@@ -95,7 +101,8 @@ export {
   changeNunbers,
   getDetail,
   getEvaluate,
-  addEvaluate
+  addEvaluate,
+  getAddCar
 }
 
 
