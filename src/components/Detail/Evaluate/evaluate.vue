@@ -93,6 +93,7 @@ export default {
     },
     submitComments:function (e) {
       e.preventDefault();
+      console.log(this.$route.query.id)
       addEvaluate(
         {
           goodsinfoId:this.$route.query.id,
