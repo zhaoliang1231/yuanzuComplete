@@ -32,7 +32,7 @@ let GoodsinfoFindByType = function (data, callback) {
 }
 // 分类详情
 let GoodsInfoMmp = function (data, callback) {
-  console.log('正在调用分类详情')
+  console.log('正在调用分类详情 ')
   sendAxios('post', '/goodsinfo_queryGoodsInfoMmp.action', data).then((res) => {
     callback(res)
   })
