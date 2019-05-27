@@ -9,6 +9,9 @@
           <el-form-item label="所在区域" required>
               <v-distpicker @selected="onSelected"></v-distpicker>
           </el-form-item>
+          <el-form-item label="详细地址" prop="address">
+            <el-input v-model="sizeForm.address"></el-input>
+          </el-form-item>
           <el-form-item label="邮编" prop="addrPostcode">
              <el-input v-model.number="sizeForm.addrPostcode"></el-input>
           </el-form-item>
@@ -46,22 +49,26 @@ export default {
         addrAddress: '',
         addrPhone: '',
         addrPostcode: '',
+        address: '',
         email: ''
       },
       rules: {
         addrName: [{ required: true, message: '请输入姓名', trigger: 'blur' }, { min: 2, max: 4, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
         addrPostcode: [{type: 'number', message: '邮编必须为数字'}],
-        addrPhone: [{ required: true, trigger: 'blur', validator: validPhone }]
+        addrPhone: [{ required: true, trigger: 'blur', validator: validPhone }],
+        address: [{required: true, trigger: 'blur'}]
       }
     }
   },
   methods: {
     onSelected: function (data) {
-      this.sizeForm.addrAddress = data.province.value + data.city.value + data.area.value
+      this.sizeForm.addrAddress = data.province.value + ' ' + data.city.value + ' ' + data.area.value
+      console.log(this.sizeForm.addrAddress)
     },
     onSubmit: function (sizeForm) {
+      this.sizeForm.addrAddress += ' ' + this.sizeForm.address
+      console.log(this.sizeForm.addrAddress)
       this.$refs[sizeForm].validate((valid) => {
-        console.log(this.sizeForm)
         if (valid) {
           addAddress({
             userId: window.localStorage.getItem('token'),

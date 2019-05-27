@@ -3,74 +3,93 @@
   <div class="user-content">
       <h3>订单列表</h3>
       查看你的订单
-      <el-table style="width: 100%">
-          <el-table-column label="订单号" width="200">
-              <template slot-scope="scope">
-                  <router-link :to="{name:'Order'}">
-                    <span>{{orderLists.orderbNo}}</span>
-                  </router-link>
-              </template>
-          </el-table-column>
-          <el-table-column label="订单状态" width="80">
-              <template slot-scope="scope">
-                  <span>{{orderLists}}</span>
-              </template>
-          </el-table-column>
-          <el-table-column label="订单提交日期" width="200">
-              <template slot-scope="scope">
-                  <span>{{new Date(orderLists.benginTime).getFullYear()}}-{{new Date(orderLists.benginTime).getMonth()+1}}-{{new Date(orderLists.benginTime).getDate()}}</span>
-              </template>
-          </el-table-column>
-          <el-table-column label="总计" width="80">
-              <template slot-scope="scope">
-                  <span class="font-color-red">￥666</span>
-              </template>
-          </el-table-column>
-          <el-table-column label="操作">
-              <template slot-scope="scope">
-                  <router-link :to="{name:'Order'}">
-                      <el-button size="mini">查看</el-button>
-                  </router-link>
-                  <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">立即支付</el-button>
-                  <el-button size="mini"  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-              </template>
-          </el-table-column>
-      </el-table>
+      <table border="0" cellspacing="1" cellpadding="0" style="width: 100%">
+          <thead>
+              <tr>
+                <th>订单号</th>
+                <th>订单状态</th>
+                <th>订单提交日期</th>
+                <th>总计</th>
+                <th>操作</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr v-for="(item, index) in userorder" :key="index">
+                <td>
+                  <router-link :to="{name:'Order'}">{{item.orderbNo}}</router-link>
+                </td>
+                <td>已提交</td>
+                <td>{{new Date(item.benginTime).getFullYear()}}-{{new Date(item.benginTime).getMonth()+1}}-{{new Date(item.benginTime).getDate()}}</td>
+                <td>￥666</td>
+                <td>
+                  <router-link :to="{name:'Order'}">查看</router-link>
+                  <a>立即支付</a>
+                  <a @click="deleteList(index)">取消</a>
+                </td>
+              </tr>
+          </tbody>
+      </table>
   </div>
 </template>
 <script>
-import {orderLists} from 'Api/request_cg.js'
+import {listsorder} from 'Api/request_cg.js'
 export default {
   data () {
     return {
     }
   },
   computed: {
-    orderLists: function () {
+    userorder: function () {
       return this.$store.state.orderlist.orderlists
     }
   },
   mounted () {
-    orderLists({
-      currentPage: 1,
-      userId: window.localStorage.getItem('token') || ''
+    listsorder({
+      userId: window.localStorage.getItem('userId') || ''
     }, (res) => {
-      this.$store.commit('getorder', res.data[0])
+      this.$store.commit('getuser', res.data)
     })
+  },
+  methods: {
+    deleteList (index) {
+      this.userorder.splice(index, 1)
+      this.$store.commit('getorder', this.userorder)
+    }
   }
 }
 
 </script>
 <style lang="less" scoped>
   @import "~static/css/common.less";
-  /deep/
-  .el-button+.el-button{
-      margin-left: 0px;
-  }
   .user-content{
-    .font-color-red{
-      font-weight: bold;
+    table{
+      border: 1px solid @gray;
+      border-collapse: collapse;
+      table-layout: fixed;
+      text-align: center;
+      /*<!--text-align: center;-->*/
+      /*<!--border-top: 1px solid @gray;-->*/
+      /*<!--border-left: 1px solid @gray;-->*/
+      /*<!--border-spacing: 0;-->*/
+      tr{
+        height: 35px;
+        line-height: 34px;
+        border:1px solid @gray;
+        border-left: none;
+        border-right: none;
+        td{
+          /deep/
+          a{
+            text-decoration: underline;
+          }
+        }
+      }
+      tbody{
+        td:nth-child(4){
+          color: @pink;
+          font-weight: bold;
+        }
+      }
     }
   }
-
 </style>
