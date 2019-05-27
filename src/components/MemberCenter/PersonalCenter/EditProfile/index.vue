@@ -45,7 +45,7 @@ export default {
   methods: {
     editProfile: function () {
       changeData({
-        userid: window.localStorage.getItem('token'),
+        userId: window.localStorage.getItem('token'),
         userPhone: this.userinfo.userPhone,
         userEmail: this.userinfo.userEmail,
         userbirthday: this.userinfo.userBirthday

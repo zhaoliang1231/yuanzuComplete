@@ -42,8 +42,9 @@ export default {
   },
   mounted () {
     personalData({
-      userId: window.localStorage.getItem('token') || ''
+      userId: window.localStorage.getItem('userId') || ''
     }, (res) => {
+      console.log(res.data + '666666')
       this.$store.commit('getuser', res.data[0])
     })
   }
