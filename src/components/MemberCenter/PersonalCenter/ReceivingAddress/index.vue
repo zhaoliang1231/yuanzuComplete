@@ -6,10 +6,7 @@
       <ul v-for="(item, index) in userAddress" :key="index">
         <li>
           <span>{{item.addrName}}</span>,
-          <span></span>,
-          <span>沙坪坝</span>,
-          <span>西永天坑德克特</span>,
-          <span>具体详细地址</span>,
+          <span>{{item.addrAddress}}</span>,
           <span>{{item.addrPhone}}</span>,
           <span>{{item.addrPostcode}}</span>
         </li>
@@ -30,14 +27,23 @@ export default {
   },
   computed: {
     userAddress: function () {
-      return this.$store.state.userAddress.userAddress
+      let addlist =  this.$store.state.userAddress.userAddress
+      for (let i in addlist) {
+        addlist[i].addrAddress = addlist[i].addrAddress.split(' ').join(',')
+      }
+      console.log(addlist)
+      return addlist
     }
   },
   mounted () {
+//      let adds = this.$store.state.userAddress.userAddress
+//      for (let i in adds) {
+//        console.log(adds[i].addrAddress.split(' ').join(','))
+//      }
     receivingAddress({
       userId: window.localStorage.getItem('token') || ''
     }, (res) => {
-      console.log(res + '6666')
+      console.log(res.data)
       this.$store.commit('getaddress', res.data)
     })
   },
