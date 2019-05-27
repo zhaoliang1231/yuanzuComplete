@@ -84,7 +84,7 @@ let addEvaluate = function (data,callback) {
 }
 //添加购物车
 let getAddCar = function (data,callback) {
-  sendAxios('post','/cart_addGoodsToCart',data).then((res)=>{
+  sendAxios('post','/cart_addGoodsToCart.action',data).then((res)=>{
     callback(res)
   })
 }
