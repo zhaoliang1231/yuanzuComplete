@@ -7,10 +7,10 @@
         </div>
         <ul v-if="toggle" class="mn-classify-lists">
           <li v-for="(classify, i) in classify" :key="i" :style="{background:icon[i], backgroundSize: 30+'px'}" class="mn-classify-list">
-            <router-link :to="'/classfiy?id='+classify.id+'&typeNo=1'">
+            <router-link :to="'/classfiy?yid='+classify.id+'&typeNo=0'">
               <span class="mn-classify-list-title fontSize-14 mn-a">{{classify.goodsTypeName}}</span>
             </router-link>
-              <router-link :key="k" v-for="(goodstypetwo,k) in classify.erjtypeInfo" :to="'/classfiy?id='+goodstypetwo.id+'&typeNo=2'">
+              <router-link :key="k" v-for="(goodstypetwo,k) in classify.erjtypeInfo" :to="'/classfiy?eid='+goodstypetwo.id+'&typeNo=1'">
                 <span class="fontSize-12 mn-a">{{goodstypetwo.goodsTypeNameTwo}} </span>
               </router-link>
           </li>

@@ -1,7 +1,7 @@
 <template>
     <div class="clearfix">
         <div class="content_box" style="float:left">
-          <DetailBanner ></DetailBanner>
+          <DetailBanner :id="id" ></DetailBanner>
           <ShopIntroduction></ShopIntroduction>
         </div>
         <GuessLike style="float:right;margin-top:45px"></GuessLike>
@@ -14,14 +14,15 @@
     import GuessLike from './GuessLike/guessLike'
 
 
-    export default {
-   name: 'Detail',
-    components: {
+export default {
+  props: ['id'],
+  name: 'Detail',
+  components: {
       DetailBanner,
       ShopIntroduction,
       GuessLike
-    }
   }
+}
 </script>
 
 <style scoped>

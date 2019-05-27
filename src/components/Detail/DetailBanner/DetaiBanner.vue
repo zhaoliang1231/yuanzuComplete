@@ -96,8 +96,10 @@
                                     </div>
                                 </li>
                                 </ul>
-                                <button class="btn_buy" id="btn_buy" type="button" style="margin: 0 14px 0 0;width: 110px;">立即购买</button>
-                                <button id="addToCartButton" class="btn_addcart" type="submit">加入购物车</button>
+                                <router-link class="btn_buy" id="btn_buy" type="button" style="margin: 0 14px 0 0;width: 110px;text-align: center;line-height: 38px" to="/settlement/shopcart">
+                                    立即购买
+                                </router-link>
+                                <button id="addToCartButton" class="btn_addcart" type="submit" @click="addCar">加入购物车</button>
                             </dd>
                         </dl>
                     </form>
@@ -135,9 +137,10 @@ import img2 from 'static/img/100001416_L1.jpg'
 import img3 from 'static/img/100001416_L2.jpg'
 import {storeCollet} from  'Api/request'
 import {getDetail} from 'Api/request'
+import {getAddCar} from 'Api/request'
 export default {
   name: 'DetaiBanner',
-  props: ['id'],
+  props: ['id', 'detailId'],
   data () {
     return {
       num: 1,
@@ -173,11 +176,10 @@ export default {
       ]}
   },
   mounted () {
-    getDetail({goodsId: 3}, (res) => {
-      console.log(this.$route.params)
+    getDetail({goodsId: this.$route.query.id}, (res) => {
       this.goodLists = res.data
       this.imgLists = res.data.imgs
-      console.log(res.data)
+      // console.log(res)
     })
   },
   methods: {
@@ -201,19 +203,33 @@ export default {
       }
     },
     open: function () {
-      storeCollet({goodsId: 1}, (res) => {
-        console.log(res)
-        if (res.data.userState === 1) {
+      storeCollet({goodsId: parseInt(this.$route.query.id),userId:window.localStorage.getItem('userId')}, (res) => {
+        if (res.message == "success") {
           this.$message({
-            message: '已添加到我的收藏',
+            message: '已加入购物车',
             type: 'success',
             duration: 1000
           })
-        } else {
-          alert("应跳转登录页面")
+        }else{
+          this.$message.error('添加购物车失败!')
+        }
+
+      })
+    },
+    addCar: function (e) {
+      e.preventDefault();
+      getAddCar({goodsId:this.$route.query.id,userId:window.localStorage.getItem('userId')},(res)=>{
+        console.log(res)
+        if (res.message == "success") {
+          this.$message({
+            message: '已加入购物车',
+            type: 'success',
+            duration: 1000
+          })
+        }else{
+          this.$message.error('添加购物车失败!')
         }
       })
-
     }
   }
 }
@@ -422,6 +438,7 @@ export default {
                     padding-left: 20px;
                     background: #e4004f url(../../../static/img/icon_cart.gif) no-repeat 15px 12px;
                     border: 0;
+                    cursor: pointer;
                 }
             }
             .chengnuo{

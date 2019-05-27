@@ -32,10 +32,17 @@ let GoodsInfoMmp = function (data, callback) {
     callback(res)
   })
 }
+//搜索框
+let LikeContext = function (data, callback) {
+  sendAxios('post', '/goodsinfo_queryLikeContext.action', data).then((res) => {
+    callback(res)
+  })
+}
 export {
   homeBanner,
   GoodsinfoFindByType,
   AllgoodstypeAndTwo,
   TitleAll,
-  GoodsInfoMmp
+  GoodsInfoMmp,
+  LikeContext
 }

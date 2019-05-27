@@ -37,7 +37,7 @@ export default {
     receivingAddress({
       userId: window.localStorage.getItem('token') || ''
     }, (res) => {
-      console.log(res)
+      console.log(res + '6666')
       this.$store.commit('getaddress', res.data)
     })
   },

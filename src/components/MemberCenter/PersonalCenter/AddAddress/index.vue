@@ -49,7 +49,7 @@ export default {
         email: ''
       },
       rules: {
-        addrName: [{ required: true, message: '请输入姓名', trigger: 'blur' }, { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
+        addrName: [{ required: true, message: '请输入姓名', trigger: 'blur' }, { min: 2, max: 4, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
         addrPostcode: [{type: 'number', message: '邮编必须为数字'}],
         addrPhone: [{ required: true, trigger: 'blur', validator: validPhone }]
       }
@@ -65,15 +65,13 @@ export default {
         if (valid) {
           addAddress({
             userId: window.localStorage.getItem('token'),
-            addrName: this.ruleForm.addrName,
-            addrPhone: this.ruleForm.addrPhone,
-            addrAddress: this.ruleForm.addrAddress,
-            addrPostcode: this.ruleForm.addrPostcode
+            addrName: this.sizeForm.addrName,
+            addrPhone: this.sizeForm.addrPhone,
+            addrAddress: this.sizeForm.addrAddress,
+            addrPostcode: this.sizeForm.addrPostcode
           }, (res) => {
             console.log(res)
-//              setTimeout(function () {
-//                this.$router.push('/memberCenter/personalCenter/receivingAddress')
-//              }, 2000)
+            this.$router.push('/memberCenter/personalCenter/receivingAddress')
           })
         } else {
           console.log('error submit!!')

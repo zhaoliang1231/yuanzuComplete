@@ -17,7 +17,8 @@ function sendAxios(methods ,url,data = {}) {
   return new Promise((resolve,reject)=>{
     axios({
       method: methods,
-      url: api + url+'?'+qs.stringify(data),
+      url: api + url + '?' + qs.stringify(data),
+      // data: qs.stringify(data),
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
