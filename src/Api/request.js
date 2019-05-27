@@ -93,7 +93,7 @@ export {
   getLogin,
   storeCollet,
   changeNunbers,
-
+  getDetail,
   getEvaluate,
   addEvaluate
 }

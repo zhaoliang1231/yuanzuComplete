@@ -26,12 +26,10 @@
     },
     methods: {
       addClasss : function () {
-        console.log("111")
         this.flag = true
         this.flag1 = false
       },
       addClassfiy : function () {
-        console.log("12")
         this.flag = false
         this.flag1 = true
       }
