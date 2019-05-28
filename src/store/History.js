@@ -1,6 +1,6 @@
 
 const state = {
-  record: []
+  record: ['h']
 }
 
 const mutations = {
