@@ -98,7 +98,18 @@ let orderPay = function (data,callback) {
     callback(res)
   })
 }
-
+//获取地址
+let getAddrList=function (data,callback) {
+  sendAxios('post','/address_queryAllAddressByUserId.action',data).then((res)=>{
+    callback(res)
+  })
+}
+//添加地址地址
+let setAddrList=function (data,callback) {
+  sendAxios('post','/address_addAddress.action',data).then((res)=>{
+    callback(res)
+  })
+}
 export {
   getNotices,
   getNoticeDetail,
@@ -112,7 +123,11 @@ export {
   getDetail,
   getAddCar,
   getEvaluate,
-  addEvaluate,deleteShop,
-  orderPay}
+  addEvaluate,
+  deleteShop,
+  orderPay,
+  getAddrList,
+  setAddrList
+}
 
 

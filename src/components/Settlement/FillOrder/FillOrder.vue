@@ -8,12 +8,12 @@
         <div class="fo-right-box">
           <div class="fo-address-box">
               <ul class="fo-address-ul">
-                <li>
-                  <label ><input type="radio" checked>
-                    <em>赵亮</em>
-                    <em>云南省 保山市 腾冲 酆都</em>
-                    <em>120000</em>
-                    <em>13800000000</em>
+                <li v-for="(item,index) in addressList" :key="index">
+                  <label ><input type="radio" name="address" :checked="index==0">
+                    <em>{{item.addrName}}</em>
+                    <em>{{item.addrAddress}}</em>
+                    <em>{{item.addrPostcode}}</em>
+                    <em>{{item.addrPhone}}</em>
                   </label>
                   <span @click="addressIshide=true">
 
@@ -32,7 +32,7 @@
                   <el-input v-model="sizeForm.name"></el-input>
                 </el-form-item>
                 <span style="float: left;line-height: 28px;padding-left: 10px"><em class="font-pink">*</em> 所在区域</span>
-                <VDistpicker v-model="addressDetail" @selected="onSelected">
+                <VDistpicker  @selected="onSelected">
                 </VDistpicker>
                 <el-form-item label="详细地址" prop="Address">
                   <el-input v-model="sizeForm.Address"></el-input>
@@ -190,7 +190,10 @@
 <script>
   import AddAddress from '../../MemberCenter/PersonalCenter/AddAddress/index.vue'
   import VDistpicker from 'v-distpicker'
-  import {orderPay} from "Api/request";
+  import {setAddrList} from "Api/request";
+  import {getAddrList} from "Api/request";
+  import axios from 'axios'
+  import qs from 'qs'
   var validPhone = (rule, value, callback) => {
     if (!value) {
       callback(new Error('请输入电话号码'))
@@ -219,9 +222,10 @@
         tosub: true,
         isAddress:false,
         addressIshide:false,
+        addressList:[],
         listShop:this.$store.state.cart.cartLists,
        sizeForm: {
-         name: '',
+            name: '',
            country: '',
            province: '',
            city: '',
@@ -247,27 +251,55 @@
       }
     },
     mounted(){
-      this.test()
+      this.getAddress()
     },
     methods: {
       isToSub: function () {
+        let data=window.localStorage.getItem('userId')
         if (this.tosub) {
-          // orderPay({
-          //   userId:window.localStorage.getItem('userId')
-          // },(res)=>{
-          //   console.log(res);
-          this.$store.commit('removeLists')
-          this.$router.push({ path:'/settlement/submitsuccess'  })
-          // })
-        } else {
-
+          axios.post(
+            'http://huangchuan.natapp1.cc/yuanzu/orderb_addOrderb.action' + '?' + qs.stringify(data),
+            // // data: qs.stringify(data),
+            // headers: {
+            //   'Content-Type': 'application/x-www-form-urlencoded'
+            // }
+          ).then((res)=>{
+              console.log(res.data)
+          }).catch((err)=>{
+            console.log('网络错误')
+          })
         }
       },
-      onSelected(data) {
-
+      getAddress:function(){
+        getAddrList({
+          userId:window.localStorage.getItem('userId')
+        },(res)=>{
+          this.addressList=res.data;
+          console.log(res.data);
+        })
       },
-      test:function () {
-        console.log(this.total)
+      onSelected(data) {
+        this.sizeForm.addressDetail=data.province.value+' '+data.city.value+' '+data.area.value
+      },
+      onSubmitAddres:function () {
+        if(this.sizeForm.name && this.sizeForm.telphone && this.sizeForm.addressDetail && this.sizeForm.Address && this.sizeForm.zipcode !=''){
+          setAddrList({
+            userId:window.localStorage.getItem('userId'),
+            addrName:this.sizeForm.name,
+            addrPhone:this.sizeForm.telphone,
+            addrAddress:this.sizeForm.addressDetail+' '+ this.sizeForm.Address,
+            addrPostcode:this.sizeForm.zipcode
+          },(res)=>{
+            console.log(res);
+            alert('地址添加成功')
+            this.addressIshide = false
+          })
+          return true
+        }else{
+          alert('地址填写错误')
+          return false
+        }
+
       }
     }
   }

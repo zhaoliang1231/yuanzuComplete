@@ -172,12 +172,12 @@
        let list=this.cartlists.splice(index,1)
         console.log(list[0].goodsId);
         this.$store.commit('deleteLists',this.cartlists)
-        // deleteShop({
-        //   goodsId: this.cartlists[index].goodsId,
-        //   userId:window.localStorage.getItem('userId')
-        // },(res)=>{
-        //   console.log(JSON.stringify(res));
-        // })
+        deleteShop({
+          goodsId: list[0].goodsId,
+          userId:window.localStorage.getItem('userId')
+        },(res)=>{
+          alert('删除成功')
+        })
       }
     }
   }
