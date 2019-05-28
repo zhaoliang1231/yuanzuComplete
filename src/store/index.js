@@ -5,7 +5,6 @@ import user from './user'
 import orderlist from './orderlist'
 import userAddress from './userAddress'
 import History from './History'
-import collect from './collect'
 Vue.use(Vuex);
 const state = {
   showFooter:true,
