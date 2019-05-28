@@ -94,7 +94,7 @@
               <div>
                 <ul>
                   <li>
-                    <router-link :to="'/detail?id='+item.goodsId" class="a-hover-pink font-weight-bold">{{item.goodsName}}</router-link>
+                    <router-link to="#" class="a-hover-pink font-weight-bold">{{item.goodsName}}</router-link>
                   </li>
                   <li class="text-align-center" style="line-height: 40px">
                     <em class="font-pink">¥{{item.goodsPrice}}.00</em>
@@ -149,7 +149,8 @@
 
           </div>
           <p>
-            <label><input type="radio" name="zhifu" value="支付宝" checked="checked">支付宝</label>
+            <label><input type="radio" name="invoice" value="支付宝" checked>支付宝</label>
+            <label><input type="radio" name="invoice" value="微信" >微信</label>
           </p>
         </div>
       </div>
@@ -440,8 +441,6 @@
         }
         ul li:nth-child(1) {
           padding-left: 20px;
-          text-align: center;
-          line-height: 40px;
         }
       }
 

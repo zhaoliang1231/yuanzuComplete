@@ -1,42 +1,53 @@
-import {getShopcart} from "Api/request";
 
 const state = {
-  cartLists: [],
-  cartlist: [],
-  // time: 0
+  cartLists: [
+    {
+      imgs: ['/src/static/img/100001433_M.ea439af.jpg'],
+      goodsId: 8,
+      goodsPrice: 999.00,
+      goodsName: "黄川的测试提货券6",
+      goodsNum: 2
+    },
+    {
+      imgs:['/src/static/img/100001433_M.ea439af.jpg'],
+      goodsId:8,
+      goodsPrice:999.00,
+      goodsName:"黄川的测试提货券6",
+      goodsNum:1
+    },
+    {
+      imgs:['/src/static/img/100001433_M.ea439af.jpg'],
+      goodsId:8,
+      goodsPrice:999.00,
+      goodsName:"黄川的测试提货券6",
+      goodsNum:1
+    },
+    {
+      imgs:['/src/static/img/100001433_M.ea439af.jpg'],
+      goodsId:8,
+      goodsPrice:999.00,
+      goodsName:"黄川的测试提货券6",
+      goodsNum:1
+    },
+  ]
 }
 
 const mutations = {
-  changeCartLists: function (state, options) {
-    let lists = options.lists
+  changeCartLists: function (state, lists) {
     state.cartLists = lists
-    // state.time = options.time
   },
   changeListNumber:function (state, goodslist) {
-    state.cartLists[goodslist.index].goodsNum = goodslist.num
-  },
-  chgCartLists: function (state, lists) {
-    state.cartlist = lists;
-  },
-  deleteLists: function (state, lists) {
-    state.cartLists = lists;
-  },
-  removeLists: function (state) {
-    state.cartLists = []
-  }
-}
-const actions = {
-  getCartLists: function (context, data) {
-    getShopcart(data, (res) => {
-        context.commit('changeCartLists',{
-          lists: res.data,
-          // time: new Date().getTime()
-        });
 
-    });
+    state.cartLists[goodslist.index].goodsNum = goodslist.num
   }
 }
+
+const actions = {
+
+}
+
 const getters = {
+  //{number: , price}
   total: function(state) {
     let number = 0, price = 0, lists = state.cartLists;
     for(let i = 0;i<lists.length;i++ ) {

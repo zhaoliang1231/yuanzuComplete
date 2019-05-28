@@ -40,18 +40,6 @@ let listsorder = function (data, callback) {
     callback(res)
   })
 }
-// 收藏列表
-let collectlist = function (data, callback) {
-  sendAxios('post', '/collect_queryPageCollect.action', data).then((res) => {
-    callback(res)
-  })
-}
-// 删除收藏
-let deletecollect = function (data, callback) {
-  sendAxios('post', '/collect_deleteCollect.action', data).then((res) => {
-    callback(res)
-  })
-}
 
 export {
   personalData,
@@ -59,7 +47,5 @@ export {
   changeData,
   receivingAddress,
   addAddress,
-  listsorder,
-  collectlist,
-  deletecollect
+  listsorder
 }

@@ -24,21 +24,17 @@ let getRegister = function (data,callback) {
 }
 //购物车查询接口
 let getShopcart = function (data,callback) {
-  sendAxios('post','/cart_queryCartFindByUser.action',data).then((res)=>{    callback(res)
+  sendAxios('post','/cart_queryCar.tFindByUser.action',data).then((res)=>{
+    callback(res)
   })
 }
 //购物车商品数量修改
 let changeNunbers = function (data,callback) {
-  sendAxios('post','/cart_updateGoodsToCart.action',data).then((res)=>{
+  sendAxios('post','/cart_updateGoodsToCart.aciton',data).then((res)=>{
     callback(res)
   })
 }
-//删除购物车商品
-let deleteShop = function (data,callback) {
-  sendAxios('post','/cart_deleteGoodsToCart.action',data).then((res)=>{
-    callback(res)
-  })
-}
+
 //手机证码接口
 let getPhoneCode = function (data,callback) {
   sendAxios('post','/user_sendNoteCode.action',data).then((res)=>{
@@ -86,18 +82,6 @@ let addEvaluate = function (data,callback) {
     callback(res)
   })
 }
-//添加购物车
-let getAddCar = function (data,callback) {
-  sendAxios('post','/cart_addGoodsToCart.action',data).then((res)=>{
-    callback(res)
-  })
-}
-//支付订单
-let orderPay = function (data,callback) {
-  sendAxios('post','/orderb_addOrderb.action',data).then((res)=>{
-    callback(res)
-  })
-}
 //获取地址
 let getAddrList=function (data,callback) {
   sendAxios('post','/address_queryAllAddressByUserId.action',data).then((res)=>{
@@ -121,7 +105,6 @@ export {
   storeCollet,
   changeNunbers,
   getDetail,
-  getAddCar,
   getEvaluate,
   addEvaluate,
   deleteShop,

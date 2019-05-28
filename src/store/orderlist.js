@@ -1,7 +1,7 @@
 
 const state = {
   orderlists: [{
-    'address': '重庆市 南岸区 大红大 决赛的哈斯',
+    'address': 'adasd',
     'orderbId': '1212',
     'benginTime': 557331200001,
     'orderbNo': 1008611

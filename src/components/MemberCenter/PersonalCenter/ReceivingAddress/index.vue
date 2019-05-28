@@ -27,11 +27,11 @@ export default {
   },
   computed: {
     userAddress: function () {
-      let addlist = this.$store.state.userAddress.userAddress
+      let addlist =  this.$store.state.userAddress.userAddress
       for (let i in addlist) {
         addlist[i].addrAddress = addlist[i].addrAddress.split(' ').join(',')
       }
-      // console.log(addlist)
+      console.log(addlist)
       return addlist
     }
   },
@@ -41,9 +41,9 @@ export default {
 //        console.log(adds[i].addrAddress.split(' ').join(','))
 //      }
     receivingAddress({
-      userId: window.localStorage.getItem('userId') || ''
+      userId: window.localStorage.getItem('token') || ''
     }, (res) => {
-//      console.log(res.data)
+      console.log(res.data)
       this.$store.commit('getaddress', res.data)
     })
   },

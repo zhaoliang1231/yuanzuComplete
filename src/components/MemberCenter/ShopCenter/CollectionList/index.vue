@@ -4,17 +4,17 @@
         <h3>我的收藏列表</h3>
         <table>
             <tbody>
-                <tr v-for="(item, index) in usercollect" :key="index">
-                    <td >
+                <tr>
+                    <td>
                         <div class="order-list">
                             <img title="8号溪云初起巧克力蛋糕" alt="8号溪云初起巧克力蛋糕" src="../Order/img/S.jpg">
-                            <strong>{{item.goodsTitle}}</strong>
-                            <p>{{item.goodsName}}</p>
+                            <strong>朝羽鲜奶蛋糕</strong>
+                            <p>寓意良辰美景， 幸福的时刻</p>
                         </div>
                     </td>
                     <td>
                       <div><el-button type="danger">添加到购物车</el-button></div>
-                      <div class="delete" @click="deleteList(index)">删除</div>
+                      <div class="delete">删除</div>
                     </td>
                 </tr>
             </tbody>
@@ -22,29 +22,7 @@
     </div>
 </template>
 <script>
-import {collectlist} from 'Api/request_cg.js'
-import {deletecollect} from 'Api/request_cg.js'
-
-export default {
-  computed: {
-    usercollect: function () {
-      return this.$store.state.collect.collectLists
-    }
-  },
-  mounted () {
-    collectlist({
-      userId: window.localStorage.getItem('userId') || ''
-    }, (res) => {
-      this.$store.commit('getcollect', res.data)
-    })
-  },
-  methods: {
-    deleteList (index) {
-      this.usercollect.splice(index, 1)
-      this.$store.commit('getcollect', this.usercollect)
-    }
-  }
-}
+export default {}
 </script>
 <style lang="less" scoped>
   .user-content{

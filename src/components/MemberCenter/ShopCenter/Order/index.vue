@@ -41,7 +41,7 @@
           <h4>收货人信息</h4>
           <ul>
             <li>
-              <span>rtyr</span>，
+              <span>大哥大</span>，
               <span>中国</span>，
               <span>上海</span>，
               <span>浦东</span>，
@@ -133,7 +133,7 @@
             <span>免费</span>
           </li>
           <li>
-            <span>总计{{userorder.orderbId}}</span>
+            <span>总计</span>
             <span>￥120</span>
           </li>
         </ul>
@@ -141,21 +141,7 @@
   </div>
 </template>
 <script>
-//import {listsorder} from 'Api/request_cg.js'
-export default {
-//  computed: {
-//    userorder: function () {
-//      return this.$store.state.orderlist.orderlists
-//    }
-//  },
-//  mounted () {
-//    listsorder({
-//      userId: window.localStorage.getItem('userId') || ''
-//    }, (res) => {
-//      this.$store.commit('getuser', res.data)
-//    })
-//  }
-}
+export default {}
 </script>
 <style lang="less" scoped>
   @import "~static/css/common.less";

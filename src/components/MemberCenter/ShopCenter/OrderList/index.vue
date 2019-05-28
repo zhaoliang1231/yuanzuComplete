@@ -45,10 +45,9 @@ export default {
   },
   mounted () {
     listsorder({
-      currentPage: 1,
       userId: window.localStorage.getItem('userId') || ''
     }, (res) => {
-      this.$store.commit('getorder', res.data)
+      this.$store.commit('getuser', res.data)
     })
   },
   methods: {
