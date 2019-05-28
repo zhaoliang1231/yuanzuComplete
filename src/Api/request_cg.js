@@ -4,29 +4,62 @@ import sendAxios from './axios'
 //获取注册验证码
 //callback回调函数传值到调用方法
 //data是传入后台的参数
+// 个人资料
 let personalData = function (data, callback) {
   sendAxios('post', '/user_queryUserInfoToFont.action', data).then((res) => {
     callback(res)
   })
 }
+// 修改密码
 let changepwd = function (data, callback) {
   sendAxios('post', '/user_updateUserPassword.action', data).then((res) => {
     callback(res)
   })
 }
+// 修改个人资料
 let changeData = function (data, callback) {
   sendAxios('post', '/user_updateUserPassword.action', data).then((res) => {
     callback(res)
   })
 }
+// 收货地址
 let receivingAddress = function (data, callback) {
-  sendAxios('post', '/address_queryAllAddressByUserId.action', data).then((res) => {
+  sendAxios('post', '/yuanzu/address_queryAllAddressByUserId.action', data).then((res) => {
     callback(res)
   })
 }
+// 添加地址
+let addAddress = function (data, callback) {
+  sendAxios('post', '/address_addAddress.action', data).then((res) => {
+    callback(res)
+  })
+}
+// 订单列表
+let listsorder = function (data, callback) {
+  sendAxios('post', '/orderb_queryOrderbFindByUser.action', data).then((res) => {
+    callback(res)
+  })
+}
+// 收藏列表
+let collectlist = function (data, callback) {
+  sendAxios('post', '/collect_queryPageCollect.action', data).then((res) => {
+    callback(res)
+  })
+}
+// 删除收藏
+let deletecollect = function (data, callback) {
+  sendAxios('post', '/collect_deleteCollect.action', data).then((res) => {
+    callback(res)
+  })
+}
+
 export {
   personalData,
   changepwd,
   changeData,
-  receivingAddress
+  receivingAddress,
+  addAddress,
+  listsorder,
+  collectlist,
+  deletecollect
 }

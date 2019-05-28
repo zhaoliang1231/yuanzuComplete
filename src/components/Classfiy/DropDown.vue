@@ -16,8 +16,8 @@ export default {
     return {
       isHide: true,
       toggle: false,
-      pangd: [{name: '价格',describe1: '价格（由低到高）',describe2: '价格（由低到高）'},
-        {name: '销量',describe1: '销量（由低到高）',describe2: '销量（由低到高）'}]
+      pangd: [{name: '价格',describe1: '价格（由低到高）',describe2: '价格（由高到低）'},
+        {name: '销量',describe1: '销量（由低到高）',describe2: '销量（由高到低）'}]
     }
   },
   mounted () {
@@ -32,7 +32,6 @@ export default {
       }
     },
     dianji1 () {
-      console.log(5555)
       this.$emit('Sort', 'desc')
     },
     dianji2 () {

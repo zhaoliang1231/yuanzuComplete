@@ -5,18 +5,22 @@
     <ul>
       <li>
         <span>姓名：</span>
-        <span><input type="text" v-model="userinfo.userPhone"/></span>
+        <span>
+          <input readonly="readonly" type="text" v-model="userinfo.userPhone"/>
+        </span>
       </li>
       <li>
-        <span >生日：</span>
         <span>
-          <input readonly="readonly"/>
-          (<i>*</i>更改生日请联系管理员)
+           <div class="block">
+            <span class="demonstration">生日：</span>
+            <el-date-picker v-model="userBirthday" type="date" placeholder="选择日期">
+            </el-date-picker>
+            </div>
         </span>
       </li>
       <li>
         <span>邮箱：</span>
-        <span><input/></span>
+        <span><input type="text" v-model="userinfo.userEmail"/></span>
       </li>
     </ul>
     <el-button type="danger" @click="editProfile">确认 </el-button>
@@ -28,6 +32,7 @@ import {changeData} from 'Api/request_cg.js'
 export default {
   data () {
     return {
+      userBirthday: '',
     }
   },
   computed: {
@@ -36,13 +41,37 @@ export default {
     }
   },
   mounted () {
-    console.log(this.userinfo.name)
-    changeData({
-      userId: window.localStorage.getItem('token') || ''
-    }, (res) => {
-      this.$store.commit('getuser', res.data[0])
-    })
+    let dateBdate = new Date(this.$store.state.user.usercenter.userBirthday).toString('yyyy-mm-dd')
+    let date = new Date(dateBdate)
+    this.userBirthday = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+  },
+  methods: {
+    editProfile: function () {
+      changeData({
+        userid: window.localStorage.getItem('userId'),
+        useremail: this.userinfo.userEmail,
+        userName: this.userinfo.userPhone,
+        userbirthday: this.userBirthday
+      }, (res) => {
+        if (res.success) {
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+          setTimeout(function () {
+            this.$router.push('/memberCenter/personalCenter/personalData')
+          }, 2000)
+        }
+      })
+    }
   }
+//  watch: {
+//    '$store.state.user.usercenter' () {
+//      let dateBdate = new Date(this.$store.state.user.usercenter.userBirthday).toString('yyyy-mm-dd')
+//      let date = new Date(dateBdate)
+//      this.userBirthday = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+//    }
+//  }
 }
 </script>
 <style lang="less" scoped>

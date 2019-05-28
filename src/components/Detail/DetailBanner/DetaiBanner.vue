@@ -203,7 +203,7 @@ export default {
       }
     },
     open: function () {
-      storeCollet({goodsId: parseInt(this.$route.query.id),userId:window.localStorage.getItem('userId')}, (res) => {
+      storeCollet({goodsId: this.$route.query.id,userId:window.localStorage.getItem('userId')}, (res) => {
         if (res.message == "success") {
           this.$message({
             message: '已加入购物车',
