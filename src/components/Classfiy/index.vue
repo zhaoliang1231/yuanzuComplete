@@ -130,7 +130,7 @@ export default {
         [{op: 2, name: '¥0-¥19.99', Number: 1, isShow: true},
           {op: 2, name: '¥20-¥49.99', Number: 1, isShow: true},
           {op: 2, name: '¥50-¥99.99', Number: 1, isShow: true},
-          {op: 2, name: '¥200 以上', Number: 1, isShow: true}]
+          {op: 2, name: '¥201 以上', Number: 1, isShow: true}]
     }
   },
   methods: {
