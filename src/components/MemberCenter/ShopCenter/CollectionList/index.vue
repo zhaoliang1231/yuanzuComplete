@@ -4,17 +4,17 @@
         <h3>我的收藏列表</h3>
         <table>
             <tbody>
-                <tr>
+                <tr v-for="(item, index) in usercollect" :key="index" :value="item.goodsId">
                     <td>
                         <div class="order-list">
                             <img title="8号溪云初起巧克力蛋糕" alt="8号溪云初起巧克力蛋糕" src="../Order/img/S.jpg">
-                            <strong>朝羽鲜奶蛋糕</strong>
-                            <p>寓意良辰美景， 幸福的时刻</p>
+                            <strong>{{item.goodsTitle}}</strong>
+                            <p>{{item.goodsName}}</p>
                         </div>
                     </td>
                     <td>
                       <div><el-button type="danger">添加到购物车</el-button></div>
-                      <div class="delete">删除</div>
+                      <div class="delete" @click="deleteList(index)">删除</div>
                     </td>
                 </tr>
             </tbody>
@@ -22,7 +22,8 @@
     </div>
 </template>
 <script>
-export default {}
+
+
 </script>
 <style lang="less" scoped>
   .user-content{

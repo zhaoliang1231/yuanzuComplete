@@ -14,7 +14,7 @@
               </tr>
           </thead>
           <tbody>
-              <tr v-for="(item, index) in userorder" :key="index">
+              <tr v-for="(item, index) in userorder" :key="index" :value="item.orderbId">
                 <td>
                   <router-link :to="{name:'Order'}">{{item.orderbNo}}</router-link>
                 </td>
@@ -33,6 +33,7 @@
 </template>
 <script>
 import {listsorder} from 'Api/request_cg.js'
+//import {delateorder} from 'Api/request_cg.js'
 export default {
   data () {
     return {
@@ -67,10 +68,6 @@ export default {
       border-collapse: collapse;
       table-layout: fixed;
       text-align: center;
-      /*<!--text-align: center;-->*/
-      /*<!--border-top: 1px solid @gray;-->*/
-      /*<!--border-left: 1px solid @gray;-->*/
-      /*<!--border-spacing: 0;-->*/
       tr{
         height: 35px;
         line-height: 34px;

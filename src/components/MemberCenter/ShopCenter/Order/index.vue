@@ -41,7 +41,7 @@
           <h4>收货人信息</h4>
           <ul>
             <li>
-              <span>大哥大</span>，
+              <span>rtyr</span>，
               <span>中国</span>，
               <span>上海</span>，
               <span>浦东</span>，
@@ -71,7 +71,7 @@
       <!--支付方式-->
       <div class="pay-method">
           <h4>支付方式</h4>
-          <p>微信</p>
+          <p>支付宝</p>
       </div>
       <!--电子券使用情况-->
       <div class="use-ticket">
@@ -141,7 +141,8 @@
   </div>
 </template>
 <script>
-export default {}
+export default {
+}
 </script>
 <style lang="less" scoped>
   @import "~static/css/common.less";
