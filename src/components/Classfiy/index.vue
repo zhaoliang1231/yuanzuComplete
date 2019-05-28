@@ -88,7 +88,7 @@
             </div>
           </div>
         </div>
-        <div class="fr">
+        <div v-if="goodsinfommp.length>0" class="fr">
           <el-pagination
             background
             @current-change="handleCurrentChange"

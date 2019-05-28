@@ -4,6 +4,7 @@ import cart from './cart'
 import user from './user'
 import orderlist from './orderlist'
 import userAddress from './userAddress'
+import History from './History'
 Vue.use(Vuex);
 const state = {
   showFooter:true,
@@ -16,7 +17,8 @@ const store = new Vuex.Store({
     cart: cart,
     user: user,
     userAddress: userAddress,
-    orderlist: orderlist
+    orderlist: orderlist,
+    History
   }
 })
 export default store
