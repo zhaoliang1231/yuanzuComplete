@@ -32,7 +32,7 @@ import {changeData} from 'Api/request_cg.js'
 export default {
   data () {
     return {
-      userBirthday: '',
+      userBirthday: ''
     }
   },
   computed: {
@@ -87,6 +87,15 @@ export default {
           }
         }
       }
+    }
+    /deep/
+    .el-date-editor.el-input{
+
+    }
+    .el-input__inner{
+      height: 23px;
+      font-size: 12px;
+      width: 135px;
     }
   }
 </style>
