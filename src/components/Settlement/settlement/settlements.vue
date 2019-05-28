@@ -14,7 +14,8 @@
 <script>
 export default {
   name: 'settlements',
-  props: ['total']
+  props: ['total'],
+
 }
 </script>
 

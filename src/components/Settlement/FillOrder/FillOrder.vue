@@ -94,7 +94,7 @@
               <div>
                 <ul>
                   <li>
-                    <router-link to="#" class="a-hover-pink font-weight-bold">{{item.goodsName}}</router-link>
+                    <router-link :to="'/detail?id='+item.goodsId" class="a-hover-pink font-weight-bold">{{item.goodsName}}</router-link>
                   </li>
                   <li class="text-align-center" style="line-height: 40px">
                     <em class="font-pink">¥{{item.goodsPrice}}.00</em>
@@ -149,8 +149,7 @@
 
           </div>
           <p>
-            <label><input type="radio" name="invoice" value="支付宝" checked>支付宝</label>
-            <label><input type="radio" name="invoice" value="微信" >微信</label>
+            <label><input type="radio" name="zhifu" value="支付宝" checked="checked">支付宝</label>
           </p>
         </div>
       </div>
@@ -191,6 +190,7 @@
 <script>
   import AddAddress from '../../MemberCenter/PersonalCenter/AddAddress/index.vue'
   import VDistpicker from 'v-distpicker'
+  import {orderPay} from "Api/request";
   var validPhone = (rule, value, callback) => {
     if (!value) {
       callback(new Error('请输入电话号码'))
@@ -252,8 +252,13 @@
     methods: {
       isToSub: function () {
         if (this.tosub) {
-          console.log('66666')
-          window.location.href = '/settlement/submitsuccess'
+          // orderPay({
+          //   userId:window.localStorage.getItem('userId')
+          // },(res)=>{
+          //   console.log(res);
+          this.$store.commit('removeLists')
+          this.$router.push({ path:'/settlement/submitsuccess'  })
+          // })
         } else {
 
         }
@@ -403,6 +408,8 @@
         }
         ul li:nth-child(1) {
           padding-left: 20px;
+          text-align: center;
+          line-height: 40px;
         }
       }
 

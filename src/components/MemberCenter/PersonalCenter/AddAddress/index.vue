@@ -43,7 +43,6 @@
 <script>
 import VDistpicker from 'v-distpicker'
 import {isvalidPhone} from '../../validate.js'
-import {getaddress1} from 'Api/request_cg.js'
 var validPhone = (rule, value, callback) => {
   if (!value) {
     callback(new Error('请输入电话号码'))
@@ -77,9 +76,7 @@ export default {
     }
   },
   mounted () {
-    getaddress1({}, (res) => {
-      console.log(res.data)
-    })
+
   }
 }
 </script>

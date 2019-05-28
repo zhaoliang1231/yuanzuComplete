@@ -5,10 +5,10 @@
          <img src="../../../static/img/icon_ok.gif" style="vertical-align:middle" alt="">
          <span class="fontSize-18">恭喜您订单提交成功</span>
        </div>
-       <div style="border-top: 1px solid #c7c7c7;margin-top: 30px">
+       <div v-if="false" style="border-top: 1px solid #c7c7c7;margin-top: 30px">
 
        </div>
-       <div class="sub-Payment-box">
+       <div v-if="false" class="sub-Payment-box">
           <span>订单编号： <em>2019051702829651</em>  </span>
          <span>应付款项：<em>¥714.00</em></span>
          <p>您选择的支付方式为：<img src="../../../static/img/alipay.jpg" alt="">
