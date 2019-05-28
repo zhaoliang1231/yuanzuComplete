@@ -71,7 +71,7 @@
       <!--支付方式-->
       <div class="pay-method">
           <h4>支付方式</h4>
-          <p>支付宝</p>
+          <p>微信</p>
       </div>
       <!--电子券使用情况-->
       <div class="use-ticket">
@@ -141,7 +141,20 @@
   </div>
 </template>
 <script>
+//import {listsorder} from 'Api/request_cg.js'
 export default {
+//  computed: {
+//    userorder: function () {
+//      return this.$store.state.orderlist.orderlists
+//    }
+//  },
+//  mounted () {
+//    listsorder({
+//      userId: window.localStorage.getItem('userId') || ''
+//    }, (res) => {
+//      this.$store.commit('getuser', res.data)
+//    })
+//  }
 }
 </script>
 <style lang="less" scoped>

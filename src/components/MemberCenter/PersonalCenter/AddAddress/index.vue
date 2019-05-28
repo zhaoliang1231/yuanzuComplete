@@ -71,7 +71,7 @@ export default {
       this.$refs[sizeForm].validate((valid) => {
         if (valid) {
           addAddress({
-            userId: window.localStorage.getItem('token'),
+            userId: window.localStorage.getItem('userId'),
             addrName: this.sizeForm.addrName,
             addrPhone: this.sizeForm.addrPhone,
             addrAddress: this.sizeForm.addrAddress,

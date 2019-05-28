@@ -77,7 +77,7 @@ export default {
       this.$refs[refForm].validate((valid) => {
         if (valid) {
           changepwd({
-            userid: window.localStorage.getItem('token'),
+            userid: window.localStorage.getItem('userId'),
             originalPwd: md5(this.ruleForm.pass),
             newPwd: md5(this.ruleForm.alterpass)
           }, (res) => {
