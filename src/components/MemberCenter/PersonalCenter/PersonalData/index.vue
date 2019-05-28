@@ -44,7 +44,7 @@ export default {
     personalData({
       userId: window.localStorage.getItem('userId') || ''
     }, (res) => {
-    // console.log(res.data + '666666')
+      console.log(res.data + '666666')
       this.$store.commit('getuser', res.data[0])
     })
   }

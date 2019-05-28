@@ -65,8 +65,6 @@ export {
   changeData,
   receivingAddress,
   addAddress,
-  listsorder,
+  deletecollect,
   delateorder,
-  collectlist,
-  deletecollect
 }

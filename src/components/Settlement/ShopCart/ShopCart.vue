@@ -151,6 +151,18 @@
           }, (res) => {
             console.log(res);
           });
+      },
+    //  删除购物车商品
+      deleteList: function(index){
+       let list=this.cartlists.splice(index,1)
+        console.log(list[0].goodsId);
+        this.$store.commit('deleteLists',this.cartlists)
+        deleteShop({
+          goodsId: list[0].goodsId,
+          userId:window.localStorage.getItem('userId')
+        },(res)=>{
+          alert('删除成功')
+        })
       }
       ,
     }

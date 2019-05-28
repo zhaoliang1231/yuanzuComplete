@@ -82,13 +82,18 @@ let addEvaluate = function (data,callback) {
     callback(res)
   })
 }
-//添加购物车
-let getAddCar = function (data,callback) {
-  sendAxios('post','/cart_addGoodsToCart.action',data).then((res)=>{
+//获取地址
+let getAddrList=function (data,callback) {
+  sendAxios('post','/address_queryAllAddressByUserId.action',data).then((res)=>{
     callback(res)
   })
 }
-
+//添加地址地址
+let setAddrList=function (data,callback) {
+  sendAxios('post','/address_addAddress.action',data).then((res)=>{
+    callback(res)
+  })
+}
 export {
   getNotices,
   getNoticeDetail,
@@ -102,7 +107,10 @@ export {
   getDetail,
   getEvaluate,
   addEvaluate,
-  getAddCar
+  deleteShop,
+  orderPay,
+  getAddrList,
+  setAddrList
 }
 
 

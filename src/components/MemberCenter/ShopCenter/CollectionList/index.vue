@@ -22,33 +22,8 @@
     </div>
 </template>
 <script>
-import {collectlist} from 'Api/request_cg.js'
-//import {deletecollect} from 'Api/request_cg.js'
 
-export default {
-  computed: {
-    usercollect: function () {
-      return this.$store.state.collect.collectLists
-    }
-  },
-  mounted () {
-    collectlist({
-      currentPage: 1,
-      userId: window.localStorage.getItem('userId') || ''
-    }, (res) => {
-      this.$store.commit('getcollect', res.data)
-    })
-//    deletecollect({
-//      goodsId:
-//    })
-  },
-  methods: {
-    deleteList (index) {
-      this.usercollect.splice(index, 1)
-      this.$store.commit('getcollect', this.usercollect)
-    }
-  }
-}
+
 </script>
 <style lang="less" scoped>
   .user-content{

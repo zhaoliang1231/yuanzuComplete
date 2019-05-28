@@ -4,6 +4,7 @@ import cart from './cart'
 import user from './user'
 import orderlist from './orderlist'
 import userAddress from './userAddress'
+import History from './History'
 import collect from './collect'
 Vue.use(Vuex);
 const state = {
@@ -18,7 +19,7 @@ const store = new Vuex.Store({
     user: user,
     userAddress: userAddress,
     orderlist: orderlist,
-    collect: collect
+    History
   }
 })
 export default store
