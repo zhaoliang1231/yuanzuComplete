@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div v-if="cartIsNull==false" class="shopcart-content-box">
+    <div v-if="cartIsNull===false" class="shopcart-content-box">
       <div class="shopcart-cft-tit-box">
         <tr>
           <td width="460px" class="font-weight-bold text-align-center">商品</td>
@@ -21,7 +21,7 @@
 
       </div>
       <ul>
-        <li v-for="(item, index) in lists" :key="index"  >
+        <li v-for="(item, index) in cartlists" :key="index"  >
           <div class="spct-commodity-information-box">
             <a href="#" class="spct-ci-img-a">
               <img :src="item.imgs" alt="">
@@ -37,7 +37,7 @@
           <div class="spct-number-box">
             <div>
               <a href="javascript:void(0);" @click="NumberSubtract(index)">-</a>
-              <input type="text" @blur="isnumber(index)" v-model="item.goodsNum">
+              <input type="text" @change="isnumber(index)" v-model="item.goodsNum">
               <a href="javascript:void(0);" @click="NumberAdd(index)">+</a>
             </div>
           </div>
@@ -47,7 +47,7 @@
         </li>
       </ul>
     </div>
-    <settlements :total="total" v-if="cartIsNull==false"></settlements>
+    <settlements :total="total" v-if="cartIsNull===false"></settlements>
   </div>
 </template>
 <script>
@@ -55,7 +55,7 @@
   import settlements from '../settlement/settlements.vue'
   import {getShopcart} from "Api/request";
   import {changeNunbers} from "Api/request";
-
+  import {deleteShop} from "Api/request";
   import axios from 'axios'
   import qs from 'qs'
 
@@ -71,85 +71,100 @@
     },
     computed: {
       //获取购物车列表
-      lists: function () {
-        return this.$store.state.cart.cartLists
+      cartlists: function () {
+        let cartLists = this.$store.state.cart.cartLists
+        return cartLists
       },
       total:function() {
         return this.$store.getters.total
+      },
+    },
+    watch: {
+      cartlists: function (value) {
+        let bool = false
+        if(value.length < 1) {
+          bool = true
+        }
+        this.cartIsNull = bool
       }
     },
     mounted() {
+      let userId=window.localStorage.getItem('userId')
+      let data = {
+        currentPage: 1,
+        userId:userId
+      }
+      this.$store.dispatch('getCartLists', data)
       this.getShopcartdata()
     },
     methods: {
       isnumber: function (index) {
-        let num = parseInt(this.lists[index].goodsNum)
-
+        let num = parseInt(this.cartlists[index].goodsNum)
         let listShopNum = {
           index,
           num
         }
-        if (reg.test(this.lists[index].goodsNum) && this.lists[index].goodsNum != 0) {
+        if (reg.test(this.cartlists[index].goodsNum) && this.cartlists[index].goodsNum != 0) {
           this.$store.commit('changeListNumber',listShopNum)
+          this.changeNumber(index)
         } else {
           alert('您输入的数量不正确！')
-          this.lists[index].goodsNum = 1
+          this.cartlists[index].goodsNum = 1
+          this.changeNumber(index)
           this.$store.commit('changeListNumber',listShopNum)
         }
       },
-      deleteList (index) {
-        this.lists.splice(index, 1)
-        this.$store.commit('changeCartLists', this.lists)
-      },
       NumberSubtract: function (index) {
-        let num = parseInt(this.lists[index].goodsNum)
-
+        let num = parseInt(this.cartlists[index].goodsNum)
         let listShopNum = {
           index,
           num
         }
-        if (this.lists[index].goodsNum > 1) {
-          this.lists[index].goodsNum --
-          console.log(this.lists[index].goodsNum);
+        if (this.cartlists[index].goodsNum > 1) {
+          this.cartlists[index].goodsNum --
+          this.changeNumber(index)
           this.$store.commit('changeListNumber',index,listShopNum)
-          // this.changeNumber(0)
+
         }
-      }
-      ,
+      },
       NumberAdd: function (index) {
-        let num = parseInt(this.lists[index].goodsNum)
+        let num = parseInt(this.cartlists[index].goodsNum)
         let listShopNum = {
           index,
           num
         }
-        if (this.lists[index].goodsNum > 0) {
-          this.lists[index].goodsNum ++
+        if (this.cartlists[index].goodsNum > 0) {
+          this.cartlists[index].goodsNum ++
+          this.changeNumber(index)
           this.$store.commit('changeListNumber',index,listShopNum)
-          // this.changeNumber(1)
+
         }
       }
       ,
-      ShopTotal: function () {
-
-      },
       getShopcartdata: function () {
+        let _this = this
+        let userId=window.localStorage.getItem('userId')
+        //获取购物车数据方法
         getShopcart(
-          {currentPage: 3}, (res) => {
-            console.log(res);
-          });
-        if(this.lists.length === 0){
-          this.cartIsNull=true
-        }else{
-          this.cartIsNull=false
-        }
-
-      },
-      changeNumber: function (num) {
-        changeNunbers(
-          {
-            goodsId: 8, math: num
+          {currentPage: 1,userId:userId
           }, (res) => {
             console.log(res);
+            _this.$store.commit('changeCartLists',{
+              lists: res.data,
+              time: new Date().getTime()
+            })
+          });
+
+      },
+      //修改购物车数量
+      changeNumber: function (index) {
+        changeNunbers(
+          {
+            goodsId: this.cartlists[index].goodsId,
+            num: this.cartlists[index].goodsNum,
+            userId:window.localStorage.getItem('userId')
+          }, (res) => {
+           alert('数量修改成功！')
           });
       },
     //  删除购物车商品
@@ -164,7 +179,6 @@
           alert('删除成功')
         })
       }
-      ,
     }
   }
 </script>

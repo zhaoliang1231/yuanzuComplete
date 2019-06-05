@@ -6,17 +6,17 @@ const state = {
     'benginTime': 557331200001,
     'orderbNo': 1008611
   },
-  {
-    'address': 'adasd',
-    'orderbId': '1212',
-    'benginTime': 557331200000,
-    'orderbNo': 1008611
-  }]
+    {
+      'address': 'adasd',
+      'orderbId': '1212',
+      'benginTime': 557331200000,
+      'orderbNo': 1008611
+    }]
 }
 
 const mutations = {
-  getorder: function (state, orderlist) {
-    state.orderlists = orderlist
+  getorder: function (state, order) {
+    state.orderlists = order
   }
 }
 

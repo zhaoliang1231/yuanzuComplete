@@ -89,12 +89,6 @@ export default {
     }, (res) => {
       this.$store.commit('getuser', res.data[0])
     })
-  },
-  watch: {
-    $route (to , from) {
-      this.text = to.params.thisname
-      this.urlPath = to.fullPath
-    }
   }
 }
 </script>

@@ -6,7 +6,7 @@
       <li>
         <span>姓名：</span>
         <span>
-          <input readonly="readonly" type="text" v-model="userinfo.userPhone"/>
+          <input readonly="readonly" type="text" v-model="userinfo.userPhone"/>(<i>*</i>修改用户需联系管理员)
         </span>
       </li>
       <li>
@@ -32,7 +32,7 @@ import {changeData} from 'Api/request_cg.js'
 export default {
   data () {
     return {
-      userBirthday: ''
+      userBirthday: '',
     }
   },
   computed: {
@@ -81,6 +81,10 @@ export default {
       li {
         line-height: 50px;
         span{
+          input{
+            border: 1px solid #DCDFE6;
+            color: #606266;
+          }
           i{
             margin-right: 5px;
             color: @pink;
@@ -90,12 +94,13 @@ export default {
     }
     /deep/
     .el-date-editor.el-input{
-
-    }
-    .el-input__inner{
-      height: 23px;
-      font-size: 12px;
       width: 135px;
+      .el-input__inner{
+        width: 135px;
+        font-size: 12px;
+        height: 20px;
+        border-radius: 0;
+      }
     }
   }
 </style>

@@ -76,11 +76,6 @@ export default {
     }
   },
   mounted () {
-  },
-  computed: {
-    userinfo: function () {
-      return this.$store.state.userAddress.userAddress
-    }
   }
 }
 </script>
